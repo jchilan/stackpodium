@@ -1,0 +1,23 @@
+# StackPodium
+
+> AI tool rankings for vibe coders and builders. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.
+
+## Use cases
+
+- [My first web app, with no coding experience](https://stackpodium.com/first-app/): 1. Lovable, 2. Bolt, 3. Replit
+- [A SaaS MVP with login, a database and payments](https://stackpodium.com/saas-mvp/): 1. Lovable, 2. Replit, 3. Bolt
+- [A polished interface or landing page, fast](https://stackpodium.com/interface/): 1. v0, 2. Lovable, 3. Bolt
+- [A mobile app](https://stackpodium.com/mobile-app/): 1. Bolt, 2. Emergent, 3. Replit
+- [Serious coding with an AI editor](https://stackpodium.com/ai-editor/): 1. Cursor, 2. GitHub Copilot, 3. Devin Desktop
+- [Hand long tasks to a coding agent](https://stackpodium.com/coding-agent/): 1. Claude Code, 2. Codex, 3. Gemini CLI
+- [An agent that automates a task, without code](https://stackpodium.com/no-code-agent/): 1. n8n, 2. Make, 3. Zapier
+- [A custom agent, with code](https://stackpodium.com/custom-agent/): 1. LangGraph, 2. CrewAI, 3. OpenAI Agents SDK
+- [A playable browser game this weekend](https://stackpodium.com/browser-game/): 1. Rosebud AI, 2. Coding agent + Three.js, 3. GDevelop
+- [An internal tool or a data dashboard](https://stackpodium.com/internal-tool/): 1. Replit, 2. Base44, 3. Lovable
+
+## Languages
+
+- [English](https://stackpodium.com/)
+- [Português](https://stackpodium.com/pt/)
+- [Español](https://stackpodium.com/es/)
+- [中文](https://stackpodium.com/zh/)
