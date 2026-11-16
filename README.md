@@ -1,0 +1,13 @@
+# StackPodium
+
+Static site for https://stackpodium.com, served by GitHub Pages from the root of `main`.
+
+The HTML in the root is generated. Do not edit it by hand.
+
+- `src/data.html` holds the rankings, prices and all translated text (inside its `<script>` block).
+- `src/pages.js` holds the sponsor and privacy pages.
+- `src/build.js` generates every page, the sitemap, `robots.txt` and `llms.txt`.
+
+To rebuild into a clean folder and copy the result to the repository root:
+
+    node src/build.js src/data.html /tmp/site stackpodium.com && cp -r /tmp/site/. .
