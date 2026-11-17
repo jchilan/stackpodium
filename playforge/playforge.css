@@ -272,6 +272,7 @@
   margin:0 0 4px;
 }
 
+#checkout{scroll-margin-top:76px}
 .buy-grid{
   display:grid;
   grid-template-columns:minmax(0,1.45fr) minmax(240px,.8fr);
