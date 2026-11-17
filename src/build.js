@@ -11,6 +11,8 @@ vm.runInContext(js + ";this.D={UI,CRIT,CASES,NEWS,T,price};", ctx);
 const { UI, CRIT, CASES, NEWS, T, price } = ctx.D;
 
 const PAGES = require("./pages.js");
+const { labels: CL, tools: CT, pairs: PAIRS } = require("./compare.js");
+const { newsletterSection, NEWSLETTER_SCRIPT } = require("./newsletter.js");
 const BASE = "https://" + domain;
 const LANGS = [
   { code: "en", html: "en", dir: "", name: "English" },
@@ -26,6 +28,9 @@ const X = {
   nlh: ["The weekly podium, by email", "O pódio da semana, por e-mail", "El podio de la semana, por correo", "每周榜单，邮件送达"],
   nlp: ["One short email every Friday: which tools moved up or down a podium, and the launches that matter.", "Um e-mail curto toda sexta-feira: quais ferramentas subiram ou desceram no pódio e os lançamentos que importam. Em inglês.", "Un correo corto cada viernes: qué herramientas suben o bajan en algún podio y los lanzamientos que importan. En inglés.", "每周五一封简短邮件：哪些工具在榜单上升或下降，以及值得关注的新发布。邮件为英文。"],
   nlb: ["Subscribe", "Assinar", "Suscribirme", "订阅"],
+  skip: ["Skip to content", "Ir para o conteúdo", "Saltar al contenido", "跳到正文"],
+  navLabel: ["Sections", "Seções", "Secciones", "页面栏目"],
+  langLabel: ["Language", "Idioma", "Idioma", "语言"],
   full: ["See the full ranking", "Ver o ranking completo", "Ver el ranking completo", "查看完整排名"],
 };
 const COMPARE = [["lovable","bolt"],["lovable","replit"],["bolt","replit"],["v0","lovable"],["cursor","copilot"],["cursor","devin"],["claude","codex"],["claude","cursor"],["n8n","make"],["n8n","zapier"],["langgraph","crewai"],["rosebud","gdevelop"]];
@@ -60,9 +65,16 @@ function caseArticle(c, i, l, heading, link) {
   const title = link ? `<a href="${url(l, c.id)}">${esc(c.t[l])}</a>` : esc(c.t[l]);
   return `<article class="case" id="${c.id}"><span class="num">${esc(UI["case"][l])} ${pad(i + 1)}</span><${heading}>${title}</${heading}><p class="who">${esc(c.who[l])}</p><ol class="rank">${rankList(c, l)}</ol><p class="extra">${c.x[l]}</p></article>`;
 }
-function page(l, slug, title, desc, body, ld) {
+function orgLd() {
+  return { "@context": "https://schema.org", "@type": "Organization", name: "StackPodium", url: BASE + "/", sameAs: ["https://x.com/stackpodium"] };
+}
+function page(l, slug, title, desc, body, ld, opts) {
+  opts = opts || {};
   const alt = LANGS.map((L, k) => `<link rel="alternate" hreflang="${L.html}" href="${BASE}${url(k, slug)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${BASE}${url(0, slug)}">`;
   const sw = LANGS.map((L, k) => `<a href="${url(k, slug)}" lang="${L.html}"${k === l ? ' aria-current="true"' : ""}>${L.name}</a>`).join("");
+  const blocks = [orgLd()].concat(Array.isArray(ld) ? ld : [ld]);
+  const jsonLd = blocks.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join("\n");
+  const nl = newsletterSection(l, opts.compact ? "compact" : "full", { heading: X.nlh[l], blurb: X.nlp[l], submit: X.nlb[l] });
   return `<!DOCTYPE html>
 <html lang="${LANGS[l].html}">
 <head>
@@ -80,19 +92,21 @@ ${alt}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
-<script type="application/ld+json">${JSON.stringify(ld)}</script>
+${jsonLd}
 </head>
 <body>
+<a class="skip" href="#content">${esc(X.skip[l])}</a>
 <header class="top"><div class="wrap">
 <a class="brand" href="${url(l)}">Stack<span>Podium</span></a>
-<nav><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a></nav>
-<div class="langs">${sw}</div>
+<nav aria-label="${esc(X.navLabel[l])}"><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a></nav>
+<div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${sw}</div>
 </div></header>
-<main>
+<main id="content">
 ${body}
-<section class="newsletter"><div class="wrap"><div><h2>${esc(X.nlh[l])}</h2><p>${esc(X.nlp[l])}</p></div><a class="cta" href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">${esc(X.nlb[l])}</a></div></section>
+${nl}
 </main>
-<footer><div class="wrap"><p class="flinks">${PAGES.map((P) => `<a href="${url(l, P.slug)}">${esc(P.label[l])}</a>`).join("")}</p><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div></footer>
+<footer><div class="wrap"><p class="flinks">${PAGES.map((P) => `<a href="${url(l, P.slug)}">${esc(P.label[l])}</a>`).join("")}<a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div></footer>
+<script>${NEWSLETTER_SCRIPT}</script>
 </body>
 </html>
 `;
@@ -137,7 +151,32 @@ const extraCss = `
 table.cmp{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px}
 table.cmp th,table.cmp td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 table.cmp th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-table.cmp tr:last-child td{border-bottom:0;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+table.cmp tr:last-child td,table.cmp tr:last-child th{border-bottom:0}
+table.cmp td.mono{font-family:var(--mono);font-size:.82rem}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.skip{position:absolute;left:8px;top:8px;padding:8px 12px;background:var(--accent);color:var(--accent-ink);border-radius:6px;z-index:3;text-decoration:none;transform:translateY(-160%)}
+.skip:focus{transform:none}
+.verdict{background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:1.05rem;max-width:68ch}
+.faq{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.faq h3{font-size:1.05rem;margin:0 0 4px}
+.faq p{margin:0}
+a.sub{font-size:.82rem;margin-left:8px;white-space:nowrap}
+.signup{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end;margin:0}
+.signup .field{display:flex;flex-direction:column;gap:4px;flex:1 1 220px;min-width:0}
+.signup label{font-size:.85rem;font-weight:600}
+.signup input[type="email"]{font:inherit;font-size:1rem;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:100%}
+.signup-hint,.signup-fallback{flex-basis:100%;margin:0;font-size:.85rem;color:var(--muted);max-width:62ch}
+button.cta{border:0;font:inherit;cursor:pointer}
+.newsletter.compact .wrap{align-items:flex-end}
+.newsletter.compact h2{font-size:1.2rem}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.tablewrap{max-width:100%}
+.single{max-width:min(820px,100%)}
+@media (max-width:640px){
+  .signup{align-items:stretch}
+  .signup .cta{width:100%;text-align:center}
+  .top nav{gap:4px 12px}
+}
 .rk{font-family:var(--mono);font-size:1.05rem}
 .rk.top{color:var(--accent)}
 .offp{color:var(--muted);font-size:.88rem}
@@ -191,16 +230,31 @@ LANGS.forEach((L, l) => {
 LANGS.forEach((L, l) => {
   COMPARE.forEach((p) => {
     const [a, b] = p, A = tname(a, l), B = tname(b, l), slug = cslug(p);
+    const copy = PAIRS.find((x) => x.ids[0] === a && x.ids[1] === b);
+    if (!copy || !CT[a] || !CT[b]) throw new Error("Missing comparison copy for " + a + " vs " + b);
+    const linkTool = (k) => {
+      const href = T[k][1];
+      const rel = String(href).startsWith("http") ? ' rel="noopener"' : "";
+      return `<a href="${esc(href)}"${rel}>${esc(tname(k, l))}</a>`;
+    };
+    const fact = (key, label, mono) => `<tr><th scope="row">${esc(label)}</th><td data-col="${esc(A)}"${mono ? ' class="mono"' : ""}>${key === "price" ? esc(price(T[a][2], l)) : esc(CT[a][key][l])}</td><td data-col="${esc(B)}"${mono ? ' class="mono"' : ""}>${key === "price" ? esc(price(T[b][2], l)) : esc(CT[b][key][l])}</td></tr>`;
+    const facts = `<div class="tablewrap"><table class="cmp facts"><caption class="sr">${esc(A)} vs ${esc(B)}</caption><thead><tr><th scope="col"><span class="sr">${esc(CL.compared[l])}</span></th><th scope="col">${linkTool(a)}</th><th scope="col">${linkTool(b)}</th></tr></thead><tbody>${fact("price", CL.price[l], true)}${fact("best", CL.best[l])}${fact("model", CL.model[l])}${fact("exit", CL.exit[l])}${fact("curve", CL.curve[l])}</tbody></table></div>`;
     const rows = CASES.map((c) => ({ c, ra: rankOf(c, a), rb: rankOf(c, b) })).filter((x) => x.ra || x.rb);
     const cell = (n) => (n ? `<b class="rk${n === 1 ? " top" : ""}">#${n}</b>` : `<span class="offp">${esc(C.off[l])}</span>`);
-    const table = `<div class="tablewrap"><table class="cmp"><thead><tr><th>${esc(C.usecase[l])}</th><th>${esc(A)}</th><th>${esc(B)}</th></tr></thead><tbody>${rows.map((x) => `<tr><td><a href="${url(l, x.c.id)}">${esc(x.c.t[l])}</a></td><td>${cell(x.ra)}</td><td>${cell(x.rb)}</td></tr>`).join("")}<tr><td>${esc(C.price[l])}</td><td>${esc(price(T[a][2], l))}</td><td>${esc(price(T[b][2], l))}</td></tr></tbody></table></div>`;
+    const ranks = `<div class="tablewrap"><table class="cmp"><thead><tr><th scope="col">${esc(C.usecase[l])}</th><th scope="col">${esc(A)}</th><th scope="col">${esc(B)}</th></tr></thead><tbody>${rows.map((x) => `<tr><td><a href="${url(l)}#${x.c.id}">${esc(x.c.t[l])}</a> <a class="sub" href="${url(l, x.c.id)}">${esc(CL.full[l])}</a></td><td>${cell(x.ra)}</td><td>${cell(x.rb)}</td></tr>`).join("")}</tbody></table></div>`;
     const says = (k, N) => `<h2>${esc(fill(C.say[l], N))}</h2><ul>${CASES.filter((c) => rankOf(c, k)).map((c) => `<li><b>${esc(c.t[l])}</b> (#${rankOf(c, k)}): ${esc(c.r[rankOf(c, k) - 1][1][l])}</li>`).join("")}</ul>`;
+    const faqs = copy.faqs.concat([CL.priceFaq]);
+    const faqHtml = faqs.map((item) => `<div class="qa"><h3>${esc(item.q[l])}</h3><p>${esc(item.a[l])}</p></div>`).join("");
     const others = COMPARE.filter((q) => q !== p).map((q) => `<li><a href="${url(l, cslug(q))}">${esc(tname(q[0], l))} vs ${esc(tname(q[1], l))}</a></li>`).join("");
-    const title = fill(C.title[l], A, B), desc = fill(C.desc[l], A, B);
-    const body = `<div class="single prose"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(title)}</h1><p>${esc(C.intro[l])}</p>${table}${says(a, A)}${says(b, B)}<p class="note">${esc(UI.status[l])} ${esc(UI.foot2[l])}</p></div>
+    const title = copy.title[l], desc = copy.desc[l];
+    const verdict = `<p class="verdict">${esc(fill(CL.pick[l], A, copy.pick[l][0]))} ${esc(fill(CL.pick[l], B, copy.pick[l][1]))}</p>`;
+    const body = `<div class="single prose"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(title)}</h1>${verdict}<h2>${esc(CL.glance[l])}</h2>${facts}<p class="note">${esc(CL.note[l])}</p><h2>${esc(CL.where[l])}</h2>${ranks}${says(a, A)}${says(b, B)}<h2>${esc(CL.questions[l])}</h2><div class="faq">${faqHtml}</div><p class="note">${esc(UI.status[l])} ${esc(UI.foot2[l])}</p></div>
 <div class="others"><h2>${esc(C.list[l])}</h2><ul>${others}</ul></div>`;
-    const ld = { "@context": "https://schema.org", "@type": "WebPage", name: title, description: desc, inLanguage: L.html, url: BASE + url(l, slug) };
-    write(L.dir + slug + "/index.html", page(l, slug, title + " | StackPodium", desc, body, ld));
+    const ld = {
+      "@context": "https://schema.org", "@type": "FAQPage", name: title, description: desc, inLanguage: L.html, url: BASE + url(l, slug),
+      mainEntity: faqs.map((item) => ({ "@type": "Question", name: item.q[l], acceptedAnswer: { "@type": "Answer", text: item.a[l] } })),
+    };
+    write(L.dir + slug + "/index.html", page(l, slug, title + " | StackPodium", desc, body, ld, { compact: true }));
     urls.push(url(l, slug));
   });
 });

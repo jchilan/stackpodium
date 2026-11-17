@@ -19,15 +19,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"StackPodium","url":"https://stackpodium.com/","sameAs":["https://x.com/stackpodium"]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Patrocina StackPodium","description":"Llega a vibe coders y builders en el momento en que eligen sus herramientas. Espacios marcados que nunca cambian un ranking.","inLanguage":"es","url":"https://stackpodium.com/es/sponsor/"}</script>
 </head>
 <body>
+<a class="skip" href="#content">Saltar al contenido</a>
 <header class="top"><div class="wrap">
 <a class="brand" href="/es/">Stack<span>Podium</span></a>
-<nav><a href="/es/#cases">Casos de uso</a><a href="/es/#method">Cómo puntuamos</a><a href="/es/#changes">Novedades</a></nav>
-<div class="langs"><a href="/sponsor/" lang="en">English</a><a href="/pt/sponsor/" lang="pt-BR">Português</a><a href="/es/sponsor/" lang="es" aria-current="true">Español</a><a href="/zh/sponsor/" lang="zh-Hans">中文</a></div>
+<nav aria-label="Secciones"><a href="/es/#cases">Casos de uso</a><a href="/es/#method">Cómo puntuamos</a><a href="/es/#changes">Novedades</a></nav>
+<div class="langs" role="group" aria-label="Idioma"><a href="/sponsor/" lang="en">English</a><a href="/pt/sponsor/" lang="pt-BR">Português</a><a href="/es/sponsor/" lang="es" aria-current="true">Español</a><a href="/zh/sponsor/" lang="zh-Hans">中文</a></div>
 </div></header>
-<main>
+<main id="content">
 <div class="single prose"><p class="crumb"><a href="/es/">Todos los casos de uso</a></p><h1>Patrocina StackPodium</h1><p>StackPodium lo lee gente que está a punto de elegir una herramienta: cada página responde a una pregunta, «¿con qué construyo esto?». Un patrocinador llega a esas personas en ese momento.</p>
 <h2>Qué puedes patrocinar</h2>
 <ul><li><b>El correo semanal.</b> Un patrocinador por número, arriba, marcado como patrocinado.</li><li><b>Una página de caso de uso.</b> Una tarjeta patrocinada junto al podio, marcada y separada visualmente del ranking.</li><li><b>Una nota de lanzamiento.</b> Tu lanzamiento en «Novedades», marcado como patrocinado.</li></ul>
@@ -37,8 +39,9 @@
 <p>StackPodium se lanzó en noviembre de 2026. Compartimos las cifras actuales de tráfico y suscriptores a quien las pida, y los primeros patrocinadores tienen precio de lanzamiento.</p>
 <h2>Contacto</h2>
 <p>Escribe a <a href="mailto:joanpau.ch22@gmail.com">joanpau.ch22@gmail.com</a> con tu herramienta y lo que te gustaría patrocinar.</p></div>
-<section class="newsletter"><div class="wrap"><div><h2>El podio de la semana, por correo</h2><p>Un correo corto cada viernes: qué herramientas suben o bajan en algún podio y los lanzamientos que importan. En inglés.</p></div><a class="cta" href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">Suscribirme</a></div></section>
+<section class="newsletter" aria-labelledby="nl-heading"><div class="wrap"><div><h2 id="nl-heading">El podio de la semana, por correo</h2><p>Un correo corto cada viernes: qué herramientas suben o bajan en algún podio y los lanzamientos que importan. En inglés.</p></div><form class="signup" method="get" action="https://stackpodium.beehiiv.com/subscribe"><div class="field"><label for="nl-email">Correo</label><input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="nl-hint"></div><input type="hidden" name="utm_source" value="stackpodium.com"><input type="hidden" name="utm_medium" value="site"><button class="cta" type="submit">Suscribirme</button><p class="signup-hint" id="nl-hint">Abre la página de alta de beehiiv con tu dirección en el enlace. Esta web no la guarda.</p></form><noscript><p class="signup-fallback"><a href="https://stackpodium.beehiiv.com/subscribe?utm_source=stackpodium.com&amp;utm_medium=site" rel="noopener">Suscribirme en beehiiv</a></p></noscript></div></section>
 </main>
-<footer><div class="wrap"><p class="flinks"><a href="/es/sponsor/">Patrocinar</a><a href="/es/privacy/">Privacidad</a></p><p>StackPodium no cobra por aparecer en un ranking. Cuando haya enlaces de afiliado o espacios patrocinados, estarán marcados y no cambiarán el orden.</p><p>Los precios cambian a menudo. Comprueba siempre la página oficial antes de pagar.</p><p>Actualizado en noviembre de 2026</p></div></footer>
+<footer><div class="wrap"><p class="flinks"><a href="/es/sponsor/">Patrocinar</a><a href="/es/privacy/">Privacidad</a><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>StackPodium no cobra por aparecer en un ranking. Cuando haya enlaces de afiliado o espacios patrocinados, estarán marcados y no cambiarán el orden.</p><p>Los precios cambian a menudo. Comprueba siempre la página oficial antes de pagar.</p><p>Actualizado en noviembre de 2026</p></div></footer>
+<script>(function(){document.querySelectorAll("form.signup").forEach(function(form){if((form.getAttribute("method")||"").toLowerCase()!=="get")return;form.addEventListener("submit",function(event){event.preventDefault();var url=new URL(form.getAttribute("action"),window.location.href);new FormData(form).forEach(function(value,key){url.searchParams.set(key,String(value));});window.location.assign(url.toString());});});})();</script>
 </body>
 </html>

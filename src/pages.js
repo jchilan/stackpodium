@@ -65,36 +65,36 @@ module.exports = [
     body: [
       `<p>StackPodium is run from Spain. For any privacy question or request, write to ${mail}.</p>
 <h2>This website</h2>
-<ul><li>There are no accounts and no forms on this site, and we set no cookies of our own.</li><li>We do not run analytics or advertising trackers.</li><li>The site is hosted on GitHub Pages. Like any host, GitHub receives your IP address and may keep it in server logs for security and operation.</li><li>Fonts are loaded from Google Fonts, so your browser connects to Google's servers when a page loads.</li></ul>
+<ul><li>There are no accounts, and we set no cookies of our own.</li><li>The newsletter form does not save what you type. Submitting it opens beehiiv's subscribe page and includes the email address in that link.</li><li>We do not run analytics or advertising trackers.</li><li>The site is hosted on GitHub Pages. Like any host, GitHub receives your IP address and may keep it in server logs for security and operation.</li><li>Fonts are loaded from Google Fonts, so your browser connects to Google's servers when a page loads.</li></ul>
 <h2>The newsletter</h2>
-<ul><li>You subscribe on a page run by beehiiv, our email provider, based in the United States. beehiiv stores your email address and records opens and clicks.</li><li>We use your address only to send the newsletter. We do not sell it or share it with sponsors.</li><li>Every email has an unsubscribe link. You can also ask us to delete your data.</li></ul>
+<ul><li>You finish subscribing on a page run by beehiiv, our email provider, based in the United States (<a href="https://stackpodium.beehiiv.com/subscribe">stackpodium.beehiiv.com</a>). The form on this site only sends you there. beehiiv stores your email address and records opens and clicks.</li><li>We use your address only to send the newsletter. We do not sell it or share it with sponsors.</li><li>Every email has an unsubscribe link. You can also ask us to delete your data.</li></ul>
 <h2>Links to other sites</h2>
 <p>We link to the tools we rank. Those sites have their own privacy policies. If we add affiliate links, they will be labelled.</p>
 <h2>Your rights</h2>
 <p>Under the GDPR you can ask to access, correct or delete your data, or object to its use, by writing to the address above. You can also complain to the Spanish data protection authority (AEPD).</p>`,
       `<p>O StackPodium é gerido a partir da Espanha. Para qualquer dúvida ou pedido sobre privacidade, escreva para ${mail}.</p>
 <h2>Este site</h2>
-<ul><li>Não há contas nem formulários neste site, e não definimos cookies próprios.</li><li>Não usamos analytics nem rastreadores de publicidade.</li><li>O site é hospedado no GitHub Pages. Como qualquer hospedagem, o GitHub recebe o seu endereço IP e pode guardá-lo em registros do servidor por segurança e operação.</li><li>As fontes são carregadas do Google Fonts, então o seu navegador se conecta aos servidores do Google ao abrir uma página.</li></ul>
+<ul><li>Não há contas, e não definimos cookies próprios.</li><li>O formulário do boletim não guarda o que você digita. Ao enviar, ele abre a página de assinatura da beehiiv e inclui o e-mail nesse link.</li><li>Não usamos analytics nem rastreadores de publicidade.</li><li>O site é hospedado no GitHub Pages. Como qualquer hospedagem, o GitHub recebe o seu endereço IP e pode guardá-lo em registros do servidor por segurança e operação.</li><li>As fontes são carregadas do Google Fonts, então o seu navegador se conecta aos servidores do Google ao abrir uma página.</li></ul>
 <h2>O boletim</h2>
-<ul><li>A assinatura é feita em uma página da beehiiv, nosso provedor de e-mail, com sede nos Estados Unidos. A beehiiv guarda o seu e-mail e registra aberturas e cliques.</li><li>Usamos o seu endereço apenas para enviar o boletim. Não o vendemos nem o compartilhamos com patrocinadores.</li><li>Todo e-mail tem um link para cancelar a assinatura. Você também pode pedir que apaguemos os seus dados.</li></ul>
+<ul><li>A assinatura é concluída em uma página da beehiiv, nosso provedor de e-mail, com sede nos Estados Unidos (<a href="https://stackpodium.beehiiv.com/subscribe">stackpodium.beehiiv.com</a>). O formulário deste site só leva você até lá. A beehiiv guarda o seu e-mail e registra aberturas e cliques.</li><li>Usamos o seu endereço apenas para enviar o boletim. Não o vendemos nem o compartilhamos com patrocinadores.</li><li>Todo e-mail tem um link para cancelar a assinatura. Você também pode pedir que apaguemos os seus dados.</li></ul>
 <h2>Links para outros sites</h2>
 <p>Linkamos para as ferramentas que avaliamos. Esses sites têm suas próprias políticas de privacidade. Se adicionarmos links de afiliado, eles serão identificados.</p>
 <h2>Seus direitos</h2>
 <p>Pelo RGPD, você pode pedir acesso, correção ou exclusão dos seus dados, ou se opor ao uso deles, escrevendo para o endereço acima. Também pode reclamar à autoridade espanhola de proteção de dados (AEPD).</p>`,
       `<p>StackPodium se gestiona desde España. Para cualquier duda o solicitud sobre privacidad, escribe a ${mail}.</p>
 <h2>Esta web</h2>
-<ul><li>No hay cuentas ni formularios en esta web, y no instalamos cookies propias.</li><li>No usamos analítica ni rastreadores publicitarios.</li><li>La web está alojada en GitHub Pages. Como cualquier alojamiento, GitHub recibe tu dirección IP y puede guardarla en registros del servidor por seguridad y funcionamiento.</li><li>Las fuentes se cargan desde Google Fonts, así que tu navegador se conecta a los servidores de Google al abrir una página.</li></ul>
+<ul><li>No hay cuentas, y no instalamos cookies propias.</li><li>El formulario del boletín no guarda lo que escribes. Al enviarlo se abre la página de alta de beehiiv e incluye el correo en ese enlace.</li><li>No usamos analítica ni rastreadores publicitarios.</li><li>La web está alojada en GitHub Pages. Como cualquier alojamiento, GitHub recibe tu dirección IP y puede guardarla en registros del servidor por seguridad y funcionamiento.</li><li>Las fuentes se cargan desde Google Fonts, así que tu navegador se conecta a los servidores de Google al abrir una página.</li></ul>
 <h2>El boletín</h2>
-<ul><li>El alta se hace en una página de beehiiv, nuestro proveedor de correo, con sede en Estados Unidos. beehiiv guarda tu correo y registra aperturas y clics.</li><li>Usamos tu dirección solo para enviar el boletín. No la vendemos ni la compartimos con patrocinadores.</li><li>Cada correo incluye un enlace para darte de baja. También puedes pedirnos que borremos tus datos.</li></ul>
+<ul><li>El alta se completa en una página de beehiiv, nuestro proveedor de correo, con sede en Estados Unidos (<a href="https://stackpodium.beehiiv.com/subscribe">stackpodium.beehiiv.com</a>). El formulario de esta web solo te lleva allí. beehiiv guarda tu correo y registra aperturas y clics.</li><li>Usamos tu dirección solo para enviar el boletín. No la vendemos ni la compartimos con patrocinadores.</li><li>Cada correo incluye un enlace para darte de baja. También puedes pedirnos que borremos tus datos.</li></ul>
 <h2>Enlaces a otras webs</h2>
 <p>Enlazamos a las herramientas que valoramos. Esas webs tienen sus propias políticas de privacidad. Si añadimos enlaces de afiliado, estarán marcados.</p>
 <h2>Tus derechos</h2>
 <p>Según el RGPD, puedes pedir el acceso, la rectificación o la supresión de tus datos, u oponerte a su uso, escribiendo a la dirección de arriba. También puedes reclamar ante la Agencia Española de Protección de Datos (AEPD).</p>`,
       `<p>StackPodium 在西班牙运营。如有任何隐私方面的问题或请求，请发邮件至 ${mail}。</p>
 <h2>本网站</h2>
-<ul><li>本站没有账户，也没有表单，我们不设置任何自有 Cookie。</li><li>我们不使用统计分析或广告追踪工具。</li><li>本站托管在 GitHub Pages。与任何托管服务一样，GitHub 会收到你的 IP 地址，并可能出于安全和运行需要将其保存在服务器日志中。</li><li>字体从 Google Fonts 加载，因此打开页面时你的浏览器会连接 Google 的服务器。</li></ul>
+<ul><li>本站没有账户，我们也不设置任何自有 Cookie。</li><li>邮件订阅表单不会保存你输入的内容。提交后会打开 beehiiv 的订阅页，并在链接中带上邮箱地址。</li><li>我们不使用统计分析或广告追踪工具。</li><li>本站托管在 GitHub Pages。与任何托管服务一样，GitHub 会收到你的 IP 地址，并可能出于安全和运行需要将其保存在服务器日志中。</li><li>字体从 Google Fonts 加载，因此打开页面时你的浏览器会连接 Google 的服务器。</li></ul>
 <h2>邮件订阅</h2>
-<ul><li>订阅在我们的邮件服务商 beehiiv（总部位于美国）的页面上完成。beehiiv 会保存你的邮箱地址，并记录打开和点击情况。</li><li>我们只用你的地址发送邮件，不会出售，也不会提供给赞助商。</li><li>每封邮件都有退订链接。你也可以要求我们删除你的数据。</li></ul>
+<ul><li>订阅在我们的邮件服务商 beehiiv（总部位于美国，<a href="https://stackpodium.beehiiv.com/subscribe">stackpodium.beehiiv.com</a>）的页面上完成。本站的表单只是把你带到那里。beehiiv 会保存你的邮箱地址，并记录打开和点击情况。</li><li>我们只用你的地址发送邮件，不会出售，也不会提供给赞助商。</li><li>每封邮件都有退订链接。你也可以要求我们删除你的数据。</li></ul>
 <h2>外部链接</h2>
 <p>我们会链接到所排名的工具。这些网站有各自的隐私政策。如果将来加入联盟链接，会明确标注。</p>
 <h2>你的权利</h2>
