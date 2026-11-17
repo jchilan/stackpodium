@@ -43,7 +43,7 @@ Play<span>Forge</span></a>
 <p class="chip"><b>$9</b> one idea, emailed within 24 hours</p>
 <div class="hero-actions">
 <a class="cta" href="#checkout">Get a Plan Pack</a>
-<a class="cta quiet" href="#example">See an example</a>
+<a class="cta quiet" href="#example">See a real example</a>
 </div>
 <p class="hero-note">Two levels, same price. Beginner explains every step. Vibe coder keeps the plan short and prompt-heavy. A $29 Premium, where we build the playable browser prototype for you, is coming soon and is not for sale yet.</p>
 </div>
@@ -105,31 +105,74 @@ Play<span>Forge</span></a>
 
 <section class="pf-section" id="example" aria-labelledby="example-title">
 <div class="wrap">
-<h2 id="example-title">An example snippet</h2>
-<p class="lead">A slice of a pack for one small idea, so you can see the shape. A real pack is longer and is written only after you pay. This one is not for sale and not a full plan.</p>
+<h2 id="example-title">See a real example</h2>
+<p class="lead">Crop Rebellion is a house sample, written so you can see the depth of a $9 pack. The buyer's idea was "A cozy farming game where the crops fight back." This page shows part of the one-pager, two of the eight Cursor prompts, and how the Beginner version teaches the same step. <a href="/playforge/crop-rebellion.pdf">The full PDF</a> is free to read. It is not a paid order.</p>
 <figure class="sheet">
-<div class="sheet-top"><b>Plan Pack excerpt · Pad Hop</b><span>Sample, not a delivery</span></div>
+<div class="sheet-top"><b id="sample-name">Crop Rebellion</b><span>House sample · Vibe coder</span></div>
 <div class="sheet-body">
-<p><strong>Idea.</strong> A frog hops between lily pads on a pond. The pads drift. Fall in and you lose a life. See how many landings you can string together.</p>
-<h3>One-pager</h3>
-<ul>
-<li>Player: one frog. Verb: hop. Session: about a minute.</li>
-<li>Win the prototype: 15 landings without three splashes.</li>
-<li>One screen, side view. Keyboard or tap. No accounts, no shop, no second level.</li>
+<p class="sample-pitch">Tend a cozy farm. Just don't make the tomatoes mad.</p>
+<ul class="sample-facts">
+<li>7 nights, about 10–15 minutes</li>
+<li>One afternoon in Cursor</li>
+<li>Phaser 3, in the browser</li>
 </ul>
-<h3>Build plan, Beginner, steps 1–2</h3>
-<ol>
-<li>Create a folder named pad-hop and open it in Cursor. You are making a single web page a browser can run. Done: the folder is open and you can see its name in the sidebar.</li>
-<li>Add index.html. This file is the page. It will hold the pond, the frog, and the score. Paste prompt 1, then open the file in a browser. Done: you see a frog and three pads, even if nothing moves yet.</li>
+<h3>From the one-pager</h3>
+<p>You inherit a sun-washed cottage farm that looks like a calendar painting, until the carrots start organizing. You plant, water, and harvest as usual, but every crop has a mood. Happy crops hop off their plots at night and defend the farm. Neglected crops become leafy rebels who steal your watering can, side with the raccoons, and stage adorable but serious uprisings.</p>
+<p>The player fantasy: "I am a kind farmer whose vegetables have become a tiny, opinionated militia." A carrot dashes out first. A tomato lobs splats and sighs if you forget to water it. A chili hits hard, then sulks if it misses.</p>
+<ol class="dayloop">
+<li><strong>Morning</strong> Tend. Spend Energy to plant, water, talk, or harvest.</li>
+<li><strong>Dusk</strong> One command: Rally, Sprinkle, or Harvest Panic.</li>
+<li><strong>Night</strong> Crops at mood 70+ hop into the fight. Below 40, they may join the raccoons.</li>
+<li><strong>Dawn</strong> Coins, seeds, and a slightly bigger farm. Or a punchline.</li>
 </ol>
-<h3>Prompt 1, ready to paste</h3>
-<pre class="prompt">You are helping a beginner build a one-screen browser game called Pad Hop.
-Create index.html, styles.css, and game.js. No build step and no libraries.
-Show a pond, a frog, and three lily pads. The frog does not move yet.
-Use plain HTML, CSS, and JavaScript. Explain in comments what each file is for.
-When you finish, say how to open index.html in a browser.</pre>
-<h3>Same step, Vibe coder</h3>
-<p>The vibe-coder pack skips the definitions and starts closer to this: "Single HTML file. requestAnimationFrame loop. Space or tap to hop. Three drifting pads, three lives, landing streak as the score. Use the prompts in order. Don't add a menu."</p>
+<p class="sample-end">Win the prototype by surviving 7 nights with the farm still standing. Lose if 4 plots are overrun at dawn, or the scarecrow's Dignity meter hits zero. Game over is a punchline, not a scolding.</p>
+<h3>Two Cursor prompts</h3>
+<p>The Vibe coder pack has eight of these, pasted one at a time. These are the first two.</p>
+<h3 class="prompt-label">Prompt 1. Scaffold</h3>
+<pre class="prompt">You are helping me build "Crop Rebellion," a cozy browser game with Phaser 3, Vite, and TypeScript.
+
+Create a new Vite + TypeScript project in the current folder (or use this folder if a Vite app is already here). Add phaser (v3). Set up a 960x640 game that boots into FarmScene. FarmScene should show a warm cream background, the title "Crop Rebellion" in a clean sans-serif or pixel-friendly font, and the subtitle "Tend the farm. Don't make the tomatoes mad."
+
+Use this structure:
+- src/main.ts (game config, scene list)
+- src/scenes/FarmScene.ts
+- src/game/types.ts (empty exports are fine for now)
+
+Add npm scripts for dev and build. No backend, no routers, no UI framework. When you are done, tell me the exact command to run it and confirm there are no type errors.</pre>
+<h3 class="prompt-label">Prompt 2. Grid</h3>
+<pre class="prompt">In this Phaser 3 + TypeScript Crop Rebellion project, add a 6x6 farm grid to FarmScene.
+
+Requirements:
+- Tile size 64px, grid centered on the 960x640 canvas, with a 72px top bar reserved for later UI.
+- Checkerboard soil in two warm browns. Exactly 3 plots start as rocks (blocked). Pick fixed indexes so the layout is stable (for example 1, 8, and 27).
+- Mouse hover highlights a plot. Click selects it with a golden outline. Clicking another plot moves the selection.
+- Put grid logic in a typed FarmGrid class at src/game/FarmGrid.ts: get/set, world-to-plot conversion, and plot states empty | rocky | occupied.
+- Keep the title in the top bar. No planting yet.
+
+When you are done, show me the key types and how click-to-select works. I should be able to hover and click every plot.</pre>
+<div class="beginner">
+<p class="tag">Beginner excerpt</p>
+<h3>Same game, different teaching</h3>
+<p>A Beginner pack is this same 7-day farm, but it never assumes a code editor is familiar. Step 0 starts with installing Cursor, opening an empty folder named crop-rebellion, and finding the terminal. It says what you should see: Cursor open, the folder name in the sidebar, and almost no files yet. The first prompt is rewritten so the agent explains every file in one plain sentence.</p>
+<h3 class="prompt-label">Beginner Prompt 1</h3>
+<pre class="prompt">I have never coded before. Please create a simple browser game from scratch in this empty folder, called "Crop Rebellion," using Phaser 3, Vite, and TypeScript.
+
+Explain every file you create in one plain sentence, like you are teaching me. Do not assume I know what Vite, npm, or a "dev server" is.
+
+When you are finished:
+1. Tell me the exact command to type in the terminal to start the game.
+2. Tell me what I should see in the browser if it worked (I expect a cream background, the title "Crop Rebellion," and the subtitle "Tend the farm. Don't make the tomatoes mad.").
+3. If anything looks like an error, explain it in plain words and fix it.
+
+Keep the project small. No accounts, no login, no backend.</pre>
+</div>
+<div class="sample-download">
+<div>
+<p class="dl-title">Read the whole pack</p>
+<p>Eight pages: the full one-pager, the afternoon build plan, all eight prompts, and the Beginner excerpt.</p>
+</div>
+<a class="cta" href="/playforge/crop-rebellion.pdf" download="PlayForge-Crop-Rebellion.pdf">Download the PDF</a>
+</div>
 </div>
 </figure>
 </div>
