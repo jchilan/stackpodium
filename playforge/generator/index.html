@@ -82,7 +82,7 @@ Play<span>Forge</span></a>
 </div>
 </div>
 <button class="cta spark-submit" type="submit">Spark this idea</button>
-<p class="spark-local">Nothing you type is added to a link, saved, or sent to PlayForge.</p>
+<p class="spark-local">Spark builds the sketch in this browser and does not upload it. The Plan Pack button under a sketch is separate: it adds your idea and level to the PlayForge link so the $9 form can be filled in.</p>
 </form>
 <noscript><p class="hint">Game Idea Spark needs JavaScript to build the sketch in your browser. It still does not upload your idea. You can read the <a href="/playforge/">PlayForge Plan Pack</a> page, or <a href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">subscribe to the newsletter</a>.</p></noscript>
 </div>
@@ -127,20 +127,41 @@ Play<span>Forge</span></a>
 <button type="button" class="cta" id="copy" aria-controls="prompt">Copy prompt</button>
 </div>
 <pre class="prompt" id="prompt" aria-labelledby="prompt-title"></pre>
+<p class="sketch-limit" id="sketch-limit">This free sketch covers step 1 of about 12.</p>
 </div>
 </figure>
+
+<section class="upsell" id="upsell" aria-labelledby="upsell-title">
+<div class="upsell-main">
+<div class="upsell-intro">
+<h2 id="upsell-title">Your full Plan Pack would include</h2>
+<p class="upsell-for" id="upsell-for"></p>
+<p class="upsell-scope">A one-page game design document, a build plan, and Cursor prompts, written for this idea and emailed within 24 hours. The names below are the outline for this template. The paragraphs and the prompt text are not on this page.</p>
+</div>
+<div class="upsell-preview">
+<h3 id="gdd-title">One-page game design document</h3>
+<ol class="pack-list" id="gdd-list" aria-labelledby="gdd-title"></ol>
+<div class="lock-slot" id="gdd-lock"></div>
+
+<h3 id="steps-heading"></h3>
+<p class="upsell-voice" id="upsell-voice"></p>
+<ol class="pack-list" id="step-list" aria-labelledby="steps-heading"></ol>
+<div class="lock-slot" id="step-lock"></div>
+
+<h3 id="prompts-heading"></h3>
+<p class="hint" id="prompts-note"></p>
+<ol class="pack-list" id="prompt-list" aria-labelledby="prompts-heading"></ol>
+<div class="lock-slot" id="prompt-lock"></div>
+</div>
+</div>
+
+<div class="upsell-buy">
+<a class="cta pack-cta" id="pack-cta" href="/playforge/#checkout">Get my full Plan Pack – $9</a>
+<p class="trust">Delivered by email within 24h · Beginner or Vibe coder · <a href="/playforge/crop-rebellion.pdf">See an example pack</a></p>
+<p class="upsell-edit" id="upsell-edit"></p>
+<p class="upsell-newsletter"><a href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">Subscribe to the StackPodium newsletter</a></p>
 </div>
 </section>
-
-<section class="pf-section" aria-labelledby="next-title">
-<div class="wrap">
-<div class="spark-next">
-<h2 id="next-title">The full plan</h2>
-<p>Game Idea Spark is a free sketch: one loop, a weekend scope, a stack, and a first prompt. The Plan Pack is the written plan for one idea, emailed within 24 hours.</p>
-<a class="cta" href="/playforge/">Want the full plan? Get the PlayForge Plan Pack for $9</a>
-<p class="hint">This link opens PlayForge. It does not include your idea.</p>
-<p class="spark-links"><a href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">Subscribe to the StackPodium newsletter</a></p>
-</div>
 </div>
 </section>
 
@@ -269,6 +290,7 @@ Play<span>Forge</span></a>
     fillList(document.getElementById("stack-details"), plan.stack.details);
     document.getElementById("prompt").textContent = plan.prompt;
     copyBtn.textContent = "Copy prompt";
+    renderUpsell(plan);
 
     var result = document.getElementById("result");
     result.hidden = false;
@@ -293,6 +315,147 @@ Play<span>Forge</span></a>
     count.textContent = n + " / " + IDEA_MAX;
     if (n >= IDEA_MAX) count.classList.add("at-limit");
     else count.classList.remove("at-limit");
+  }
+
+  function clearNode(el) {
+    while (el.firstChild) el.removeChild(el.firstChild);
+  }
+
+  function lockPanel(message) {
+    var wrap = document.createElement("div");
+    var note = document.createElement("p");
+    note.className = "lock-note";
+    note.textContent = message;
+    var panel = document.createElement("div");
+    panel.className = "lock-panel";
+    panel.setAttribute("aria-hidden", "true");
+    var bars = document.createElement("div");
+    bars.className = "lock-bars";
+    var widths = ["100%", "96%", "88%", "93%", "70%"];
+    var i;
+    for (i = 0; i < widths.length; i++) {
+      var line = document.createElement("span");
+      line.className = "lock-line";
+      line.style.width = widths[i];
+      bars.appendChild(line);
+    }
+    var label = document.createElement("p");
+    label.className = "lock-label";
+    var tag = document.createElement("span");
+    tag.className = "lock-tag";
+    tag.textContent = "Locked";
+    label.appendChild(tag);
+    panel.appendChild(bars);
+    panel.appendChild(label);
+    wrap.appendChild(note);
+    wrap.appendChild(panel);
+    return wrap;
+  }
+
+  function packHref(ideaText, levelValue) {
+    var params = new URLSearchParams();
+    var ideaParam = String(ideaText || "").replace(/\s+/g, " ").trim();
+    if (ideaParam.length > 256) ideaParam = ideaParam.slice(0, 256).trim();
+    params.set("idea", ideaParam);
+    params.set("level", levelValue === "vibe" ? "vibe" : "beginner");
+    return "/playforge/?" + params.toString() + "#checkout";
+  }
+
+  function renderUpsell(plan) {
+    var pack = plan.pack;
+    var forLine = document.getElementById("upsell-for");
+    var forText = plan.title + " · " + plan.levelLabel + " · " + plan.genreLabel + " template";
+    if (plan.secondaryLabel) forText += ". Also matched " + plan.secondaryLabel + ". The outline stays on " + plan.genreLabel + ".";
+    forLine.textContent = forText;
+
+    document.getElementById("sketch-limit").textContent = "This free sketch covers step 1 of about " + pack.stepCount + ".";
+
+    var gdd = document.getElementById("gdd-list");
+    clearNode(gdd);
+    var g;
+    for (g = 0; g < pack.gdd.length; g++) {
+      var section = pack.gdd[g];
+      var item = document.createElement("li");
+      var name = document.createElement("span");
+      name.className = "pack-name";
+      name.textContent = section.label;
+      item.appendChild(name);
+      if (section.value) {
+        var value = document.createElement("span");
+        value.className = "gdd-value";
+        value.textContent = section.value;
+        item.appendChild(value);
+      } else if (section.locked) {
+        var badge = document.createElement("span");
+        badge.className = "pack-badge is-locked";
+        badge.textContent = "Locked";
+        item.appendChild(badge);
+      }
+      gdd.appendChild(item);
+    }
+    var gddLock = document.getElementById("gdd-lock");
+    clearNode(gddLock);
+    gddLock.appendChild(lockPanel("The paragraphs for these sections are written in the emailed pack."));
+
+    var stepsHeading = document.getElementById("steps-heading");
+    stepsHeading.textContent = pack.stepCount + " steps to a playable prototype";
+    document.getElementById("upsell-voice").textContent = pack.voice;
+    var steps = document.getElementById("step-list");
+    clearNode(steps);
+    var s;
+    for (s = 0; s < pack.steps.length; s++) {
+      var step = pack.steps[s];
+      var stepItem = document.createElement("li");
+      var index = document.createElement("span");
+      index.className = "pack-index";
+      index.textContent = String(s + 1);
+      var stepName = document.createElement("span");
+      stepName.className = "pack-name";
+      stepName.textContent = step.title;
+      stepItem.appendChild(index);
+      stepItem.appendChild(stepName);
+      if (step.included) {
+        var freeBadge = document.createElement("span");
+        freeBadge.className = "pack-badge is-free";
+        freeBadge.textContent = "Free sketch";
+        stepItem.appendChild(freeBadge);
+      }
+      steps.appendChild(stepItem);
+    }
+    var stepLock = document.getElementById("step-lock");
+    clearNode(stepLock);
+    stepLock.appendChild(lockPanel("Each emailed step also says what done looks like. That part is not on this page."));
+
+    var promptCount = pack.prompts.length;
+    var promptsHeading = document.getElementById("prompts-heading");
+    promptsHeading.textContent = promptCount + " Cursor prompts, in build order";
+    document.getElementById("prompts-note").textContent = "Titles only. Prompt 1 is the free prompt above. The other " + (promptCount - 1) + " are written in the emailed pack, in this order.";
+    var prompts = document.getElementById("prompt-list");
+    clearNode(prompts);
+    var p;
+    for (p = 0; p < pack.prompts.length; p++) {
+      var promptItem = document.createElement("li");
+      var promptIndex = document.createElement("span");
+      promptIndex.className = "pack-index";
+      promptIndex.textContent = String(p + 1);
+      var promptName = document.createElement("span");
+      promptName.className = "pack-name";
+      promptName.textContent = pack.prompts[p].title;
+      var promptBadge = document.createElement("span");
+      promptBadge.className = pack.prompts[p].free ? "pack-badge is-free" : "pack-badge is-locked";
+      promptBadge.textContent = pack.prompts[p].free ? "Free, above" : "Locked";
+      promptItem.appendChild(promptIndex);
+      promptItem.appendChild(promptName);
+      promptItem.appendChild(promptBadge);
+      prompts.appendChild(promptItem);
+    }
+    var promptLock = document.getElementById("prompt-lock");
+    clearNode(promptLock);
+    promptLock.appendChild(lockPanel("Prompt text is in the emailed pack. Only the titles are listed here."));
+
+    var cta = document.getElementById("pack-cta");
+    cta.href = packHref(plan.idea, plan.level);
+    document.getElementById("upsell-edit").textContent = "Opens the $9 form with this idea and this level filled in. You can edit both before PayPal. Paying sends them with the payment.";
   }
 
   function selectedLevel() {

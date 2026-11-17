@@ -756,6 +756,532 @@
     return lines.join("\n");
   }
 
+  /* Outline for the $9 upsell. Titles and step counts only.
+     The emailed pack is written after payment. These strings are not that text. */
+  var PACK_TEMPLATES = {
+    farm: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Draw the 4 by 4 plot",
+        "Add three crop types",
+        "Spend energy to plant, water, or harvest",
+        "Show a mood on each crop",
+        "Add one dusk order for the field",
+        "Add one night problem you can see",
+        "Win, loss, and restart"
+      ],
+      beats: [
+        "Draw the 4 by 4 plot on one screen",
+        "Add three crop types as shapes or text",
+        "Spend energy to plant, water, or harvest",
+        "Show a mood on each crop",
+        "Add one dusk order for the whole field",
+        "Add one night problem the player can see",
+        "Win after 3 nights, or lose when 2 plots are overrun",
+        "Play one full loop and note the one thing that still feels wrong",
+        "Leave seasons, NPCs, and a shop out"
+      ]
+    },
+    space: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Put one ship on screen with a hull number",
+        "Steer, and dodge or fire at one hazard",
+        "Make the field a little denser over time",
+        "End the run on zero hull or a short timer",
+        "Offer one upgrade, then restart",
+        "Keep score on the same screen",
+        "Leave the galaxy map and weapon tree out"
+      ],
+      beats: [
+        "Put one ship on screen with a hull number",
+        "Steer, and either dodge or fire",
+        "Use one hazard, named from the idea when the idea names one",
+        "Make the field a little denser every few seconds",
+        "Show a score on the same screen",
+        "End the run when the hull hits zero or a short timer expires",
+        "Offer one hardcoded upgrade, then restart",
+        "Play one run and note the one thing that still feels wrong",
+        "Leave the galaxy map, trading, and a weapon tree out"
+      ]
+    },
+    puzzle: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Show the goal in one sentence and a small board",
+        "Implement one kind of move",
+        "Show immediately whether the move helped",
+        "Win inside a move limit",
+        "Restart the same board",
+        "Add undo, and skip a hint shop"
+      ],
+      beats: [
+        "Show the goal in one sentence",
+        "Draw one small board",
+        "Implement one kind of move: slide, rotate, or swap",
+        "Show immediately whether that move helped",
+        "Win by reaching the goal inside a move limit",
+        "Restart returns the same board",
+        "Add undo",
+        "Play the one puzzle and note the one thing that still feels wrong",
+        "Leave the level pack, the editor, and a hint shop out"
+      ]
+    },
+    roguelike: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One room, the player, and one enemy type",
+        "One action: move, strike, or use the single item",
+        "Clearing the room offers one upgrade",
+        "Three rooms in a line",
+        "Losing ends the run",
+        "The next run starts over with the same rule",
+        "Leave the town and the skill tree out"
+      ],
+      beats: [
+        "One room, the player, and one enemy type",
+        "One action: move, strike, or use the single item",
+        "Clearing the room offers one upgrade",
+        "That upgrade is the only meta progress",
+        "Lay three rooms in a line",
+        "Losing ends the run",
+        "The next run starts over",
+        "Play one run and note the one thing that still feels wrong",
+        "Leave the hub town, the skill tree, and the stash screen out"
+      ]
+    },
+    platformer: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "A short stretch of ground, one gap, and the player",
+        "Left, right, and jump",
+        "One hazard that costs a life",
+        "A goal flag",
+        "Three lives, then the same stretch restarts",
+        "Leave the world map and ability unlocks out"
+      ],
+      beats: [
+        "A short stretch of ground and one gap",
+        "The player",
+        "Left, right, and jump only",
+        "One hazard: a pit or a single patrol",
+        "Touching the flag wins",
+        "Three lives, then the same stretch restarts",
+        "No ability unlocks",
+        "Play the stretch and note the one thing that still feels wrong",
+        "Leave the world map, cutscenes, and boss phases out"
+      ]
+    },
+    horror: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One dim room and a one-sentence objective",
+        "Two or three hotspots",
+        "One threat that gets closer",
+        "No combat",
+        "An exit to win, and a loss if the threat arrives",
+        "Leave the weapon crafting and the monster roster out"
+      ],
+      beats: [
+        "One dim room",
+        "An objective that fits in one sentence",
+        "Two or three hotspots to inspect",
+        "A sight limit or a simple light",
+        "One threat that gets closer if you linger or make noise",
+        "No combat and no inventory grid",
+        "Win by reaching the exit, or lose if the threat arrives",
+        "Play the room once and note the one thing that still feels wrong",
+        "Leave the open town, the weapon crafting, and the monster roster out"
+      ]
+    },
+    cozy: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One room and one comforting verb",
+        "A meter that fills as you repeat it",
+        "One yes-or-no interruption",
+        "The session ends at evening",
+        "Three sessions are the whole prototype",
+        "Leave the skill tree and the city out"
+      ],
+      beats: [
+        "One room",
+        "One comforting verb, such as stir, water, arrange, or pour",
+        "Repeating it fills a meter",
+        "One small interruption with a yes or no",
+        "The session ends at evening",
+        "Three sessions are the whole prototype",
+        "Failure no harsher than a spilled cup or a do-over",
+        "Play one session and note the one thing that still feels wrong",
+        "Leave the skill tree, the city, and the recipe spreadsheet out"
+      ]
+    },
+    card: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Ten hardcoded cards",
+        "A hand of three",
+        "Play one card for the only effect written on it",
+        "One opposing number reacts",
+        "End the round when the deck is empty or the score hits a target",
+        "Leave pack opening and the collection screen out"
+      ],
+      beats: [
+        "Ten hardcoded cards, each a name plus one effect",
+        "Draw a hand of three",
+        "Play one card",
+        "Resolve the only effect written on it",
+        "One opposing number reacts",
+        "The round ends when the deck is empty or the score hits a target",
+        "No pack opening and no ranks",
+        "Play one round and note the one thing that still feels wrong",
+        "Leave the collection screen, the shop, and online play out"
+      ]
+    },
+    racing: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One short track and one car",
+        "Steer and accelerate",
+        "A lap counter",
+        "One rival or a ghost line",
+        "Three laps or a clock, then restart",
+        "Leave the garage and the career season out"
+      ],
+      beats: [
+        "One short loop the player can see all at once",
+        "One car",
+        "Steer and accelerate, with no tuning screen",
+        "A lap counter",
+        "A crash that only slows you down",
+        "One rival or a ghost line on the same track",
+        "Three laps or a clock, then the same track restarts",
+        "Play one race and note the one thing that still feels wrong",
+        "Leave the garage, the career season, and car customization out"
+      ]
+    },
+    shooter: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One arena and the player",
+        "Move and shoot with one weapon",
+        "A handful of enemies in a simple pattern",
+        "Lose after three hits",
+        "Survive the wave",
+        "Leave loot, classes, and a second weapon out"
+      ],
+      beats: [
+        "One arena",
+        "The player",
+        "Move and one weapon",
+        "No pickup screen",
+        "A handful of enemies that move in a simple pattern",
+        "Survive the wave, or lose after three hits",
+        "No second weapon",
+        "Play one wave and note the one thing that still feels wrong",
+        "Leave the campaign, the loot, and the class select out"
+      ]
+    },
+    rpg: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One room and one errand",
+        "Two choices with a visible consequence",
+        "One number on screen: health, gold, or trust",
+        "Win by finishing the errand",
+        "Lose if that number hits zero",
+        "Leave the inventory grid and the party out"
+      ],
+      beats: [
+        "One room",
+        "One person to talk to, or one door",
+        "Two choices",
+        "A consequence the player can see",
+        "One stat changes: health, gold, or trust",
+        "Win by finishing the errand",
+        "Lose if that number hits zero",
+        "Play the errand and note the one thing that still feels wrong",
+        "Leave the inventory grid, the party, and the skill tree out"
+      ]
+    },
+    tower: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One path and three tower spots",
+        "Place the one tower type",
+        "A line of creeps",
+        "Coins and a leak count",
+        "Survive 3 waves, or lose when too many leak",
+        "Leave the upgrade tree and the hero unit out"
+      ],
+      beats: [
+        "One path",
+        "Three spots where a tower can go",
+        "One tower type",
+        "A line of creeps walks the path",
+        "Towers cost the only currency",
+        "Stopping creeps pays it back",
+        "Survive 3 waves, or lose when too many creeps leak",
+        "Play the three waves and note the one thing that still feels wrong",
+        "Leave the hero unit, the upgrade tree, and the campaign map out"
+      ]
+    },
+    rhythm: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One lane and a hardcoded row of markers",
+        "One key or a tap when a marker lands",
+        "Hits and misses change a score",
+        "The loop lasts about 20 seconds, then a result",
+        "Leave the chart editor and the song importer out"
+      ],
+      beats: [
+        "A short beat shown as markers",
+        "One lane",
+        "Press one key, or tap, when a marker lands",
+        "Hits and misses change a score",
+        "The loop lasts about 20 seconds",
+        "Then a result",
+        "No song importer",
+        "Play the 20 seconds and note the one thing that still feels wrong",
+        "Leave the chart editor, the online rank, and the music library out"
+      ]
+    },
+    stealth: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One room and one guard with a visible vision cone",
+        "Move when the cone looks away",
+        "One button that hides the player",
+        "A goal object or a door",
+        "Being seen fails, and restart is immediate",
+        "Leave combat and the gadget wheel out"
+      ],
+      beats: [
+        "One room",
+        "One guard",
+        "A vision cone the player can see",
+        "Move when the cone looks away",
+        "One button hides the player",
+        "Reach an object or a door without being seen",
+        "Being seen fails the attempt and restart is immediate",
+        "Try the room once and note the one thing that still feels wrong",
+        "Leave combat, disguises, and the gadget wheel out"
+      ]
+    },
+    survival: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One resource node and three inventory slots",
+        "Turn that resource into one result",
+        "A hunger or cold meter that drops",
+        "Win if the meter holds, lose if it empties",
+        "Keep it to one screen",
+        "Leave the tech tree and the base grid out"
+      ],
+      beats: [
+        "One screen and one resource node",
+        "An inventory of three slots",
+        "Turn the resource into one result, such as a fire or a meal",
+        "Hunger or cold drops over time, on screen",
+        "Fill the goal before the meter empties",
+        "A win if the meter holds",
+        "A loss if it empties",
+        "Play one attempt and note the one thing that still feels wrong",
+        "Leave the tech tree, the biomes, and the base-building grid out"
+      ]
+    },
+    tycoon: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "A counter and one kind of customer",
+        "One action that completes an order and pays coins",
+        "Coins buy the only upgrade",
+        "A day ends on a timer",
+        "Three days, then a total",
+        "Leave staff AI and the supply chain out"
+      ],
+      beats: [
+        "A counter",
+        "One kind of customer",
+        "One action completes an order and pays coins",
+        "Coins buy the only upgrade",
+        "That upgrade changes a number you can see",
+        "A day ends on a timer",
+        "Three short days, then a total",
+        "Play the three days and note the one thing that still feels wrong",
+        "Leave staff AI, decoration mode, and the supply chain out"
+      ]
+    },
+    mystery: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One room and three clickable clues",
+        "A short notebook list",
+        "One question with two answers",
+        "A two-option accusation",
+        "The game says if the accusation is right",
+        "Leave the second case and the text parser out"
+      ],
+      beats: [
+        "One room",
+        "Three clues the player can click",
+        "Each clue is written into a short list",
+        "One question with two answers",
+        "Pick a solution from two options",
+        "The game says if it is right",
+        "No text parser and no second case",
+        "Play the case and note the one thing that still feels wrong",
+        "Leave the city of cases, the evidence-board tool, and voice acting out"
+      ]
+    },
+    fighter: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Two figures on a flat stage",
+        "One attack and a block",
+        "A health bar, and the round ends when one bar is empty",
+        "A simple pattern for the opponent",
+        "Best of three, then restart",
+        "Leave the roster and the move list out"
+      ],
+      beats: [
+        "A flat stage",
+        "Two figures, and the player controls one",
+        "One attack button and a block",
+        "No combo list",
+        "A health bar, and the round ends when one bar is empty",
+        "The opponent uses a simple pattern",
+        "Best of three on the same stage, then a restart",
+        "Play one match and note the one thing that still feels wrong",
+        "Leave the roster, supers, and the move-list screen out"
+      ]
+    },
+    idle: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "One button that produces the only resource",
+        "One helper that produces it slowly",
+        "The number ticks while the page is open",
+        "Hit a target to win, and a reset starts over",
+        "Leave prestige, ads, and a second currency out"
+      ],
+      beats: [
+        "One button produces the only resource",
+        "The number is on screen",
+        "That resource hires the only helper",
+        "The helper produces it slowly",
+        "The number ticks while the page is open",
+        "There is no second screen",
+        "Hit a target number to win, and a reset starts over",
+        "Play to the target and note the one thing that still feels wrong",
+        "Leave prestige, ads, and a second currency out"
+      ]
+    },
+    sports: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Two sides on a simple field",
+        "One scoring verb",
+        "An opponent that moves simply",
+        "First to 3",
+        "The same field resets",
+        "Leave the league and the career mode out"
+      ],
+      beats: [
+        "A simple field",
+        "Two sides, and the player controls one figure",
+        "One verb, such as kick, throw, or swing",
+        "Aim with keys or the pointer",
+        "The attempt scores or misses",
+        "First to 3 wins",
+        "The same field resets, and there is no season",
+        "Play to 3 and note the one thing that still feels wrong",
+        "Leave the league, the transfers, and the career mode out"
+      ]
+    },
+    generic: {
+      prompts: [
+        "Scaffold the one-screen prototype",
+        "Put the player's sentence on screen as the win condition",
+        "One repeated action",
+        "A timer or a mistake counter",
+        "A win, a loss, and a restart on the same screen",
+        "Leave the second mode and the story out"
+      ],
+      beats: [
+        "Put the player's sentence on screen as the win condition",
+        "The player repeats one action: move, choose, or time a press",
+        "A timer or a mistake counter makes that action matter",
+        "A win lives on the same screen",
+        "A loss lives on the same screen",
+        "A restart",
+        "Colored shapes or text, and no art production",
+        "Play one round and note the one thing that still feels wrong",
+        "Leave the second mode, the level editor, and the story out"
+      ]
+    }
+  };
+
+  function packFor(level, genre, title) {
+    var template = PACK_TEMPLATES[genre.id] || PACK_TEMPLATES.generic;
+    var prompts = [];
+    var steps = [];
+    var i;
+    for (i = 0; i < template.prompts.length; i++) {
+      prompts.push({ title: template.prompts[i], free: i === 0 });
+    }
+    steps.push({
+      title: "Sketch the loop, the weekend scope, the stack, and the first prompt",
+      included: true
+    });
+    steps.push({
+      title: level === "beginner"
+        ? "Open Cursor, create one empty HTML file, and learn the words the first prompt uses"
+        : "Create the Phaser 3, Vite, and TypeScript project and boot one scene",
+      included: false
+    });
+    for (i = 0; i < template.beats.length; i++) {
+      steps.push({ title: template.beats[i], included: false });
+    }
+    steps.push({
+      title: level === "beginner"
+        ? "Use the closing check: you can open the file, play the slice, and say what each part does"
+        : "Run the project, play the slice, and confirm there are no type errors",
+      included: false
+    });
+    return {
+      stepCount: steps.length,
+      steps: steps,
+      prompts: prompts,
+      gdd: [
+        { label: "Title", value: title, locked: false },
+        { label: "The player", value: "", locked: true },
+        { label: "The core action", value: "", locked: true },
+        { label: "How a round starts and ends", value: "", locked: true },
+        { label: "What the prototype leaves out", value: "", locked: true }
+      ],
+      voice: level === "beginner"
+        ? "Beginner voice: each step says what to click, what the words mean, and how to tell that it worked."
+        : "Vibe coder voice: a shorter plan. Decisions and scope first, then the prompts, with no tour of the editor."
+    };
+  }
+
+  (function checkPacks() {
+    var i;
+    var seen = {};
+    for (i = 0; i < GENRES.length; i++) {
+      var id = GENRES[i].id;
+      var template = PACK_TEMPLATES[id];
+      if (!template) throw new Error("Missing Plan Pack outline for " + id);
+      if (template.prompts.length < 6 || template.prompts.length > 8) {
+        throw new Error("Prompt titles for " + id + " must be 6 to 8");
+      }
+      if (template.beats.length !== 9) throw new Error("Build beats for " + id + " must be 9");
+      seen[id] = true;
+    }
+  })();
+
   function generate(idea, level) {
     var raw = String(idea || "").replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
     if (raw.length > 180) raw = raw.slice(0, 180).trim();
@@ -796,7 +1322,8 @@
       weekend: genre.weekend,
       cut: genre.cut,
       stack: { name: stack.name, details: stack.details },
-      prompt: prompt
+      prompt: prompt,
+      pack: packFor(level, genre, title)
     };
   }
 

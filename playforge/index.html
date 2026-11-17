@@ -265,6 +265,14 @@ Keep the project small. No accounts, no login, no backend.</pre>
   Required: level (os0) and game idea (custom). The delivery email is optional.
   The script checks them before submit. Without JavaScript, the required and
   maxlength attributes still apply.
+
+  Game Idea Spark can open this page as /playforge/?idea=...&level=...#checkout.
+  The script copies those into the fields above and scrolls to this form.
+  It does not change business, item_name, amount, or the return URLs.
+    idea   trimmed, whitespace collapsed, max 256 characters, into custom
+    level  beginner -> Beginner (never coded)
+           vibe     -> Vibe coder (uses AI coding tools)
+  An unknown level is ignored. The select stays on "Choose a level".
 -->
 <form id="buy" action="https://www.paypal.com/cgi-bin/webscr" method="post" accept-charset="UTF-8" aria-labelledby="buy-title">
 <input type="hidden" name="cmd" value="_xclick">
@@ -391,6 +399,50 @@ Keep the project small. No accounts, no login, no backend.</pre>
   idea.addEventListener("input", updateCount);
   updateCount();
   window.addEventListener("pageshow", enableDelivery);
+
+  var LEVEL_VALUES = {
+    "beginner": "Beginner (never coded)",
+    "vibe": "Vibe coder (uses AI coding tools)",
+    "beginner (never coded)": "Beginner (never coded)",
+    "vibe coder (uses ai coding tools)": "Vibe coder (uses AI coding tools)"
+  };
+
+  function cleanIdeaParam(value) {
+    var text = String(value || "").replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/\s+/g, " ").trim();
+    if (text.length > IDEA_MAX) text = text.slice(0, IDEA_MAX).trim();
+    return text;
+  }
+
+  function prefillFromQuery() {
+    var params;
+    try { params = new URLSearchParams(window.location.search); }
+    catch (err) { return; }
+    var hasIdea = params.has("idea");
+    var hasLevel = params.has("level");
+    if (!hasIdea && !hasLevel) return;
+    if (hasIdea) {
+      var cleaned = cleanIdeaParam(params.get("idea"));
+      if (cleaned) {
+        idea.value = cleaned;
+        updateCount();
+      }
+    }
+    if (hasLevel) {
+      var raw = String(params.get("level") || "").replace(/\s+/g, " ").trim().toLowerCase();
+      var mapped = LEVEL_VALUES[raw];
+      if (mapped) level.value = mapped;
+    }
+    var checkout = document.getElementById("checkout");
+    if (!checkout) return;
+    function scrollToForm() {
+      checkout.scrollIntoView({ block: "start" });
+    }
+    window.requestAnimationFrame(scrollToForm);
+    window.addEventListener("load", scrollToForm);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(scrollToForm);
+  }
+
+  prefillFromQuery();
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
