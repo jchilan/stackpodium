@@ -3,7 +3,7 @@
 const fs = require("fs"), path = require("path"), vm = require("vm");
 const [src, out, domain] = process.argv.slice(2);
 const html = fs.readFileSync(src, "utf8");
-const css = html.match(/<style>([\s\S]*?)<\/style>/)[1];
+const css = fs.readFileSync(path.join(__dirname, "site.css"), "utf8");
 const js = html.match(/<script>([\s\S]*?)<\/script>/)[1].split("function esc(")[0];
 const ctx = {};
 vm.createContext(ctx);
@@ -32,7 +32,19 @@ const X = {
   navLabel: ["Sections", "Seções", "Secciones", "页面栏目"],
   langLabel: ["Language", "Idioma", "Idioma", "语言"],
   full: ["See the full ranking", "Ver o ranking completo", "Ver el ranking completo", "查看完整排名"],
+  navCompare: ["Comparisons", "Comparações", "Comparativas", "对比"],
+  menu: ["Menu", "Menu", "Menú", "菜单"],
+  more: ["More", "Mais", "Más", "更多"],
+  nlShort: ["Newsletter", "Boletim", "Boletín", "周报"],
+  medal: [
+    ["Gold", "Silver", "Bronze"],
+    ["Ouro", "Prata", "Bronze"],
+    ["Oro", "Plata", "Bronce"],
+    ["金", "银", "铜"],
+  ],
 };
+const MARK = `<svg class="mark" viewBox="0 0 36 28" aria-hidden="true" focusable="false"><rect class="m2" x="0" y="10" width="10" height="18" rx="2"/><rect class="m1" x="13" y="0" width="10" height="28" rx="2"/><rect class="m3" x="26" y="16" width="10" height="12" rx="2"/></svg>`;
+const LANG_SHORT = ["EN", "PT", "ES", "ZH"];
 const COMPARE = [["lovable","bolt"],["lovable","replit"],["bolt","replit"],["v0","lovable"],["cursor","copilot"],["cursor","devin"],["cursor","windsurf"],["claude","codex"],["claude","cursor"],["n8n","make"],["n8n","zapier"],["langgraph","crewai"],["rosebud","gdevelop"]];
 const C = {
   list: ["Head-to-head comparisons", "Comparações diretas", "Comparativas directas", "两两对比"],
@@ -58,12 +70,49 @@ function rankList(c, l) {
     const name = typeof t[0] === "string" ? t[0] : t[0][l];
     const href = t[1].startsWith("#") ? url(l, t[1].slice(1)) : t[1];
     const rel = href.startsWith("http") ? ' rel="noopener"' : "";
-    return `<li${j === 0 ? ' class="first"' : ""}><span class="pos">${j + 1}</span><div><div class="tool"><a href="${esc(href)}"${rel}>${esc(name)}</a><span class="price">${esc(price(t[2], l))}</span></div><p class="why">${esc(r[1][l])}</p></div></li>`;
+    const medal = esc(X.medal[l][j] || "");
+    return `<li class="${j === 0 ? "first " : ""}place"><span class="pos"><span class="medal-name">${medal}</span><b>${j + 1}</b></span><div class="place-body"><div class="tool"><a href="${esc(href)}"${rel}>${esc(name)}</a><span class="price">${esc(price(t[2], l))}</span></div><p class="why">${esc(r[1][l])}</p></div></li>`;
   }).join("");
 }
 function caseArticle(c, i, l, heading, link) {
   const title = link ? `<a href="${url(l, c.id)}">${esc(c.t[l])}</a>` : esc(c.t[l]);
-  return `<article class="case" id="${c.id}"><span class="num">${esc(UI["case"][l])} ${pad(i + 1)}</span><${heading}>${title}</${heading}><p class="who">${esc(c.who[l])}</p><ol class="rank">${rankList(c, l)}</ol><p class="extra">${c.x[l]}</p></article>`;
+  const more = link ? `<p class="more"><a href="${url(l, c.id)}">${esc(X.full[l])}</a></p>` : "";
+  return `<article class="case" id="${c.id}"><header class="case-head"><span class="num">${esc(UI["case"][l])} ${pad(i + 1)}</span><${heading}>${title}</${heading}><p class="who">${esc(c.who[l])}</p></header><ol class="rank">${rankList(c, l)}</ol><p class="extra">${c.x[l]}</p>${more}</article>`;
+}
+function langSwitch(l, slug) {
+  return LANGS.map((L, k) => `<a href="${url(k, slug)}" lang="${L.html}"${k === l ? ' aria-current="true"' : ""}><span class="lfull">${L.name}</span><span class="lshort">${LANG_SHORT[k]}</span></a>`).join("");
+}
+function navLinks(l, opts) {
+  const sponsor = PAGES.find((p) => p.slug === "sponsor");
+  return `<a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#compare">${esc(X.navCompare[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a><a href="${url(l, "sponsor")}">${esc(sponsor.label[l])}</a>${opts.extraNav || ""}`;
+}
+function siteHeader(l, slug, opts) {
+  const links = navLinks(l, opts);
+  const label = esc(X.navLabel[l]);
+  return `<header class="top"><div class="wrap">
+<a class="brand" href="${url(l)}">${MARK}Stack<span>Podium</span></a>
+<nav class="navdesk" aria-label="${label}">${links}</nav>
+<div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${langSwitch(l, slug)}</div>
+<details class="navmob"><summary>${esc(X.menu[l])}</summary><nav aria-label="${label}">${links}</nav></details>
+</div></header>`;
+}
+function siteFooter(l, slug) {
+  const sponsor = PAGES.find((p) => p.slug === "sponsor");
+  const privacy = PAGES.find((p) => p.slug === "privacy");
+  const cases = CASES.map((c) => `<li><a href="${url(l, c.id)}">${esc(c.t[l])}</a></li>`).join("");
+  const comps = COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("");
+  const play = l === 0 ? `<li><a href="/playforge/">PlayForge</a></li>` : "";
+  return `<footer><div class="wrap foot">
+<div class="foot-brand"><a class="brand" href="${url(l)}">${MARK}Stack<span>Podium</span></a><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p class="updated">${esc(X.updated[l])}</p></div>
+<nav aria-labelledby="foot-cases"><h2 id="foot-cases">${esc(UI.nav1[l])}</h2><ul>${cases}</ul></nav>
+<nav aria-labelledby="foot-compare"><h2 id="foot-compare">${esc(X.navCompare[l])}</h2><ul>${comps}</ul></nav>
+<div class="foot-more"><h2 id="foot-more">${esc(X.more[l])}</h2><ul>
+<li><a href="#newsletter">${esc(X.nlShort[l])}</a></li>
+<li><a href="${url(l, "sponsor")}">${esc(sponsor.label[l])}</a></li>
+<li><a href="${url(l, "privacy")}">${esc(privacy.label[l])}</a></li>
+${play}<li><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></li>
+</ul><div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${langSwitch(l, slug)}</div></div>
+</div></footer>`;
 }
 function orgLd() {
   return { "@context": "https://schema.org", "@type": "Organization", name: "StackPodium", url: BASE + "/", sameAs: ["https://x.com/stackpodium"] };
@@ -71,7 +120,6 @@ function orgLd() {
 function page(l, slug, title, desc, body, ld, opts) {
   opts = opts || {};
   const alt = LANGS.map((L, k) => `<link rel="alternate" hreflang="${L.html}" href="${BASE}${url(k, slug)}">`).join("\n") + `\n<link rel="alternate" hreflang="x-default" href="${BASE}${url(0, slug)}">`;
-  const sw = LANGS.map((L, k) => `<a href="${url(k, slug)}" lang="${L.html}"${k === l ? ' aria-current="true"' : ""}>${L.name}</a>`).join("");
   const blocks = [orgLd()].concat(Array.isArray(ld) ? ld : [ld]);
   const jsonLd = blocks.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join("\n");
   const nl = newsletterSection(l, opts.compact ? "compact" : "full", { heading: X.nlh[l], blurb: X.nlp[l], submit: X.nlb[l] });
@@ -91,22 +139,19 @@ ${alt}
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${BASE}${url(l, slug)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
 ${jsonLd}
 </head>
 <body>
 <a class="skip" href="#content">${esc(X.skip[l])}</a>
-<header class="top"><div class="wrap">
-<a class="brand" href="${url(l)}">Stack<span>Podium</span></a>
-<nav aria-label="${esc(X.navLabel[l])}"><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a>${opts.extraNav || ""}</nav>
-<div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${sw}</div>
-</div></header>
+${siteHeader(l, slug, opts)}
 <main id="content">
 ${body}
 ${nl}
 </main>
-<footer><div class="wrap"><p class="flinks">${PAGES.map((P) => `<a href="${url(l, P.slug)}">${esc(P.label[l])}</a>`).join("")}<a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div></footer>
+${siteFooter(l, slug)}
 <script>${NEWSLETTER_SCRIPT}</script>
 </body>
 </html>
@@ -118,86 +163,27 @@ function write(rel, text) {
   fs.writeFileSync(f, text);
 }
 
-const extraCss = `
-.langs a{font-size:.85rem;padding:4px 10px;border-radius:5px;color:var(--muted);text-decoration:none}
-.langs a:hover{color:var(--ink)}
-.langs a[aria-current="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
-.case h2 a,.case h1 a{color:inherit;text-decoration:none}
-.case h2 a:hover{text-decoration:underline}
-.case h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.12;margin:2px 0 8px;letter-spacing:-.02em;text-wrap:balance}
-.single{max-width:820px;margin:0 auto;padding:32px 20px 8px}
-.crumb{font-size:.9rem;margin:0 0 14px}
-.others{max-width:820px;margin:0 auto;padding:8px 20px 48px}
-.others h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
-.others ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.others a{display:block;padding:7px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:.93rem}
-.others a:hover{background:var(--tint)}
-.newsletter{border-top:1px solid var(--line);background:var(--tint);padding:32px 0}
-.newsletter .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
-.newsletter h2{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;margin:0 0 4px}
-.newsletter p{margin:0;max-width:60ch;color:var(--muted)}
-.cta{display:inline-block;padding:11px 22px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
-.cta:hover{filter:brightness(1.1)}
-.flinks{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0 0 14px}
-.flinks a{font-weight:600}
-.prose{padding-bottom:40px}
-.prose h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
-.prose h2{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:28px 0 8px}
-.prose p,.prose li{max-width:66ch}
-.prose ul{padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
-.cmplist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.cmplist a{display:block;padding:8px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:.95rem}
-.cmplist a:hover{background:var(--tint)}
-.tablewrap{overflow-x:auto;margin:18px 0}
-table.cmp{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-table.cmp th,table.cmp td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-table.cmp th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-table.cmp tr:last-child td,table.cmp tr:last-child th{border-bottom:0}
-table.cmp td.mono{font-family:var(--mono);font-size:.82rem}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-.skip{position:absolute;left:8px;top:8px;padding:8px 12px;background:var(--accent);color:var(--accent-ink);border-radius:6px;z-index:3;text-decoration:none;transform:translateY(-160%)}
-.skip:focus{transform:none}
-.verdict{background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:1.05rem;max-width:68ch}
-.faq{display:flex;flex-direction:column;gap:16px;margin-top:8px}
-.faq h3{font-size:1.05rem;margin:0 0 4px}
-.faq p{margin:0}
-a.sub{font-size:.82rem;margin-left:8px;white-space:nowrap}
-.signup{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end;margin:0}
-.signup .field{display:flex;flex-direction:column;gap:4px;flex:1 1 220px;min-width:0}
-.signup label{font-size:.85rem;font-weight:600}
-.signup input[type="email"]{font:inherit;font-size:1rem;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:100%}
-.signup-hint,.signup-fallback{flex-basis:100%;margin:0;font-size:.85rem;color:var(--muted);max-width:62ch}
-button.cta{border:0;font:inherit;cursor:pointer}
-.newsletter.compact .wrap{align-items:flex-end}
-.newsletter.compact h2{font-size:1.2rem}
-.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.tablewrap{max-width:100%}
-.single{max-width:min(820px,100%)}
-@media (max-width:640px){
-  .signup{align-items:stretch}
-  .signup .cta{width:100%;text-align:center}
-  .top nav{gap:4px 12px}
-}
-.rk{font-family:var(--mono);font-size:1.05rem}
-.rk.top{color:var(--accent)}
-.offp{color:var(--muted);font-size:.88rem}
-.note{color:var(--muted);font-size:.92rem;max-width:65ch;margin:18px 0 0}
-.intro .studio{margin:16px 0 0;font-size:1.02rem}
-`;
-write("site.css", css + extraCss);
+write("site.css", css);
+
 write("sponsor.css", fs.readFileSync(path.join(__dirname, "sponsor.css"), "utf8"));
 
 const urls = [];
 LANGS.forEach((L, l) => {
   // home
-  const rail = CASES.map((c, i) => `<li><a href="#${c.id}"><i>${pad(i + 1)}</i>${esc(c.t[l])}</a></li>`).join("");
+  const rail = CASES.map((c, i) => `<li><a href="#${c.id}"><span class="idx">${pad(i + 1)}</span>${esc(c.t[l])}</a></li>`).join("");
   const cases = CASES.map((c, i) => caseArticle(c, i, l, "h2", true)).join("\n");
   const crit = CRIT.map((c) => `<li><span class="w">${c[0]}</span><h3>${esc(c[1][l])}</h3><p>${esc(c[2][l])}</p></li>`).join("");
-  const news = NEWS.map((x) => `<li><time>${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`).join("");
+  const newsWhen = { "Nov 2026": "2026-11", "Jun 2026": "2026-06", "Feb 2026": "2026-02" };
+  const news = NEWS.map((x) => {
+    const dt = newsWhen[x[0][0]];
+    return `<li><time${dt ? ` datetime="${dt}"` : ""}>${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`;
+  }).join("");
   const studio = l === 0 ? `<p class="studio"><a href="/playforge/">PlayForge</a> is a StackPodium studio. Describe a video game, pay $9, and get a plan pack by email within 24 hours.</p>` : "";
-  const home = `<div class="wrap intro"><h1>${esc(UI.h1[l])}</h1><p>${esc(UI.intro[l])}</p>${studio}<div class="status"><span>${esc(UI.status[l])}</span></div></div>
-<div class="wrap layout" id="cases"><aside class="rail"><h2>${esc(UI.rail[l])}</h2><ol>${rail}</ol></aside><div class="cases">${cases}</div></div>
-<section class="block" id="compare"><div class="wrap"><h2>${esc(C.list[l])}</h2><ul class="cmplist">${COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("")}</ul></div></section>
+  const heroNl = newsletterSection(l, "compact", { heading: X.nlh[l], blurb: X.nlp[l], submit: X.nlb[l] }, "hero");
+  const home = `<section class="hero"><div class="wrap hero-grid"><div class="hero-copy"><h1>${esc(UI.h1[l])}</h1><p class="lede">${esc(UI.intro[l])}</p>${studio}<p class="status"><span>${esc(UI.status[l])}</span></p></div><div class="hero-card"><div class="podium-art" aria-hidden="true"><span class="step silver"><b>2</b></span><span class="step gold"><b>1</b></span><span class="step bronze"><b>3</b></span></div>${heroNl}</div></div></section>
+<nav class="jump" id="cases" aria-label="${esc(UI.nav1[l])}"><div class="wrap"><h2>${esc(UI.rail[l])}</h2><ol>${rail}</ol></div></nav>
+<div class="wrap cases">${cases}</div>
+<section class="block" id="compare"><div class="wrap"><h2>${esc(C.list[l])}</h2><ul class="cmplist">${COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}"><span class="vsname">${esc(tname(p[0], l))}</span><span class="vs">vs</span><span class="vsname">${esc(tname(p[1], l))}</span></a></li>`).join("")}</ul></div></section>
 <section class="block" id="method"><div class="wrap"><h2>${esc(UI.nav2[l])}</h2><p>${esc(UI.method[l])}</p><ul class="criteria">${crit}</ul></div></section>
 <section class="block" id="changes"><div class="wrap"><h2>${esc(UI.newsh[l])}</h2><p>${esc(UI.newsp[l])}</p><ul class="news">${news}</ul></div></section>`;
   const homeLd = { "@context": "https://schema.org", "@type": "WebSite", name: "StackPodium", url: BASE + url(l), inLanguage: L.html, description: UI.intro[l] };
@@ -266,7 +252,11 @@ LANGS.forEach((L, l) => {
     // A renamed product can show the podium slot of its current name. This does not add a place on the ranking pages.
     const rankKey = (k) => (copy.rankAs && copy.rankAs[k]) || k;
     const rows = CASES.map((c) => ({ c, ra: rankOf(c, rankKey(a)), rb: rankOf(c, rankKey(b)) })).filter((x) => x.ra || x.rb);
-    const cell = (n) => (n ? `<b class="rk${n === 1 ? " top" : ""}">#${n}</b>` : `<span class="offp">${esc(C.off[l])}</span>`);
+    const cell = (n) => {
+      if (!n) return `<span class="offp">${esc(C.off[l])}</span>`;
+      const medal = n === 1 ? "gold" : n === 2 ? "silver" : "bronze";
+      return `<b class="rk ${medal}${n === 1 ? " top" : ""}">#${n}</b>`;
+    };
     const ranks = `<div class="tablewrap"><table class="cmp"><thead><tr><th scope="col">${esc(C.usecase[l])}</th><th scope="col">${esc(A)}</th><th scope="col">${esc(B)}</th></tr></thead><tbody>${rows.map((x) => `<tr><td><a href="${url(l)}#${x.c.id}">${esc(x.c.t[l])}</a> <a class="sub" href="${url(l, x.c.id)}">${esc(CL.full[l])}</a></td><td>${cell(x.ra)}</td><td>${cell(x.rb)}</td></tr>`).join("")}</tbody></table></div>`;
     const says = (k, N) => {
       const key = rankKey(k);
