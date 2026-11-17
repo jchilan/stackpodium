@@ -11,6 +11,7 @@ vm.runInContext(js + ";this.D={UI,CRIT,CASES,NEWS,T,price};", ctx);
 const { UI, CRIT, CASES, NEWS, T, price } = ctx.D;
 
 const PAGES = require("./pages.js");
+const SPONSOR_MAILTO = "mailto:" + PAGES.SPONSOR_EMAIL + "?subject=" + encodeURIComponent(PAGES.SPONSOR_SUBJECT);
 const { labels: CL, tools: CT, pairs: PAIRS } = require("./compare.js");
 const { newsletterSection, NEWSLETTER_SCRIPT } = require("./newsletter.js");
 const BASE = "https://" + domain;
@@ -66,7 +67,19 @@ function caseArticle(c, i, l, heading, link) {
   return `<article class="case" id="${c.id}"><span class="num">${esc(UI["case"][l])} ${pad(i + 1)}</span><${heading}>${title}</${heading}><p class="who">${esc(c.who[l])}</p><ol class="rank">${rankList(c, l)}</ol><p class="extra">${c.x[l]}</p></article>`;
 }
 function orgLd() {
-  return { "@context": "https://schema.org", "@type": "Organization", name: "StackPodium", url: BASE + "/", sameAs: ["https://x.com/stackpodium"] };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "StackPodium",
+    url: BASE + "/",
+    sameAs: ["https://x.com/stackpodium"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sponsorships",
+      email: PAGES.SPONSOR_EMAIL,
+      url: SPONSOR_MAILTO,
+    },
+  };
 }
 function page(l, slug, title, desc, body, ld, opts) {
   opts = opts || {};
@@ -106,7 +119,7 @@ ${jsonLd}
 ${body}
 ${nl}
 </main>
-<footer><div class="wrap"><p class="flinks">${PAGES.map((P) => `<a href="${url(l, P.slug)}">${esc(P.label[l])}</a>`).join("")}<a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div></footer>
+<footer><div class="wrap"><p class="flinks">${PAGES.map((P) => `<a href="${url(l, P.slug)}">${esc(P.label[l])}</a>`).join("")}<a href="${esc(SPONSOR_MAILTO)}">${esc(PAGES.SPONSOR_EMAIL)}</a><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div></footer>
 <script>${NEWSLETTER_SCRIPT}</script>
 </body>
 </html>
@@ -296,7 +309,7 @@ urls.push("/playforge/");
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${BASE}${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
 write("CNAME", domain + "\n");
-write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): launch rates, valid until May 2027, for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), both together ($${PAGES.SPONSOR_PRICES.bundle}, normally $${PAGES.SPONSOR_PRICES.newsletter + PAGES.SPONSOR_PRICES.placement} if bought separately), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request.\n\n## PlayForge\n\n- [PlayForge](${BASE}/playforge/): a StackPodium studio. Describe a video game idea, pay $9, and receive a Plan Pack by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Two levels: Beginner and Vibe coder. A $29 Premium that builds the browser prototype is not on sale yet.\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
+write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): launch rates, valid until May 2027, for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), both together ($${PAGES.SPONSOR_PRICES.bundle}, normally $${PAGES.SPONSOR_PRICES.newsletter + PAGES.SPONSOR_PRICES.placement} if bought separately), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request. Contact: [${PAGES.SPONSOR_EMAIL}](${SPONSOR_MAILTO}).\n\n## PlayForge\n\n- [PlayForge](${BASE}/playforge/): a StackPodium studio. Describe a video game idea, pay $9, and receive a Plan Pack by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Two levels: Beginner and Vibe coder. A $29 Premium that builds the browser prototype is not on sale yet. Sponsor PlayForge: [${PAGES.SPONSOR_EMAIL}](${SPONSOR_MAILTO}).\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
 // Hand-authored product pages live in /playforge and are copied through so a
 // clean build output still contains them. Edit the files in /playforge, not a copy.
 function copyPlayforge() {

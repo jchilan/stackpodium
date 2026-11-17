@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@stackpodium">
 <meta name="twitter:title" content="Sponsor StackPodium | StackPodium">
 <meta name="twitter:description" content="Launch rates, valid until May 2027: newsletter slot $49, site placement $99 a month, both for $129, launch mention $19. Sponsorship never changes a ranking.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"StackPodium","url":"https://stackpodium.com/","sameAs":["https://x.com/stackpodium"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"StackPodium","url":"https://stackpodium.com/","sameAs":["https://x.com/stackpodium"],"contactPoint":{"@type":"ContactPoint","contactType":"sponsorships","email":"sponsors@stackpodium.com","url":"mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Sponsor StackPodium","description":"Launch rates, valid until May 2027: newsletter slot $49, site placement $99 a month, both for $129, launch mention $19. Sponsorship never changes a ranking.","inLanguage":"en","url":"https://stackpodium.com/sponsor/"}</script>
 </head>
 <body>
@@ -61,26 +61,11 @@
 <p class="label-sample"><span class="sponsored-tag">Sponsored</span> Paid placements wear this label. They sit outside the ranking.</p>
 <h2>Contact</h2>
 <p>Say which tool and which offer. We reply with the audience metrics we actually have.</p>
-<p class="sponsor-actions"><a class="cta" id="sponsor-mail" href="mailto:?subject=Sponsoring%20StackPodium">Email us about sponsoring</a><a class="cta secondary" href="https://x.com/stackpodium" rel="noopener">DM @stackpodium on X</a></p>
-<p id="sponsor-contact">If the button does not open a draft, write to <span id="sponsor-plain">joanpau.ch22 [at] gmail.com</span> with the subject Sponsoring StackPodium.</p>
-<script>
-(function () {
-  var addr = "joanpau.ch22" + "@" + "gmail.com";
-  var href = "mailto:" + addr + "?subject=" + encodeURIComponent("Sponsoring StackPodium");
-  var button = document.getElementById("sponsor-mail");
-  if (button) button.href = href;
-  var plain = document.getElementById("sponsor-plain");
-  if (!plain) return;
-  var link = document.createElement("a");
-  link.href = href;
-  link.textContent = addr;
-  plain.textContent = "";
-  plain.appendChild(link);
-})();
-</script></div>
+<p class="sponsor-actions"><a class="cta" id="sponsor-mail" href="mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry">Email us about sponsoring</a><a class="cta secondary" href="https://x.com/stackpodium" rel="noopener">DM @stackpodium on X</a></p>
+<p id="sponsor-contact">If the button does not open a draft, write to <a href="mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry">sponsors@stackpodium.com</a> with the subject Sponsorship inquiry.</p></div>
 <section class="newsletter" aria-labelledby="nl-heading"><div class="wrap"><div><h2 id="nl-heading">The weekly podium, by email</h2><p>One short email every Friday: which tools moved up or down a podium, and the launches that matter.</p></div><form class="signup" method="get" action="https://stackpodium.beehiiv.com/subscribe"><div class="field"><label for="nl-email">Email</label><input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="nl-hint"></div><input type="hidden" name="utm_source" value="stackpodium.com"><input type="hidden" name="utm_medium" value="site"><button class="cta" type="submit">Subscribe</button><p class="signup-hint" id="nl-hint">Opens beehiiv's subscribe page with your address in the link. This site does not store it.</p></form><noscript><p class="signup-fallback"><a href="https://stackpodium.beehiiv.com/subscribe?utm_source=stackpodium.com&amp;utm_medium=site" rel="noopener">Subscribe on beehiiv</a></p></noscript></div></section>
 </main>
-<footer><div class="wrap"><p class="flinks"><a href="/sponsor/">Sponsor</a><a href="/privacy/">Privacy</a><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>StackPodium does not charge to appear in a ranking. When there are affiliate links or sponsored slots, they will be labelled and will not change the order.</p><p>Prices change often. Always check the official page before you pay.</p><p>Updated November 2026</p></div></footer>
+<footer><div class="wrap"><p class="flinks"><a href="/sponsor/">Sponsor</a><a href="/privacy/">Privacy</a><a href="mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry">sponsors@stackpodium.com</a><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>StackPodium does not charge to appear in a ranking. When there are affiliate links or sponsored slots, they will be labelled and will not change the order.</p><p>Prices change often. Always check the official page before you pay.</p><p>Updated November 2026</p></div></footer>
 <script>(function(){document.querySelectorAll("form.signup").forEach(function(form){if((form.getAttribute("method")||"").toLowerCase()!=="get")return;form.addEventListener("submit",function(event){event.preventDefault();var url=new URL(form.getAttribute("action"),window.location.href);new FormData(form).forEach(function(value,key){url.searchParams.set(key,String(value));});window.location.assign(url.toString());});});})();</script>
 </body>
 </html>
