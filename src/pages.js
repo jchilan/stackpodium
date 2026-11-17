@@ -1,5 +1,5 @@
 // Static text pages. Every array is ordered: English, Português, Español, 中文.
-const EMAIL = "joanpau.ch22@gmail.com";
+const EMAIL = "sponsors@stackpodium.com";
 const mail = `<a href="mailto:${EMAIL}">${EMAIL}</a>`;
 
 // SPONSOR_EMAIL is the only sponsorship address. Privacy mail stays on EMAIL.
@@ -11,7 +11,7 @@ const mail = `<a href="mailto:${EMAIL}">${EMAIL}</a>`;
 // SPONSOR_PRICES are launch rates in USD, valid until May 2027.
 // bundle is one month of site placement plus one Friday newsletter slot.
 // The separate total is derived so the saving stays equal to placement + newsletter − bundle.
-const SPONSOR_EMAIL = "joanpau.ch22@gmail.com";
+const SPONSOR_EMAIL = "sponsors@stackpodium.com";
 const SPONSOR_SUBJECT = "Sponsoring StackPodium";
 const SPONSOR_PRICES = { newsletter: 49, placement: 99, launch: 19, bundle: 129 };
 const BUNDLE_SEPARATE = SPONSOR_PRICES.placement + SPONSOR_PRICES.newsletter;
