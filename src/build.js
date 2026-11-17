@@ -80,6 +80,7 @@ function page(l, slug, title, desc, body, ld, opts) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name='impact-site-verification' value='53d8f414-ba12-4a21-8424-015dca09712f'>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${BASE}${url(l, slug)}">
