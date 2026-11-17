@@ -183,6 +183,7 @@ button.cta{border:0;font:inherit;cursor:pointer}
 .note{color:var(--muted);font-size:.92rem;max-width:65ch;margin:18px 0 0}
 `;
 write("site.css", css + extraCss);
+write("sponsor.css", fs.readFileSync(path.join(__dirname, "sponsor.css"), "utf8"));
 
 const urls = [];
 LANGS.forEach((L, l) => {
@@ -218,11 +219,31 @@ LANGS.forEach((L, l) => {
   });
 });
 
+const OG_LOCALE = { en: "en_US", pt: "pt_BR", es: "es_ES", zh: "zh_CN" };
+function sponsorHead(title, desc, locale) {
+  return [
+    `<link rel="stylesheet" href="/sponsor.css">`,
+    `<meta property="og:locale" content="${esc(locale)}">`,
+    `<meta name="twitter:card" content="summary">`,
+    `<meta name="twitter:site" content="@stackpodium">`,
+    `<meta name="twitter:title" content="${esc(title)}">`,
+    `<meta name="twitter:description" content="${esc(desc)}">`,
+  ].join("\n");
+}
 LANGS.forEach((L, l) => {
   PAGES.forEach((P) => {
-    const body = `<div class="single prose"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(P.title[l])}</h1>${P.body[l]}</div>`;
+    const klass = P.slug === "sponsor" ? "single prose sponsor-page" : "single prose";
+    const body = `<div class="${klass}"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(P.title[l])}</h1>${P.body[l]}</div>`;
     const ld = { "@context": "https://schema.org", "@type": "WebPage", name: P.title[l], description: P.desc[l], inLanguage: L.html, url: BASE + url(l, P.slug) };
-    write(L.dir + P.slug + "/index.html", page(l, P.slug, P.title[l] + " | StackPodium", P.desc[l], body, ld));
+    const fullTitle = P.title[l] + " | StackPodium";
+    let html = page(l, P.slug, fullTitle, P.desc[l], body, ld);
+    if (P.slug === "sponsor") {
+      html = html.replace(
+        '<link rel="stylesheet" href="/site.css">',
+        `<link rel="stylesheet" href="/site.css">\n${sponsorHead(fullTitle, P.desc[l], OG_LOCALE[L.code])}`
+      );
+    }
+    write(L.dir + P.slug + "/index.html", html);
     urls.push(url(l, P.slug));
   });
 });
@@ -262,5 +283,5 @@ LANGS.forEach((L, l) => {
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${BASE}${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
 write("CNAME", domain + "\n");
-write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
+write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): founding-sponsor rates for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request.\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
 console.log("pages:", urls.length);

@@ -30,6 +30,10 @@
 - [LangGraph vs CrewAI](https://stackpodium.com/compare/langgraph-vs-crewai/)
 - [Rosebud AI vs GDevelop](https://stackpodium.com/compare/rosebud-ai-vs-gdevelop/)
 
+## Sponsorship
+
+- [Sponsor StackPodium](https://stackpodium.com/sponsor/): founding-sponsor rates for one newsletter slot per Friday issue ($49), a labelled Sponsored placement on the site ($99 per month), and a featured launch mention ($29). Sponsorship never changes rankings. Audience metrics are shared on request.
+
 ## Languages
 
 - [English](https://stackpodium.com/)

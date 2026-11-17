@@ -2,54 +2,158 @@
 const EMAIL = "joanpau.ch22@gmail.com";
 const mail = `<a href="mailto:${EMAIL}">${EMAIL}</a>`;
 
+// SPONSOR_EMAIL is the only sponsorship address. Privacy mail stays on EMAIL.
+// To use a stackpodium.com inbox later (for example sponsors@stackpodium.com),
+// change this constant and rebuild. Do not paste the address into the HTML.
+// The sponsor page keeps the static markup free of a mailto that already
+// contains the address: the browser joins the local part and the host,
+// and a plain-text fallback stays visible if that script does not run.
+// SPONSOR_PRICES are founding-sponsor launch rates in USD. Raise them as
+// the audience grows. They are proposals until the owner confirms them.
+const SPONSOR_EMAIL = "joanpau.ch22@gmail.com";
+const SPONSOR_SUBJECT = "Sponsoring StackPodium";
+const SPONSOR_PRICES = { newsletter: 49, placement: 99, launch: 29 };
+
+if (!/^[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(SPONSOR_EMAIL)) {
+  throw new Error("SPONSOR_EMAIL must be one plain address, set only in this constant");
+}
+
+const he = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const usd = (n) => "$" + n;
+
+function offer(title, amount, period, text) {
+  return `<article class="offer"><h3>${he(title)}</h3><p class="amt">${usd(amount)}<span>${he(period)}</span></p><p>${he(text)}</p></article>`;
+}
+
+// Button starts as a subject-only mailto. The script fills in SPONSOR_EMAIL.
+function sponsorMail(emailLabel, dmLabel, fallbackBefore, fallbackAfter) {
+  const at = SPONSOR_EMAIL.indexOf("@");
+  const user = SPONSOR_EMAIL.slice(0, at);
+  const host = SPONSOR_EMAIL.slice(at + 1);
+  const subjectParam = encodeURIComponent(SPONSOR_SUBJECT);
+  return `<p class="sponsor-actions"><a class="cta" id="sponsor-mail" href="mailto:?subject=${subjectParam}">${he(emailLabel)}</a><a class="cta secondary" href="https://x.com/stackpodium" rel="noopener">${he(dmLabel)}</a></p>
+<p id="sponsor-contact">${he(fallbackBefore)} <span id="sponsor-plain">${he(user)} [at] ${he(host)}</span>${he(fallbackAfter)} ${he(SPONSOR_SUBJECT)}.</p>
+<script>
+(function () {
+  var addr = ${JSON.stringify(user)} + "@" + ${JSON.stringify(host)};
+  var href = "mailto:" + addr + "?subject=" + encodeURIComponent(${JSON.stringify(SPONSOR_SUBJECT)});
+  var button = document.getElementById("sponsor-mail");
+  if (button) button.href = href;
+  var plain = document.getElementById("sponsor-plain");
+  if (!plain) return;
+  var link = document.createElement("a");
+  link.href = href;
+  link.textContent = addr;
+  plain.textContent = "";
+  plain.appendChild(link);
+})();
+</script>`;
+}
+
 module.exports = [
   {
     slug: "sponsor",
     label: ["Sponsor", "Patrocinar", "Patrocinar", "赞助"],
     title: ["Sponsor StackPodium", "Patrocine o StackPodium", "Patrocina StackPodium", "赞助 StackPodium"],
     desc: [
-      "Reach vibe coders and builders at the moment they choose their tools. Labelled placements that never change a ranking.",
-      "Alcance vibe coders e builders no momento em que escolhem suas ferramentas. Espaços identificados que nunca mudam um ranking.",
-      "Llega a vibe coders y builders en el momento en que eligen sus herramientas. Espacios marcados que nunca cambian un ranking.",
-      "在 vibe coder 和开发者挑选工具的那一刻触达他们。赞助位明确标注，绝不影响排名。",
+      `Founding-sponsor rates: newsletter slot ${usd(SPONSOR_PRICES.newsletter)}, site placement ${usd(SPONSOR_PRICES.placement)} a month, launch mention ${usd(SPONSOR_PRICES.launch)}. Sponsorship never changes a ranking.`,
+      `Preços de patrocinador fundador: vaga no boletim ${usd(SPONSOR_PRICES.newsletter)}, espaço no site ${usd(SPONSOR_PRICES.placement)} por mês, menção de lançamento ${usd(SPONSOR_PRICES.launch)}. Patrocínio nunca muda um ranking.`,
+      `Precios de patrocinador fundador: hueco en el boletín ${usd(SPONSOR_PRICES.newsletter)}, espacio en la web ${usd(SPONSOR_PRICES.placement)} al mes, mención de lanzamiento ${usd(SPONSOR_PRICES.launch)}. El patrocinio nunca cambia un ranking.`,
+      `创始赞助价格：邮件位 ${usd(SPONSOR_PRICES.newsletter)}，站内展示位每月 ${usd(SPONSOR_PRICES.placement)}，发布提及 ${usd(SPONSOR_PRICES.launch)}。赞助绝不改变排名。`,
     ],
     body: [
-      `<p>StackPodium is read by people who are about to pick a tool: each page answers one question, “what should I build this with?”. A sponsor reaches them at that moment.</p>
-<h2>What you can sponsor</h2>
-<ul><li><b>The weekly email.</b> One sponsor per issue, at the top, marked as sponsored.</li><li><b>A use-case page.</b> One sponsored card next to the podium, marked as sponsored and visually separate from the ranking.</li><li><b>A launch note.</b> Your release in “What changed”, marked as sponsored.</li></ul>
-<h2>Our rules</h2>
-<ul><li>Sponsorship never moves a tool up or down a podium. Rankings follow the published scoring method.</li><li>Every paid placement is labelled.</li><li>We only accept tools that fit builders, and we may decline.</li><li>You get a report with the real numbers: sends, opens and clicks. We do not estimate or inflate.</li></ul>
-<h2>Where we are</h2>
-<p>StackPodium launched in November 2026. We share current traffic and subscriber figures on request, and first sponsors get launch pricing.</p>
+      `<p>StackPodium is for builders and vibe coders who are choosing an AI tool. Each page answers one question: what should I build this with? A sponsor reaches them at that decision.</p>
+<h2>Who you reach</h2>
+<p>People who already have a job to do. Ten use cases, three ranked tools on each, with the reason for the rank and an entry price: a first web app, a SaaS MVP, an interface, a mobile app, an AI editor, a coding agent, an automation, a custom agent, a browser game, an internal tool.</p>
+<p>The same audience can follow the <a href="https://stackpodium.beehiiv.com/" rel="noopener">Friday newsletter</a> and <a href="https://x.com/stackpodium" rel="noopener">@stackpodium</a> on X.</p>
+<h2>What you can buy</h2>
+<p>Three founding-sponsor offers. The prices are in US dollars and rise as the audience grows.</p>
+<div class="offers">
+${offer("Newsletter sponsor slot", SPONSOR_PRICES.newsletter, "per Friday issue", "One sponsor per issue. Your note runs in that email, labelled Sponsored, and it is not shared with a second sponsor. After the send, we pass on the send, open, and click counts beehiiv reports for that issue. We do not estimate numbers we do not have.")}
+${offer("Sponsored placement on the site", SPONSOR_PRICES.placement, "per month", "A placement labelled Sponsored, kept separate from the editorial rankings. It never moves a tool up or down a podium. Paying does not buy a rank.")}
+${offer("Featured launch mention", SPONSOR_PRICES.launch, "one time", "One labelled mention of a launch or release, next to the site's change notes. It is not a ranking change. The exclusive line in a Friday email is the newsletter slot, not this mention.")}
+</div>
+<p>These are founding-sponsor rates. StackPodium launched on 16 November 2026 and is a new publication. We share traffic, subscriber, and open-rate figures on request. We do not publish them on this page.</p>
+<h2>Editorial independence</h2>
+<ul class="policy">
+<li>Sponsorship never affects rankings. Order follows the published scoring method, not who pays.</li>
+<li>Sponsored items are always labelled Sponsored, and they stay visually separate from the podium.</li>
+<li>Affiliate links, if any are added later, are disclosed on the page. They do not change the order.</li>
+<li>We can decline a sponsor. The tool has to be something a builder or vibe coder would actually consider.</li>
+</ul>
+<p class="label-sample"><span class="sponsored-tag">Sponsored</span> Paid placements wear this label. They sit outside the ranking.</p>
 <h2>Contact</h2>
-<p>Write to ${mail} with your tool and what you would like to sponsor.</p>`,
-      `<p>O StackPodium é lido por quem está prestes a escolher uma ferramenta: cada página responde a uma pergunta, “com o que eu construo isso?”. Um patrocinador alcança essas pessoas nesse momento.</p>
-<h2>O que você pode patrocinar</h2>
-<ul><li><b>O e-mail semanal.</b> Um patrocinador por edição, no topo, identificado como patrocinado.</li><li><b>Uma página de caso de uso.</b> Um cartão patrocinado ao lado do pódio, identificado e visualmente separado do ranking.</li><li><b>Uma nota de lançamento.</b> Seu lançamento em “O que mudou”, identificado como patrocinado.</li></ul>
-<h2>Nossas regras</h2>
-<ul><li>Patrocínio nunca faz uma ferramenta subir ou descer no pódio. Os rankings seguem o método de avaliação publicado.</li><li>Todo espaço pago é identificado.</li><li>Só aceitamos ferramentas que façam sentido para builders, e podemos recusar.</li><li>Você recebe um relatório com os números reais: envios, aberturas e cliques. Não estimamos nem inflamos.</li></ul>
-<h2>Onde estamos</h2>
-<p>O StackPodium foi lançado em novembro de 2026. Compartilhamos os números atuais de tráfego e assinantes sob pedido, e os primeiros patrocinadores têm preço de lançamento.</p>
+<p>Say which tool and which offer. We reply with the audience metrics we actually have.</p>
+${sponsorMail("Email us about sponsoring", "DM @stackpodium on X", "If the button does not open a draft, write to", " with the subject")}`,
+      `<p>O StackPodium é para builders e vibe coders que estão escolhendo uma ferramenta de IA. Cada página responde a uma pergunta: com o que eu construo isso? Um patrocinador chega nessa decisão.</p>
+<h2>Quem você alcança</h2>
+<p>Gente que já tem um trabalho para fazer. Dez casos de uso, três ferramentas ranqueadas em cada um, com o motivo da posição e um preço de entrada: um primeiro app, um MVP de SaaS, uma interface, um app móvel, um editor de IA, um agente de código, uma automação, um agente sob medida, um jogo de navegador, uma ferramenta interna.</p>
+<p>A mesma audiência pode acompanhar o <a href="https://stackpodium.beehiiv.com/" rel="noopener">boletim de sexta</a> e <a href="https://x.com/stackpodium" rel="noopener">@stackpodium</a> no X.</p>
+<h2>O que você pode comprar</h2>
+<p>Três ofertas de patrocinador fundador. Os preços estão em dólares e sobem conforme a audiência cresce.</p>
+<div class="offers">
+${offer("Vaga de patrocínio no boletim", SPONSOR_PRICES.newsletter, "por edição de sexta", "Um patrocinador por edição. A sua nota entra nesse e-mail, identificada como Patrocinado, e não é dividida com um segundo patrocinador. Depois do envio, repassamos os números de envio, abertura e clique que a beehiiv informar daquela edição. Não estimamos números que não temos.")}
+${offer("Espaço patrocinado no site", SPONSOR_PRICES.placement, "por mês", "Um espaço identificado como Patrocinado, separado dos rankings editoriais. Nunca faz uma ferramenta subir ou descer no pódio. Pagar não compra uma posição.")}
+${offer("Menção de lançamento", SPONSOR_PRICES.launch, "uma vez", "Uma menção identificada de um lançamento, ao lado das notas de mudança do site. Não é uma mudança de ranking. A linha exclusiva no e-mail de sexta é a vaga do boletim, não esta menção.")}
+</div>
+<p>Estes são preços de patrocinador fundador. O StackPodium foi lançado em 16 de novembro de 2026 e é uma publicação nova. Compartilhamos tráfego, assinantes e taxa de abertura sob pedido. Não publicamos esses números nesta página.</p>
+<h2>Independência editorial</h2>
+<ul class="policy">
+<li>Patrocínio nunca afeta os rankings. A ordem segue o método de avaliação publicado, não quem paga.</li>
+<li>Todo item patrocinado leva o rótulo Patrocinado e fica visualmente separado do pódio.</li>
+<li>Links de afiliado, se forem adicionados depois, são divulgados na página. Não mudam a ordem.</li>
+<li>Podemos recusar um patrocinador. A ferramenta precisa ser algo que um builder ou vibe coder realmente consideraria.</li>
+</ul>
+<p class="label-sample"><span class="sponsored-tag">Patrocinado</span> Espaços pagos usam este rótulo. Ficam fora do ranking.</p>
 <h2>Contato</h2>
-<p>Escreva para ${mail} com a sua ferramenta e o que gostaria de patrocinar.</p>`,
-      `<p>StackPodium lo lee gente que está a punto de elegir una herramienta: cada página responde a una pregunta, «¿con qué construyo esto?». Un patrocinador llega a esas personas en ese momento.</p>
-<h2>Qué puedes patrocinar</h2>
-<ul><li><b>El correo semanal.</b> Un patrocinador por número, arriba, marcado como patrocinado.</li><li><b>Una página de caso de uso.</b> Una tarjeta patrocinada junto al podio, marcada y separada visualmente del ranking.</li><li><b>Una nota de lanzamiento.</b> Tu lanzamiento en «Novedades», marcado como patrocinado.</li></ul>
-<h2>Nuestras reglas</h2>
-<ul><li>El patrocinio nunca sube ni baja una herramienta en un podio. Los rankings siguen el método de puntuación publicado.</li><li>Todo espacio de pago va marcado.</li><li>Solo aceptamos herramientas que encajen con builders, y podemos decir que no.</li><li>Recibes un informe con las cifras reales: envíos, aperturas y clics. No estimamos ni inflamos.</li></ul>
-<h2>Dónde estamos</h2>
-<p>StackPodium se lanzó en noviembre de 2026. Compartimos las cifras actuales de tráfico y suscriptores a quien las pida, y los primeros patrocinadores tienen precio de lanzamiento.</p>
+<p>Diga qual é a ferramenta e qual oferta você quer. Respondemos com as métricas de audiência que de fato temos.</p>
+${sponsorMail("Escrever sobre um patrocínio", "Mandar DM para @stackpodium no X", "Se o botão não abrir um rascunho, escreva para", " com o assunto")}`,
+      `<p>StackPodium es para builders y vibe coders que están eligiendo una herramienta de IA. Cada página responde a una pregunta: ¿con qué construyo esto? Un patrocinador llega en esa decisión.</p>
+<h2>A quién llegas</h2>
+<p>Gente que ya tiene un trabajo que hacer. Diez casos de uso, tres herramientas en cada podio, con el motivo del puesto y un precio de entrada: una primera app, un MVP de SaaS, una interfaz, una app móvil, un editor de IA, un agente de código, una automatización, un agente a medida, un juego de navegador, una herramienta interna.</p>
+<p>La misma audiencia puede seguir el <a href="https://stackpodium.beehiiv.com/" rel="noopener">boletín del viernes</a> y <a href="https://x.com/stackpodium" rel="noopener">@stackpodium</a> en X.</p>
+<h2>Qué puedes comprar</h2>
+<p>Tres ofertas de patrocinador fundador. Los precios están en dólares y suben a medida que crece la audiencia.</p>
+<div class="offers">
+${offer("Hueco de patrocinio en el boletín", SPONSOR_PRICES.newsletter, "por número del viernes", "Un patrocinador por número. Tu nota va en ese correo, marcada como Patrocinado, y no se comparte con un segundo patrocinador. Después del envío te pasamos los envíos, las aperturas y los clics que beehiiv informe de ese número. No estimamos cifras que no tenemos.")}
+${offer("Espacio patrocinado en la web", SPONSOR_PRICES.placement, "al mes", "Un espacio marcado como Patrocinado, separado de los rankings editoriales. Nunca sube ni baja una herramienta en un podio. Pagar no compra un puesto.")}
+${offer("Mención de lanzamiento", SPONSOR_PRICES.launch, "una vez", "Una mención marcada de un lanzamiento, junto a las notas de cambios del sitio. No es un cambio de ranking. La línea exclusiva del correo del viernes es el hueco del boletín, no esta mención.")}
+</div>
+<p>Estos son precios de patrocinador fundador. StackPodium se lanzó el 16 de noviembre de 2026 y es una publicación nueva. Compartimos tráfico, suscriptores y tasa de apertura a quien los pida. No publicamos esas cifras en esta página.</p>
+<h2>Independencia editorial</h2>
+<ul class="policy">
+<li>El patrocinio nunca afecta a los rankings. El orden sigue el método de puntuación publicado, no quién paga.</li>
+<li>Todo lo patrocinado lleva la etiqueta Patrocinado y queda separado visualmente del podio.</li>
+<li>Los enlaces de afiliado, si se añaden más adelante, se indican en la página. No cambian el orden.</li>
+<li>Podemos decir que no. La herramienta tiene que ser algo que un builder o un vibe coder se plantearía de verdad.</li>
+</ul>
+<p class="label-sample"><span class="sponsored-tag">Patrocinado</span> Los espacios de pago llevan esta etiqueta. Quedan fuera del ranking.</p>
 <h2>Contacto</h2>
-<p>Escribe a ${mail} con tu herramienta y lo que te gustaría patrocinar.</p>`,
-      `<p>StackPodium 的读者正准备挑选工具：每个页面只回答一个问题——“这个东西我该用什么来做？”。赞助商正是在这一刻触达他们。</p>
-<h2>可赞助的位置</h2>
-<ul><li><b>每周邮件。</b>每期只有一个赞助商，位于顶部，并标注为赞助。</li><li><b>使用场景页面。</b>榜单旁的一张赞助卡片，标注为赞助，并在视觉上与排名分开。</li><li><b>发布消息。</b>你的新发布出现在“最近变化”中，并标注为赞助。</li></ul>
-<h2>我们的规则</h2>
-<ul><li>赞助绝不会让某个工具在榜单上升或下降。排名只依据公开的评分方法。</li><li>所有付费位置都会标注。</li><li>我们只接受适合开发者的工具，并保留拒绝的权利。</li><li>你会收到一份包含真实数据的报告：发送量、打开数和点击数。我们不估算，也不夸大。</li></ul>
-<h2>目前的情况</h2>
-<p>StackPodium 于 2026 年 11 月上线。如有需要，我们会提供当前的流量和订阅数据；首批赞助商享受上线优惠价。</p>
-<h2>联系方式</h2>
-<p>请发邮件至 ${mail}，告诉我们你的工具以及想赞助的位置。</p>`,
+<p>Dinos la herramienta y la oferta. Respondemos con las métricas de audiencia que de verdad tenemos.</p>
+${sponsorMail("Escríbenos sobre un patrocinio", "DM a @stackpodium en X", "Si el botón no abre un borrador, escribe a", " con el asunto")}`,
+      `<p>StackPodium 面向正在挑选 AI 工具的开发者和 vibe coder。每个页面只回答一个问题：这个东西我该用什么来做？赞助商在这个决定发生时触达他们。</p>
+<h2>你会触达谁</h2>
+<p>来的人已经有一件事要做。十个使用场景，每个场景三款上榜工具，并写明名次理由和入门价格：第一个网页应用、SaaS MVP、界面、移动应用、AI 编辑器、编程代理、自动化、定制代理、浏览器游戏、内部工具。</p>
+<p>同一批读者也可以订阅<a href="https://stackpodium.beehiiv.com/" rel="noopener">周五邮件</a>，并在 X 上关注 <a href="https://x.com/stackpodium" rel="noopener">@stackpodium</a>。</p>
+<h2>可以购买的位置</h2>
+<p>三项创始赞助优惠。价格为美元，会随受众增长而上调。</p>
+<div class="offers">
+${offer("邮件赞助位", SPONSOR_PRICES.newsletter, "每期周五邮件", "每期只有一个赞助商。你的说明出现在该期邮件中，并标明“赞助”，不会与第二家赞助商分享。发出后，我们转交 beehiiv 报告的该期发送量、打开数和点击数。我们不编造没有的数字。")}
+${offer("站内赞助展示位", SPONSOR_PRICES.placement, "每月", "一个标明“赞助”的展示位，与编辑排名分开。绝不会让某个工具在榜单上升或下降。付费不能买到名次。")}
+${offer("发布提及", SPONSOR_PRICES.launch, "一次", "对一次发布做标明“赞助”的提及，放在网站的变化说明旁。这不是排名变动。周五邮件里的独家位置是邮件赞助位，不是这项提及。")}
+</div>
+<p>这是创始赞助价格。StackPodium 于 2026 年 11 月 16 日上线，是一份新刊物。流量、订阅数和打开率只在来信索取时提供。本页不公布这些数字。</p>
+<h2>编辑独立</h2>
+<ul class="policy">
+<li>赞助绝不影响排名。名次只依据公开的评分方法，不看谁付费。</li>
+<li>所有赞助内容都会标明“赞助”，并在视觉上与榜单分开。</li>
+<li>如果以后加入联盟链接，会在页面上披露。联盟链接不改变名次。</li>
+<li>我们可以拒绝赞助。工具必须是开发者或 vibe coder 真正会考虑的东西。</li>
+</ul>
+<p class="label-sample"><span class="sponsored-tag">赞助</span> 付费位置都使用这个标签，并且位于排名之外。</p>
+<h2>联系</h2>
+<p>请说明工具和想买的项目。我们会回复实际掌握的受众数据。</p>
+${sponsorMail("发邮件咨询赞助", "在 X 上私信 @stackpodium", "如果按钮没有打开邮件草稿，请写给", "，主题为")}`,
     ],
   },
   {
@@ -102,3 +206,6 @@ module.exports = [
     ],
   },
 ];
+
+// Prices travel with the page list so llms.txt can quote them without a second copy.
+module.exports.SPONSOR_PRICES = SPONSOR_PRICES;
