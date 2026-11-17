@@ -33,7 +33,7 @@ const X = {
   langLabel: ["Language", "Idioma", "Idioma", "语言"],
   full: ["See the full ranking", "Ver o ranking completo", "Ver el ranking completo", "查看完整排名"],
 };
-const COMPARE = [["lovable","bolt"],["lovable","replit"],["bolt","replit"],["v0","lovable"],["cursor","copilot"],["cursor","devin"],["claude","codex"],["claude","cursor"],["n8n","make"],["n8n","zapier"],["langgraph","crewai"],["rosebud","gdevelop"]];
+const COMPARE = [["lovable","bolt"],["lovable","replit"],["bolt","replit"],["v0","lovable"],["cursor","copilot"],["cursor","devin"],["cursor","windsurf"],["claude","codex"],["claude","cursor"],["n8n","make"],["n8n","zapier"],["langgraph","crewai"],["rosebud","gdevelop"]];
 const C = {
   list: ["Head-to-head comparisons", "Comparações diretas", "Comparativas directas", "两两对比"],
   title: ["{A} vs {B}: which one to pick", "{A} vs {B}: qual escolher", "{A} vs {B}: cuál elegir", "{A} 与 {B}：该选哪个"],
@@ -263,10 +263,17 @@ LANGS.forEach((L, l) => {
     };
     const fact = (key, label, mono) => `<tr><th scope="row">${esc(label)}</th><td data-col="${esc(A)}"${mono ? ' class="mono"' : ""}>${key === "price" ? esc(price(T[a][2], l)) : esc(CT[a][key][l])}</td><td data-col="${esc(B)}"${mono ? ' class="mono"' : ""}>${key === "price" ? esc(price(T[b][2], l)) : esc(CT[b][key][l])}</td></tr>`;
     const facts = `<div class="tablewrap"><table class="cmp facts"><caption class="sr">${esc(A)} vs ${esc(B)}</caption><thead><tr><th scope="col"><span class="sr">${esc(CL.compared[l])}</span></th><th scope="col">${linkTool(a)}</th><th scope="col">${linkTool(b)}</th></tr></thead><tbody>${fact("price", CL.price[l], true)}${fact("best", CL.best[l])}${fact("model", CL.model[l])}${fact("exit", CL.exit[l])}${fact("curve", CL.curve[l])}</tbody></table></div>`;
-    const rows = CASES.map((c) => ({ c, ra: rankOf(c, a), rb: rankOf(c, b) })).filter((x) => x.ra || x.rb);
+    // A renamed product can show the podium slot of its current name. This does not add a place on the ranking pages.
+    const rankKey = (k) => (copy.rankAs && copy.rankAs[k]) || k;
+    const rows = CASES.map((c) => ({ c, ra: rankOf(c, rankKey(a)), rb: rankOf(c, rankKey(b)) })).filter((x) => x.ra || x.rb);
     const cell = (n) => (n ? `<b class="rk${n === 1 ? " top" : ""}">#${n}</b>` : `<span class="offp">${esc(C.off[l])}</span>`);
     const ranks = `<div class="tablewrap"><table class="cmp"><thead><tr><th scope="col">${esc(C.usecase[l])}</th><th scope="col">${esc(A)}</th><th scope="col">${esc(B)}</th></tr></thead><tbody>${rows.map((x) => `<tr><td><a href="${url(l)}#${x.c.id}">${esc(x.c.t[l])}</a> <a class="sub" href="${url(l, x.c.id)}">${esc(CL.full[l])}</a></td><td>${cell(x.ra)}</td><td>${cell(x.rb)}</td></tr>`).join("")}</tbody></table></div>`;
-    const says = (k, N) => `<h2>${esc(fill(C.say[l], N))}</h2><ul>${CASES.filter((c) => rankOf(c, k)).map((c) => `<li><b>${esc(c.t[l])}</b> (#${rankOf(c, k)}): ${esc(c.r[rankOf(c, k) - 1][1][l])}</li>`).join("")}</ul>`;
+    const says = (k, N) => {
+      const key = rankKey(k);
+      const items = CASES.filter((c) => rankOf(c, key));
+      if (!items.length) return "";
+      return `<h2>${esc(fill(C.say[l], N))}</h2><ul>${items.map((c) => `<li><b>${esc(c.t[l])}</b> (#${rankOf(c, key)}): ${esc(c.r[rankOf(c, key) - 1][1][l])}</li>`).join("")}</ul>`;
+    };
     const faqs = copy.faqs.concat([CL.priceFaq]);
     const faqHtml = faqs.map((item) => `<div class="qa"><h3>${esc(item.q[l])}</h3><p>${esc(item.a[l])}</p></div>`).join("");
     const others = COMPARE.filter((q) => q !== p).map((q) => `<li><a href="${url(l, cslug(q))}">${esc(tname(q[0], l))} vs ${esc(tname(q[1], l))}</a></li>`).join("");

@@ -220,6 +220,32 @@ const tools = {
       "和 Cursor 是同一类工具，学习曲线是编辑器的曲线，不是“提示词生成应用”的曲线。",
     ],
   },
+  windsurf: {
+    best: [
+      "The IDE formerly sold as Windsurf. On 2 June 2026 Cognition renamed it Devin Desktop: the same editor, plans carried over, and an agent command center in front. StackPodium ranks that product as Devin Desktop.",
+      "A IDE antes vendida como Windsurf. Em 2 de junho de 2026 a Cognition renomeou para Devin Desktop: o mesmo editor, planos mantidos e um centro de comando de agentes na frente. O StackPodium ranqueia esse produto como Devin Desktop.",
+      "El IDE que se vendía como Windsurf. El 2 de junio de 2026 Cognition lo renombró a Devin Desktop: el mismo editor, planes conservados y un centro de mando de agentes delante. StackPodium clasifica ese producto como Devin Desktop.",
+      "以前以 Windsurf 出售的 IDE。2026 年 6 月 2 日 Cognition 把它更名为 Devin Desktop：还是同一个编辑器，套餐沿用，前面加了代理指挥中心。StackPodium 把该产品排为 Devin Desktop。",
+    ],
+    model: [
+      "On the Devin pricing page that replaced Windsurf: Free, Pro $20/mo, Max $200/mo, and Teams at $80/mo plus $40/mo per full seat. Paid plans include a usage allowance that refreshes daily and weekly. Extra usage is billed at API pricing. That page does not print the allowance as a fixed message or token count.",
+      "Na página de preços do Devin, que substituiu a do Windsurf: grátis, Pro a US$ 20/mês, Max a US$ 200/mês, e Teams a US$ 80/mês mais US$ 40/mês por assento completo. Os planos pagos incluem uma cota que renova todo dia e toda semana. O uso extra sai a preço de API. Essa página não publica a cota como um número fixo de mensagens ou tokens.",
+      "En la página de precios de Devin, que sustituyó a la de Windsurf: gratis, Pro a 20 $/mes, Max a 200 $/mes, y Teams a 80 $/mes más 40 $/mes por asiento completo. Los planes de pago incluyen una bolsa que se renueva cada día y cada semana. El uso extra se cobra a precio de API. Esa página no publica la bolsa como un número fijo de mensajes o tokens.",
+      "在取代 Windsurf 的 Devin 价格页上：免费、Pro $20/月、Max $200/月，Teams 为 $80/月再加每个完整席位 $40/月。付费套餐含每日和每周刷新的用量额度。超出部分按 API 价格计费。该页没有把额度写成固定的消息数或 token 数。",
+    ],
+    exit: [
+      "Not a hosted app. Cognition's June 2026 announcement: the editor stays backwards-compatible with Windsurf and VS Code extensions, keybindings and LSPs, so you work in your own project.",
+      "Não é um app hospedado. No anúncio da Cognition de junho de 2026: o editor continua compatível com as extensões, atalhos e LSPs do Windsurf e do VS Code, então você trabalha no seu próprio projeto.",
+      "No es una app alojada. En el anuncio de Cognition de junio de 2026: el editor sigue siendo compatible con las extensiones, atajos y LSP de Windsurf y de VS Code, así que trabajas en tu propio proyecto.",
+      "不是托管应用。Cognition 2026 年 6 月的公告：编辑器仍兼容 Windsurf 和 VS Code 的扩展、快捷键和 LSP，所以你是在自己的项目里工作。",
+    ],
+    curve: [
+      "The same kind of tool as Cursor, so the curve is an editor's curve. The name changed. It did not become a prompt-to-app builder.",
+      "O mesmo tipo de ferramenta que o Cursor, então a curva é a de um editor. O nome mudou. Não virou um construtor de app por prompt.",
+      "El mismo tipo de herramienta que Cursor, así que la curva es la de un editor. Cambió el nombre. No pasó a ser un constructor de apps por prompt.",
+      "和 Cursor 是同一类工具，学习曲线是编辑器的曲线。名字改了，并没有变成用提示词生成应用的工具。",
+    ],
+  },
   claude: {
     best: [
       "Handing a long task to a terminal agent that works across the whole repository. Leads on complex reasoning.",
@@ -280,10 +306,10 @@ const tools = {
       "需要在你的各种工具里执行操作的代理。源代码可获取，采用 fair-code 的 Sustainable Use License，并带原生 AI 节点。",
     ],
     model: [
-      "Free to self-host under the Sustainable Use License. Cloud Starter is €20/mo, billed annually.",
-      "Grátis para auto-hospedar sob a Sustainable Use License. O Starter na nuvem é €20/mês, no plano anual.",
-      "Gratis para autoalojar bajo la Sustainable Use License. El Starter en la nube es 20 €/mes, facturado al año.",
-      "可按 Sustainable Use License 免费自托管。云端 Starter 为年付 €20/月。",
+      "Free to self-host under the Sustainable Use License. Cloud Starter is €20/mo billed annually. The pricing page also lists Pro at €50/mo and Business at €667/mo, both billed annually, and Enterprise as contact sales. You pay per full workflow run, not per step.",
+      "Grátis para auto-hospedar sob a Sustainable Use License. O Starter na nuvem é €20/mês no plano anual. A página de preços também lista o Pro a €50/mês e o Business a €667/mês, os dois no plano anual, e o Enterprise como contato comercial. Você paga por execução completa do fluxo, não por passo.",
+      "Gratis para autoalojar bajo la Sustainable Use License. El Starter en la nube es 20 €/mes facturado al año. La página de precios también lista Pro a 50 €/mes y Business a 667 €/mes, ambos facturados al año, y Enterprise como contacto comercial. Pagas por ejecución completa del flujo, no por paso.",
+      "可按 Sustainable Use License 免费自托管。云端 Starter 为年付 €20/月。价格页还列出 Pro 年付 €50/月、Business 年付 €667/月，Enterprise 为联系销售。按整次工作流运行计费，不按步骤。",
     ],
     exit: [
       "Source-available (fair-code), not open source, and free to self-host, so the instance can be yours. Cloud hosting is optional.",
@@ -300,22 +326,22 @@ const tools = {
   },
   make: {
     best: [
-      "The easiest visual builder for a first agent.",
-      "O construtor visual mais fácil para um primeiro agente.",
-      "El constructor visual más fácil para un primer agente.",
-      "做第一个代理时最容易上手的可视化搭建工具。",
+      "The easiest visual builder for a first agent. Make's own comparison page says paid plans include Make AI Agents.",
+      "O construtor visual mais fácil para um primeiro agente. A própria página comparativa do Make diz que os planos pagos incluem o Make AI Agents.",
+      "El constructor visual más fácil para un primer agente. La propia comparativa de Make dice que los planes de pago incluyen Make AI Agents.",
+      "做第一个代理时最容易上手的可视化搭建工具。Make 自己的对比页写明付费套餐包含 Make AI Agents。",
     ],
     model: [
-      "Not listed on StackPodium. See Make's pricing page.",
-      "Não consta no StackPodium. Veja a página de preços do Make.",
-      "No consta en StackPodium. Consulta la página de precios de Make.",
-      "StackPodium 未列出价格。请看 Make 的价格页。",
+      "Make's comparison page lists Free at $0 for 1,000 credits a month, Core from $9/mo, Pro from $16/mo, and Team from $29/mo, paid plans starting at 10,000 credits. Most actions use 1 credit. Annual billing costs less than monthly. The pricing page's credit slider did not print a separate month-to-month figure we could quote. Enterprise is custom.",
+      "A página comparativa do Make lista o grátis a US$ 0 por 1.000 créditos por mês, Core a partir de US$ 9/mês, Pro a partir de US$ 16/mês e Team a partir de US$ 29/mês, planos pagos a partir de 10.000 créditos. A maioria das ações usa 1 crédito. O plano anual custa menos que o mensal. O controle de créditos da página de preços não mostrou um valor mês a mês separado que dê para citar. O Enterprise é sob consulta.",
+      "La comparativa de Make lista el gratis a 0 $ por 1.000 créditos al mes, Core desde 9 $/mes, Pro desde 16 $/mes y Team desde 29 $/mes, planes de pago desde 10.000 créditos. La mayoría de las acciones usan 1 crédito. El plan anual cuesta menos que el mensual. El control de créditos de la página de precios no mostró una cifra mes a mes aparte que se pueda citar. Enterprise es a medida.",
+      "Make 的对比页列出免费为 $0、每月 1,000 点额度，Core 起价 $9/月，Pro 起价 $16/月，Team 起价 $29/月，付费套餐从 10,000 点额度起。大多数操作消耗 1 点。年付比月付便宜。价格页的额度滑杆没有给出可以引用的另一套按月数字。Enterprise 为定制。",
     ],
     exit: [
-      "Not stated. Make is a hosted visual builder; StackPodium does not describe a code export.",
-      "Não informado. O Make é um construtor visual hospedado; o StackPodium não descreve exportação de código.",
-      "No consta. Make es un constructor visual alojado; StackPodium no describe una exportación de código.",
-      "未说明。Make 是托管的可视化搭建工具；StackPodium 没有描述代码导出。",
+      "Not stated as a code export. Make publishes hosted plans (Free, Core, Pro, Team, Enterprise). We did not confirm a self-hosted edition.",
+      "Não informado como exportação de código. O Make publica planos hospedados (grátis, Core, Pro, Team, Enterprise). Não confirmamos uma edição para auto-hospedar.",
+      "No consta como exportación de código. Make publica planes alojados (gratis, Core, Pro, Team, Enterprise). No confirmamos una edición para autoalojar.",
+      "没有核实到代码导出。Make 公布的是托管套餐（免费、Core、Pro、Team、Enterprise）。我们没有核实到自托管版本。",
     ],
     curve: [
       "The easiest of this group for a first agent.",
@@ -667,7 +693,43 @@ const pairs = [
       ),
       faq(
         ["Which bill is easier to predict?", "Qual conta é mais fácil de prever?", "¿Qué factura es más fácil de prever?", "哪边的账单更好预期？"],
-        ["Devin's listed entry price is lower, at $20/mo. Cursor's model usage is drawn from a pool and extra spend can surprise you. Neither figure replaces the current price on the official page.", "O preço de entrada listado do Devin é mais baixo, US$ 20/mês. O uso de modelos do Cursor sai de uma cota e o gasto extra pode surpreender. Nenhum dos dois números substitui o preço atual na página oficial.", "El precio de entrada listado de Devin es más bajo, 20 $/mes. El uso de modelos de Cursor sale de una bolsa y el gasto extra puede sorprender. Ninguna de las dos cifras sustituye el precio actual en la página oficial.", "Devin 列出的入门价更低，是 $20/月。Cursor 的模型用量从额度池扣除，超出部分可能出乎意料。这两个数字都不能代替官方页面上的现价。"]
+        ["Cursor's lowest paid plan is Plus at $8/mo, and the pricing page says that plan includes Grok models only. Devin Desktop Pro is $20/mo, with frontier models inside the included quota. From Cursor Premium up, third-party models are billed separately, so the extra spend can surprise you. Neither sticker replaces the current price on the official page.", "O plano pago mais barato do Cursor é o Plus a US$ 8/mês, e a página de preços diz que esse plano inclui só modelos Grok. O Pro do Devin Desktop é US$ 20/mês, com modelos de fronteira dentro da cota incluída. A partir do Premium do Cursor, modelos de terceiros são cobrados à parte, então o gasto extra pode surpreender. Nenhum dos dois preços substitui o valor atual na página oficial.", "El plan de pago más barato de Cursor es Plus a 8 $/mes, y la página de precios dice que ese plan incluye solo modelos Grok. Pro de Devin Desktop es 20 $/mes, con modelos de frontera dentro de la bolsa incluida. Desde Premium de Cursor, los modelos de terceros se cobran aparte, así que el gasto extra puede sorprender. Ninguna de las dos cifras sustituye el precio actual en la página oficial.", "Cursor 最便宜的付费套餐是 Plus $8/月，价格页写明该套餐只包含 Grok 模型。Devin Desktop Pro 为 $20/月，额度内包含前沿模型。从 Cursor Premium 起，第三方模型另行计费，超出部分可能出乎意料。这两个标价都不能代替官方页面上的现价。"]
+      ),
+    ],
+  },
+  {
+    ids: ["cursor", "windsurf"],
+    rankAs: { windsurf: "devin" },
+    title: [
+      "Cursor vs Windsurf: the reference editor, or the IDE now called Devin Desktop",
+      "Cursor vs Windsurf: o editor de referência ou a IDE que agora se chama Devin Desktop",
+      "Cursor vs Windsurf: el editor de referencia o el IDE que ahora se llama Devin Desktop",
+      "Cursor 与 Windsurf：标杆编辑器，还是现已改名 Devin Desktop 的 IDE",
+    ],
+    desc: [
+      "Cursor's individual plans are Plus $8, Premium $30, Super $100, and Ultra $200 a month. Windsurf was renamed Devin Desktop on 2 June 2026; that pricing page lists Pro at $20/mo. Cursor is #1 for serious coding in an AI editor. The renamed product is #3.",
+      "Os planos individuais do Cursor são Plus a US$ 8, Premium a US$ 30, Super a US$ 100 e Ultra a US$ 200 por mês. O Windsurf passou a se chamar Devin Desktop em 2 de junho de 2026; essa página de preços lista o Pro a US$ 20/mês. O Cursor é o #1 para programar a sério num editor com IA. O produto renomeado é o #3.",
+      "Los planes individuales de Cursor son Plus a 8 $, Premium a 30 $, Super a 100 $ y Ultra a 200 $ al mes. Windsurf pasó a llamarse Devin Desktop el 2 de junio de 2026; esa página de precios lista Pro a 20 $/mes. Cursor es el nº 1 para programar en serio con un editor de IA. El producto renombrado es el nº 3.",
+      "Cursor 的个人套餐为 Plus $8、Premium $30、Super $100 和 Ultra $200 每月。Windsurf 于 2026 年 6 月 2 日更名为 Devin Desktop；该价格页列出的 Pro 为 $20/月。用 AI 编辑器认真写代码时，Cursor 是第 1。改名后的产品是第 3。",
+    ],
+    pick: [
+      ["you want the reference AI editor on VS Code, and you will watch the weekly usage pool, because from Premium up third-party models are billed separately and Plus includes Grok models only", "you want the IDE that was Windsurf, now Devin Desktop, with Pro at $20/mo and frontier models inside the included quota"],
+      ["você quer o editor com IA de referência em cima do VS Code e vai olhar a cota semanal, porque a partir do Premium modelos de terceiros são cobrados à parte e o Plus inclui só modelos Grok", "você quer a IDE que era o Windsurf, agora Devin Desktop, com o Pro a US$ 20/mês e modelos de fronteira dentro da cota incluída"],
+      ["quieres el editor con IA de referencia sobre VS Code y vas a mirar la bolsa semanal, porque desde Premium los modelos de terceros se cobran aparte y Plus incluye solo modelos Grok", "quieres el IDE que era Windsurf, ahora Devin Desktop, con Pro a 20 $/mes y modelos de frontera dentro de la bolsa incluida"],
+      ["你想要基于 VS Code 的标杆 AI 编辑器，并且会留意每周用量池，因为从 Premium 起第三方模型另行计费，而且 Plus 只包含 Grok 模型", "你想要原来的 Windsurf，也就是现在的 Devin Desktop，Pro 为 $20/月，额度内包含前沿模型"],
+    ],
+    faqs: [
+      faq(
+        ["Is Windsurf still a separate product?", "O Windsurf ainda é um produto separado?", "¿Windsurf sigue siendo un producto aparte?", "Windsurf 还是单独的产品吗？"],
+        ["No. On 2 June 2026 Cognition renamed Windsurf to Devin Desktop. The company says it is the same IDE, delivered as an update, and that existing plans, pricing and extensions carried over. windsurf.com now presents Devin Desktop. StackPodium ranks that product as Devin Desktop, #3 for serious coding in an AI editor. Cursor is #1 on that podium. Copilot, not in this pair, is #2.", "Não. Em 2 de junho de 2026 a Cognition renomeou o Windsurf para Devin Desktop. A empresa diz que é a mesma IDE, entregue como atualização, e que planos, preços e extensões existentes foram mantidos. O windsurf.com agora apresenta o Devin Desktop. O StackPodium ranqueia esse produto como Devin Desktop, #3 para programar a sério num editor com IA. O Cursor é o #1 nesse pódio. O Copilot, que não está neste par, é o #2.", "No. El 2 de junio de 2026 Cognition renombró Windsurf a Devin Desktop. La empresa dice que es el mismo IDE, entregado como actualización, y que los planes, precios y extensiones existentes se conservaron. windsurf.com ahora presenta Devin Desktop. StackPodium clasifica ese producto como Devin Desktop, nº 3 para programar en serio con un editor de IA. Cursor es el nº 1 en ese podio. Copilot, que no está en este par, es el nº 2.", "不是。2026 年 6 月 2 日 Cognition 把 Windsurf 更名为 Devin Desktop。公司称这是同一个 IDE，以更新的形式推送，原有套餐、价格和扩展都沿用。windsurf.com 现在展示的是 Devin Desktop。StackPodium 把该产品排为 Devin Desktop，在“用 AI 编辑器认真写代码”里是第 3。Cursor 在该榜是第 1。不在这一对里的 Copilot 是第 2。"]
+      ),
+      faq(
+        ["What do they cost?", "Quanto custam?", "¿Cuánto cuestan?", "它们怎么收费？"],
+        ["Checked November 2026. Cursor: Free, Plus $8, Premium $30, Super $100, and Ultra $200 a month. The pricing page says Plus includes Grok models only. From Premium up, third-party models are API list price, paid separately, and a shared usage pool refreshes weekly. Teams starts at $30 per user a month. Windsurf's successor, on devin.ai/pricing: Free, Pro $20, and Max $200 a month, plus Teams at $80/mo plus $40/mo per full seat. Paid Devin plans include a daily and weekly allowance; extra usage is API pricing. That page does not print the allowance as a fixed message or token count.", "Conferido em novembro de 2026. Cursor: grátis, Plus a US$ 8, Premium a US$ 30, Super a US$ 100 e Ultra a US$ 200 por mês. A página de preços diz que o Plus inclui só modelos Grok. A partir do Premium, modelos de terceiros saem a preço de API, pagos à parte, e uma cota compartilhada renova toda semana. O Teams começa em US$ 30 por usuário por mês. O sucessor do Windsurf, em devin.ai/pricing: grátis, Pro a US$ 20 e Max a US$ 200 por mês, mais Teams a US$ 80/mês mais US$ 40/mês por assento completo. Os planos pagos do Devin incluem uma cota diária e semanal; o uso extra sai a preço de API. Essa página não publica a cota como um número fixo de mensagens ou tokens.", "Comprobado en noviembre de 2026. Cursor: gratis, Plus a 8 $, Premium a 30 $, Super a 100 $ y Ultra a 200 $ al mes. La página de precios dice que Plus incluye solo modelos Grok. Desde Premium, los modelos de terceros van a precio de API, pagados aparte, y una bolsa compartida se renueva cada semana. Teams empieza en 30 $ por usuario al mes. El sucesor de Windsurf, en devin.ai/pricing: gratis, Pro a 20 $ y Max a 200 $ al mes, más Teams a 80 $/mes más 40 $/mes por asiento completo. Los planes de pago de Devin incluyen una bolsa diaria y semanal; el uso extra va a precio de API. Esa página no publica la bolsa como un número fijo de mensajes o tokens.", "核对于 2026 年 11 月。Cursor：免费、Plus $8、Premium $30、Super $100、Ultra $200 每月。价格页写明 Plus 只包含 Grok 模型。从 Premium 起，第三方模型按 API 标价另付，共享用量池每周刷新。Teams 从每位用户每月 $30 起。Windsurf 的后继产品，在 devin.ai/pricing：免费、Pro $20、Max $200 每月，另有 Teams 为 $80/月再加每个完整席位 $40/月。Devin 付费套餐含每日和每周额度；超出部分按 API 价格计费。该页没有把额度写成固定的消息数或 token 数。"]
+      ),
+      faq(
+        ["Which one for daily coding in a project I already have?", "Qual para programar todo dia num projeto que eu já tenho?", "¿Cuál para programar cada día en un proyecto que ya tengo?", "在已有项目里每天写代码，选哪个？"],
+        ["Cursor. It is #1: the reference AI editor, built on VS Code, with autocomplete, multi-file edits and agents. Its weakness at the low end is real: Plus does not include third-party models, and from Premium up those models are a separate bill. Pick Devin Desktop, the former Windsurf, if you want that IDE and a Pro plan at $20/mo whose quota includes frontier models. The weakness there is the other way around: the pricing page does not say how large that quota is, and the product no longer uses the Windsurf name.", "O Cursor. É o #1: o editor com IA de referência, baseado no VS Code, com autocompletar, edições em vários arquivos e agentes. A fraqueza na faixa barata é real: o Plus não inclui modelos de terceiros, e a partir do Premium esses modelos são uma conta à parte. Escolha o Devin Desktop, o antigo Windsurf, se você quer essa IDE e um Pro a US$ 20/mês cuja cota inclui modelos de fronteira. A fraqueza ali é o inverso: a página de preços não diz o tamanho dessa cota, e o produto não usa mais o nome Windsurf.", "Cursor. Es el nº 1: el editor con IA de referencia, basado en VS Code, con autocompletado, ediciones en varios archivos y agentes. La debilidad en la gama baja es real: Plus no incluye modelos de terceros, y desde Premium esos modelos son una factura aparte. Elige Devin Desktop, el antiguo Windsurf, si quieres ese IDE y un Pro a 20 $/mes cuya bolsa incluye modelos de frontera. La debilidad allí es la inversa: la página de precios no dice el tamaño de esa bolsa, y el producto ya no usa el nombre Windsurf.", "Cursor。它是第 1：基于 VS Code 的标杆 AI 编辑器，有自动补全、多文件编辑和代理。低价位的短板是实在的：Plus 不含第三方模型，从 Premium 起这些模型要另付。如果你想要那款 IDE，以及额度内包含前沿模型的 $20/月 Pro，就选原来的 Windsurf，也就是 Devin Desktop。那边的短板正好相反：价格页没有写出额度有多大，而且产品已经不用 Windsurf 这个名字。"]
       ),
     ],
   },
@@ -750,10 +812,10 @@ const pairs = [
       "n8n 与 Make：自己托管，还是最容易的可视化工具",
     ],
     desc: [
-      "n8n is free to self-host (cloud Starter is €20/mo, billed annually) and ranks first when an agent must act inside your tools. Make has no price listed here; it is the easiest visual builder for a first agent.",
-      "O n8n é grátis para auto-hospedar (o Starter na nuvem é €20/mês, no plano anual) e fica em primeiro quando o agente precisa agir dentro das suas ferramentas. O Make não tem preço listado aqui; é o construtor visual mais fácil para um primeiro agente.",
-      "n8n es gratis para autoalojar (el Starter en la nube es 20 €/mes, facturado al año) y queda primero cuando el agente tiene que actuar dentro de tus herramientas. Make no tiene precio listado aquí; es el constructor visual más fácil para un primer agente.",
-      "n8n 可免费自托管（云端 Starter 为年付 €20/月），当代理必须在你的工具里操作时排第一。这里没有列出 Make 的价格；它是做第一个代理时最容易的可视化工具。",
+      "n8n is free to self-host. Cloud Starter is €20/mo billed annually, and it ranks #1 when an agent must act inside your tools. Make lists Free at $0 for 1,000 credits a month and Core from $9/mo. It is #2, the easiest visual builder for a first agent.",
+      "O n8n é grátis para auto-hospedar. O Starter na nuvem é €20/mês no plano anual, e ele fica em #1 quando o agente precisa agir dentro das suas ferramentas. O Make lista o grátis a US$ 0 por 1.000 créditos por mês e o Core a partir de US$ 9/mês. É o #2, o construtor visual mais fácil para um primeiro agente.",
+      "n8n es gratis para autoalojar. El Starter en la nube es 20 €/mes facturado al año, y queda nº 1 cuando el agente tiene que actuar dentro de tus herramientas. Make lista el gratis a 0 $ por 1.000 créditos al mes y Core desde 9 $/mes. Es el nº 2, el constructor visual más fácil para un primer agente.",
+      "n8n 可免费自托管。云端 Starter 为年付 €20/月，当代理必须在你的工具里操作时排第 1。Make 列出免费为 $0、每月 1,000 点额度，Core 起价 $9/月。它是第 2，做第一个代理时最容易的可视化工具。",
     ],
     pick: [
       ["the agent has to act inside your tools and you want a source-available base you can self-host", "you want the easiest visual builder for a first agent and you do not need to self-host"],
@@ -763,16 +825,16 @@ const pairs = [
     ],
     faqs: [
       faq(
-        ["Which is easier?", "Qual é mais fácil?", "¿Cuál es más fácil?", "哪个更容易？"],
-        ["Make is the easiest visual builder for a first agent, and ranks #2. n8n ranks #1 when the agent has to act inside your tools.", "O Make é o construtor visual mais fácil para um primeiro agente e fica em #2. O n8n fica em #1 quando o agente precisa agir dentro das suas ferramentas.", "Make es el constructor visual más fácil para un primer agente y queda nº 2. n8n queda nº 1 cuando el agente tiene que actuar dentro de tus herramientas.", "Make 是做第一个代理时最容易的可视化工具，排第 2。当代理必须在你的工具里操作时，n8n 排第 1。"]
+        ["Which should I pick?", "Qual eu devo escolher?", "¿Cuál debería elegir?", "我该选哪个？"],
+        ["For an agent that has to act inside your tools, n8n is #1: source-available, with native AI nodes, and you can self-host. Make is #2, and it is the easier visual start for a first agent. Zapier, not in this pair, is #3 when you want the widest catalogue. If a visual flow is not enough, the next ranking is a custom agent in code.", "Para um agente que precisa agir dentro das suas ferramentas, o n8n é o #1: código disponível, com nós de IA nativos, e dá para auto-hospedar. O Make é o #2, e é o começo visual mais fácil para um primeiro agente. O Zapier, que não está neste par, é o #3 quando você quer o catálogo mais amplo. Se o fluxo visual não bastar, o ranking seguinte é um agente sob medida, com código.", "Para un agente que tiene que actuar dentro de tus herramientas, n8n es el nº 1: código disponible, con nodos de IA nativos, y puedes autoalojarlo. Make es el nº 2, y es el arranque visual más fácil para un primer agente. Zapier, que no está en este par, es el nº 3 cuando quieres el catálogo más amplio. Si el flujo visual no basta, el ranking siguiente es un agente a medida, con código.", "当代理必须在你的工具里操作时，n8n 是第 1：源代码可获取，带原生 AI 节点，并且可以自托管。Make 是第 2，做第一个代理时更容易的可视化起点。不在这一对里的 Zapier 是第 3，适合你想要最广目录的时候。如果可视化流程不够，下一个排名是用代码做的定制代理。"]
       ),
       faq(
-        ["Can I self-host it?", "Dá para auto-hospedar?", "¿Puedo autoalojarlo?", "可以自己托管吗？"],
-        ["n8n is free to self-host under the fair-code Sustainable Use License. n8n does not call that license open source. Cloud Starter is €20/mo, billed annually. StackPodium does not list a Make price.", "O n8n é grátis para auto-hospedar sob a Sustainable Use License, fair-code. A n8n não chama essa licença de código aberto. O Starter na nuvem é €20/mês, no plano anual. O StackPodium não lista um preço do Make.", "n8n es gratis para autoalojar bajo la Sustainable Use License, fair-code. n8n no llama a esa licencia código abierto. El Starter en la nube es 20 €/mes, facturado al año. StackPodium no lista un precio de Make.", "n8n 可按 fair-code 的 Sustainable Use License 免费自托管。n8n 不把该许可证称为开源。云端 Starter 为年付 €20/月。StackPodium 没有列出 Make 的价格。"]
+        ["What do the plans cost?", "Quanto custam os planos?", "¿Cuánto cuestan los planes?", "套餐怎么收费？"],
+        ["Checked November 2026. n8n's pricing page: self-host the Community edition, or cloud Starter at €20/mo, Pro at €50/mo, and Business at €667/mo, each billed annually. Enterprise is contact sales. The Business card is marked self-hosted. One execution is a full workflow run, not a single step. n8n's help center says Cloud Starter includes 2,500 executions a month, and it names Pro-1 at 10,000 and Pro-2 at 50,000, without tying those names to the €50 price on the pricing card. Make's comparison page: Free is $0 for 1,000 credits a month, then Core from $9/mo, Pro from $16/mo, and Team from $29/mo, starting at 10,000 credits. Most actions use 1 credit. Make says annual billing costs less than monthly. We are not quoting a separate month-to-month slider price, because that figure was not in the page we could read.", "Conferido em novembro de 2026. Página de preços do n8n: auto-hospede a edição Community, ou Starter na nuvem a €20/mês, Pro a €50/mês e Business a €667/mês, cada um no plano anual. O Enterprise é contato comercial. O cartão do Business está marcado como auto-hospedado. Uma execução é uma rodada completa do fluxo, não um passo. O help center do n8n diz que o Cloud Starter inclui 2.500 execuções por mês, e nomeia o Pro-1 com 10.000 e o Pro-2 com 50.000, sem ligar esses nomes ao preço de €50 no cartão. Página comparativa do Make: o grátis é US$ 0 por 1.000 créditos por mês, depois Core a partir de US$ 9/mês, Pro a partir de US$ 16/mês e Team a partir de US$ 29/mês, a partir de 10.000 créditos. A maioria das ações usa 1 crédito. O Make diz que o plano anual custa menos que o mensal. Não citamos um preço mês a mês separado do controle deslizante, porque esse número não estava na página que deu para ler.", "Comprobado en noviembre de 2026. Página de precios de n8n: autoaloja la edición Community, o Starter en la nube a 20 €/mes, Pro a 50 €/mes y Business a 667 €/mes, cada uno facturado al año. Enterprise es contacto comercial. La ficha de Business está marcada como autoalojada. Una ejecución es una pasada completa del flujo, no un paso. El centro de ayuda de n8n dice que Cloud Starter incluye 2.500 ejecuciones al mes, y nombra Pro-1 con 10.000 y Pro-2 con 50.000, sin atar esos nombres al precio de 50 € de la ficha. Comparativa de Make: el gratis es 0 $ por 1.000 créditos al mes, luego Core desde 9 $/mes, Pro desde 16 $/mes y Team desde 29 $/mes, desde 10.000 créditos. La mayoría de las acciones usan 1 crédito. Make dice que el plan anual cuesta menos que el mensual. No citamos un precio mes a mes aparte del control deslizante, porque esa cifra no estaba en la página que se pudo leer.", "核对于 2026 年 11 月。n8n 价格页：可自托管 Community 版，或云端 Starter 年付 €20/月、Pro 年付 €50/月、Business 年付 €667/月。Enterprise 为联系销售。Business 卡片标明为自托管。一次执行是整条工作流跑完，不是一个步骤。n8n 帮助中心写明 Cloud Starter 每月含 2,500 次执行，并列出 Pro-1 为 10,000 次、Pro-2 为 50,000 次，但没有把这些名称对应到价格卡片上的 €50。Make 对比页：免费为 $0、每月 1,000 点额度，然后 Core 起价 $9/月、Pro 起价 $16/月、Team 起价 $29/月，从 10,000 点额度起。大多数操作消耗 1 点。Make 称年付比月付便宜。我们没有另引一套按月滑杆价格，因为能读到的页面里没有这个数字。"]
       ),
       faq(
-        ["What if I do not want to write code?", "E se eu não quiser escrever código?", "¿Y si no quiero escribir código?", "如果我不想写代码呢？"],
-        ["Both are in the no-code ranking. Make is the easier visual start. Move toward n8n when the agent has to act inside your tools. If a visual flow is not enough, the next ranking is a custom agent in code.", "Os dois estão no ranking sem código. O Make é o começo visual mais fácil. Vá para o n8n quando o agente precisar agir dentro das suas ferramentas. Se o fluxo visual não bastar, o ranking seguinte é um agente sob medida, com código.", "Los dos están en el ranking sin código. Make es el arranque visual más fácil. Pasa a n8n cuando el agente tenga que actuar dentro de tus herramientas. Si el flujo visual no basta, el ranking siguiente es un agente a medida, con código.", "两者都在不写代码的排名里。Make 是更容易的可视化起点。代理必须在你的工具里操作时再转向 n8n。如果可视化流程不够，下一个排名是用代码做的定制代理。"]
+        ["What are the main limits?", "Quais são os limites principais?", "¿Cuáles son los límites principales?", "主要限制是什么？"],
+        ["n8n's help center says a Cloud run that would pass the monthly execution quota fails instead of queueing. The Community edition is under the Sustainable Use License: your own internal, personal, or non-commercial use. n8n does not call that license open source. Make's pricing page says scenarios stop when credits run out, and that routers and error handlers do not use credits. Its pricing FAQ says there are more than 1,000 standard apps. We did not confirm a Make edition you can self-host.", "O help center do n8n diz que uma execução na nuvem que passaria da cota mensal falha, em vez de entrar numa fila. A edição Community está sob a Sustainable Use License: uso interno, pessoal ou não comercial. A n8n não chama essa licença de código aberto. A página de preços do Make diz que os cenários param quando os créditos acabam, e que roteadores e tratadores de erro não usam créditos. O FAQ de preços diz que há mais de 1.000 apps padrão. Não confirmamos uma edição do Make para auto-hospedar.", "El centro de ayuda de n8n dice que una ejecución en la nube que superaría la cuota mensual falla, en lugar de ponerse en cola. La edición Community está bajo la Sustainable Use License: uso interno, personal o no comercial. n8n no llama a esa licencia código abierto. La página de precios de Make dice que los escenarios se detienen cuando se acaban los créditos, y que los routers y los manejadores de error no usan créditos. El FAQ de precios dice que hay más de 1.000 apps estándar. No confirmamos una edición de Make para autoalojar.", "n8n 帮助中心写明，云端一次运行如果会超出当月执行配额，会失败，而不是排队。Community 版采用 Sustainable Use License：限于你自己的内部、个人或非商业用途。n8n 不把该许可证称为开源。Make 的价格页写明额度用完后场景会停止，路由器和错误处理模块不消耗额度。价格 FAQ 写明标准应用超过 1,000 个。我们没有核实到可以自托管的 Make 版本。"]
       ),
     ],
   },
