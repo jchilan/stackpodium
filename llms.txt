@@ -23,6 +23,7 @@
 - [v0 vs Lovable](https://stackpodium.com/compare/v0-vs-lovable/)
 - [Cursor vs GitHub Copilot](https://stackpodium.com/compare/cursor-vs-github-copilot/)
 - [Cursor vs Devin Desktop](https://stackpodium.com/compare/cursor-vs-devin-desktop/)
+- [Cursor vs Windsurf](https://stackpodium.com/compare/cursor-vs-windsurf/)
 - [Claude Code vs Codex](https://stackpodium.com/compare/claude-code-vs-codex/)
 - [Claude Code vs Cursor](https://stackpodium.com/compare/claude-code-vs-cursor/)
 - [n8n vs Make](https://stackpodium.com/compare/n8n-vs-make/)
