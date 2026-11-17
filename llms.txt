@@ -15,6 +15,21 @@
 - [A playable browser game this weekend](https://stackpodium.com/browser-game/): 1. Rosebud AI, 2. Coding agent + Three.js, 3. GDevelop
 - [An internal tool or a data dashboard](https://stackpodium.com/internal-tool/): 1. Replit, 2. Base44, 3. Lovable
 
+## Comparisons
+
+- [Lovable vs Bolt](https://stackpodium.com/compare/lovable-vs-bolt/)
+- [Lovable vs Replit](https://stackpodium.com/compare/lovable-vs-replit/)
+- [Bolt vs Replit](https://stackpodium.com/compare/bolt-vs-replit/)
+- [v0 vs Lovable](https://stackpodium.com/compare/v0-vs-lovable/)
+- [Cursor vs GitHub Copilot](https://stackpodium.com/compare/cursor-vs-github-copilot/)
+- [Cursor vs Devin Desktop](https://stackpodium.com/compare/cursor-vs-devin-desktop/)
+- [Claude Code vs Codex](https://stackpodium.com/compare/claude-code-vs-codex/)
+- [Claude Code vs Cursor](https://stackpodium.com/compare/claude-code-vs-cursor/)
+- [n8n vs Make](https://stackpodium.com/compare/n8n-vs-make/)
+- [n8n vs Zapier](https://stackpodium.com/compare/n8n-vs-zapier/)
+- [LangGraph vs CrewAI](https://stackpodium.com/compare/langgraph-vs-crewai/)
+- [Rosebud AI vs GDevelop](https://stackpodium.com/compare/rosebud-ai-vs-gdevelop/)
+
 ## Languages
 
 - [English](https://stackpodium.com/)

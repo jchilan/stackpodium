@@ -28,6 +28,21 @@ const X = {
   nlb: ["Subscribe", "Assinar", "Suscribirme", "订阅"],
   full: ["See the full ranking", "Ver o ranking completo", "Ver el ranking completo", "查看完整排名"],
 };
+const COMPARE = [["lovable","bolt"],["lovable","replit"],["bolt","replit"],["v0","lovable"],["cursor","copilot"],["cursor","devin"],["claude","codex"],["claude","cursor"],["n8n","make"],["n8n","zapier"],["langgraph","crewai"],["rosebud","gdevelop"]];
+const C = {
+  list: ["Head-to-head comparisons", "Comparações diretas", "Comparativas directas", "两两对比"],
+  title: ["{A} vs {B}: which one to pick", "{A} vs {B}: qual escolher", "{A} vs {B}: cuál elegir", "{A} 与 {B}：该选哪个"],
+  desc: ["Where {A} and {B} rank on StackPodium's podiums, with prices and the reason for each position.", "Onde {A} e {B} ficam nos pódios do StackPodium, com preços e o motivo de cada posição.", "En qué puesto quedan {A} y {B} en los podios de StackPodium, con precios y el motivo de cada puesto.", "{A} 和 {B} 在 StackPodium 各榜单中的名次、价格以及每个名次的理由。"],
+  intro: ["We don't name one overall winner: the right pick depends on what you are building. This is how the two compare in each use case where at least one of them is on the podium.", "Não apontamos um vencedor geral: a escolha certa depende do que você está construindo. Veja como os dois se comparam em cada caso de uso em que pelo menos um deles está no pódio.", "No damos un ganador general: la elección correcta depende de lo que estés construyendo. Así se comparan los dos en cada caso de uso en el que al menos uno está en el podio.", "我们不评选总冠军：选哪个取决于你要做什么。下面是两者在各个使用场景中的对比（至少有一方上榜的场景）。"],
+  usecase: ["Use case", "Caso de uso", "Caso de uso", "使用场景"],
+  off: ["Not on this podium", "Fora deste pódio", "Fuera de este podio", "未上榜"],
+  price: ["Entry price", "Preço de entrada", "Precio de entrada", "入门价格"],
+  say: ["What we say about {A}", "O que dizemos sobre {A}", "Lo que decimos de {A}", "我们对 {A} 的评价"],
+};
+const tname = (k, l) => (typeof T[k][0] === "string" ? T[k][0] : T[k][0][l]);
+const cslug = (p) => "compare/" + [tname(p[0], 0), tname(p[1], 0)].map((n) => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")).join("-vs-");
+const fill = (t, a, b) => t.replace(/\{A\}/g, a).replace(/\{B\}/g, b || "");
+const rankOf = (c, k) => { const i = c.r.findIndex((r) => r[0] === k); return i < 0 ? 0 : i + 1; };
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const pad = (n) => (n < 10 ? "0" + n : "" + n);
 const url = (l, slug) => "/" + LANGS[l].dir + (slug ? slug + "/" : "");
@@ -115,6 +130,17 @@ const extraCss = `
 .prose h2{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:28px 0 8px}
 .prose p,.prose li{max-width:66ch}
 .prose ul{padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.cmplist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.cmplist a{display:block;padding:8px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:.95rem}
+.cmplist a:hover{background:var(--tint)}
+.tablewrap{overflow-x:auto;margin:18px 0}
+table.cmp{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table.cmp th,table.cmp td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+table.cmp tr:last-child td{border-bottom:0;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+.rk{font-family:var(--mono);font-size:1.05rem}
+.rk.top{color:var(--accent)}
+.offp{color:var(--muted);font-size:.88rem}
 .note{color:var(--muted);font-size:.92rem;max-width:65ch;margin:18px 0 0}
 `;
 write("site.css", css + extraCss);
@@ -128,6 +154,7 @@ LANGS.forEach((L, l) => {
   const news = NEWS.map((x) => `<li><time>${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`).join("");
   const home = `<div class="wrap intro"><h1>${esc(UI.h1[l])}</h1><p>${esc(UI.intro[l])}</p><div class="status"><span>${esc(UI.status[l])}</span></div></div>
 <div class="wrap layout" id="cases"><aside class="rail"><h2>${esc(UI.rail[l])}</h2><ol>${rail}</ol></aside><div class="cases">${cases}</div></div>
+<section class="block" id="compare"><div class="wrap"><h2>${esc(C.list[l])}</h2><ul class="cmplist">${COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("")}</ul></div></section>
 <section class="block" id="method"><div class="wrap"><h2>${esc(UI.nav2[l])}</h2><p>${esc(UI.method[l])}</p><ul class="criteria">${crit}</ul></div></section>
 <section class="block" id="changes"><div class="wrap"><h2>${esc(UI.newsh[l])}</h2><p>${esc(UI.newsp[l])}</p><ul class="news">${news}</ul></div></section>`;
   const homeLd = { "@context": "https://schema.org", "@type": "WebSite", name: "StackPodium", url: BASE + url(l), inLanguage: L.html, description: UI.intro[l] };
@@ -161,8 +188,25 @@ LANGS.forEach((L, l) => {
   });
 });
 
+LANGS.forEach((L, l) => {
+  COMPARE.forEach((p) => {
+    const [a, b] = p, A = tname(a, l), B = tname(b, l), slug = cslug(p);
+    const rows = CASES.map((c) => ({ c, ra: rankOf(c, a), rb: rankOf(c, b) })).filter((x) => x.ra || x.rb);
+    const cell = (n) => (n ? `<b class="rk${n === 1 ? " top" : ""}">#${n}</b>` : `<span class="offp">${esc(C.off[l])}</span>`);
+    const table = `<div class="tablewrap"><table class="cmp"><thead><tr><th>${esc(C.usecase[l])}</th><th>${esc(A)}</th><th>${esc(B)}</th></tr></thead><tbody>${rows.map((x) => `<tr><td><a href="${url(l, x.c.id)}">${esc(x.c.t[l])}</a></td><td>${cell(x.ra)}</td><td>${cell(x.rb)}</td></tr>`).join("")}<tr><td>${esc(C.price[l])}</td><td>${esc(price(T[a][2], l))}</td><td>${esc(price(T[b][2], l))}</td></tr></tbody></table></div>`;
+    const says = (k, N) => `<h2>${esc(fill(C.say[l], N))}</h2><ul>${CASES.filter((c) => rankOf(c, k)).map((c) => `<li><b>${esc(c.t[l])}</b> (#${rankOf(c, k)}): ${esc(c.r[rankOf(c, k) - 1][1][l])}</li>`).join("")}</ul>`;
+    const others = COMPARE.filter((q) => q !== p).map((q) => `<li><a href="${url(l, cslug(q))}">${esc(tname(q[0], l))} vs ${esc(tname(q[1], l))}</a></li>`).join("");
+    const title = fill(C.title[l], A, B), desc = fill(C.desc[l], A, B);
+    const body = `<div class="single prose"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(title)}</h1><p>${esc(C.intro[l])}</p>${table}${says(a, A)}${says(b, B)}<p class="note">${esc(UI.status[l])} ${esc(UI.foot2[l])}</p></div>
+<div class="others"><h2>${esc(C.list[l])}</h2><ul>${others}</ul></div>`;
+    const ld = { "@context": "https://schema.org", "@type": "WebPage", name: title, description: desc, inLanguage: L.html, url: BASE + url(l, slug) };
+    write(L.dir + slug + "/index.html", page(l, slug, title + " | StackPodium", desc, body, ld));
+    urls.push(url(l, slug));
+  });
+});
+
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${BASE}${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
 write("CNAME", domain + "\n");
-write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
+write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
 console.log("pages:", urls.length);

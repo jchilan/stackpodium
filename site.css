@@ -117,4 +117,15 @@ footer p{max-width:70ch;margin:0 0 8px}
 .prose h2{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:28px 0 8px}
 .prose p,.prose li{max-width:66ch}
 .prose ul{padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.cmplist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.cmplist a{display:block;padding:8px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:.95rem}
+.cmplist a:hover{background:var(--tint)}
+.tablewrap{overflow-x:auto;margin:18px 0}
+table.cmp{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table.cmp th,table.cmp td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+table.cmp tr:last-child td{border-bottom:0;font-family:var(--mono);font-size:.82rem;color:var(--muted)}
+.rk{font-family:var(--mono);font-size:1.05rem}
+.rk.top{color:var(--accent)}
+.offp{color:var(--muted);font-size:.88rem}
 .note{color:var(--muted);font-size:.92rem;max-width:65ch;margin:18px 0 0}
