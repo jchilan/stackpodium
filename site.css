@@ -217,10 +217,10 @@ header.top::before{
 .hero-card .newsletter .wrap > div{flex:0 0 auto;max-width:100%}
 .hero-card .newsletter h2{color:var(--ink);font-size:1.35rem;margin:0}
 .hero-card .newsletter p,.hero-card .newsletter label{color:var(--muted)}
-.hero-card .signup{flex-flow:column nowrap;align-items:stretch;width:100%;max-width:100%}
-.hero-card .signup .cta{width:100%}
+.hero-card .signup{flex-flow:column nowrap;align-items:stretch;width:100%;max-width:100%;gap:10px}
+.hero-card .signup .field{flex:0 0 auto;width:100%;min-height:0}
+.hero-card .signup .cta{width:100%;flex:0 0 auto}
 .hero-card .signup-hint,.hero-card .signup-fallback{flex:0 0 auto;width:100%;max-width:100%}
-.hero-card .newsletter input{background:var(--bg);color:var(--ink);border:1px solid var(--line)}
 
 /* Use-case jump */
 .jump{padding:28px 0 8px}
@@ -322,10 +322,21 @@ header.top::before{
 .signup .field{display:flex;flex-direction:column;gap:4px;flex:1 1 220px;min-width:0}
 .signup label{font-size:.85rem;font-weight:700;color:var(--stage-ink)}
 .signup input[type="email"]{
-  font:inherit;font-size:1rem;min-height:44px;padding:10px 12px;border:1px solid transparent;
-  border-radius:12px;background:#fffdf8;color:#1b140d;width:100%
+  display:block;box-sizing:border-box;width:100%;height:48px;min-height:48px;max-height:48px;
+  flex:0 0 auto;margin:0;padding:10px 12px;border:2px solid #8d7356;border-radius:12px;
+  background:#ffffff;color:#1b140d;color-scheme:light;font:inherit;font-size:1rem;line-height:1.3
+}
+.signup input[type="email"]::placeholder{color:#5c5348;opacity:1}
+.signup input[type="email"]:focus-visible{
+  outline:3px solid #1b140d;outline-offset:2px;border-color:#1b140d;box-shadow:0 0 0 4px #f0c14a
 }
 .signup input[type="email"]:user-invalid{border-color:#9a3412}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .signup input[type="email"]{border-color:#e0b03a;background:#ffffff}
+  :root:not([data-theme="light"]) .signup input[type="email"]:focus-visible{outline-color:#f0c14a}
+}
+:root[data-theme="dark"] .signup input[type="email"]{border-color:#e0b03a}
+:root[data-theme="dark"] .signup input[type="email"]:focus-visible{outline-color:#f0c14a}
 .newsletter p.signup-hint,.newsletter p.signup-fallback,.signup-hint,.signup-fallback{flex:1 0 100%;margin:0;font-size:.85rem;color:var(--stage-muted);max-width:100%;overflow-wrap:anywhere}
 .hero-card .newsletter p.signup-hint,.hero-card .newsletter p.signup-fallback{flex:0 0 auto;width:100%;max-width:100%;color:var(--muted)}
 .signup-fallback a{color:#f0c14a;font-weight:700}

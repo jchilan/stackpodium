@@ -35,6 +35,7 @@ const NEWSLETTER = {
 
 const S = {
   email: ["Email", "E-mail", "Correo", "邮箱"],
+  placeholder: ["you@email.com", "you@email.com", "you@email.com", "you@email.com"],
   hint: [
     "Opens beehiiv's subscribe page with your address in the link. This site does not store it.",
     "Abre a página de assinatura da beehiiv com o seu endereço no link. Este site não o guarda.",
@@ -66,7 +67,7 @@ function newsletterSection(l, variant, text, idSuffix) {
   const hintId = "nl-hint" + sfx;
   const sectionId = idSuffix ? "" : ' id="newsletter"';
   const action = esc(NEWSLETTER.url);
-  return `<section class="newsletter${compact ? " compact" : ""}"${sectionId} aria-labelledby="${headingId}"><div class="wrap"><div><h2 id="${headingId}">${esc(text.heading)}</h2>${compact ? "" : `<p>${esc(text.blurb)}</p>`}</div><form class="signup" method="${esc(NEWSLETTER.method)}" action="${action}"><div class="field"><label for="${emailId}">${esc(S.email[l])}</label><input id="${emailId}" name="${esc(NEWSLETTER.emailParam)}" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="${hintId}"></div><input type="hidden" name="utm_source" value="${esc(NEWSLETTER.utmSource)}"><input type="hidden" name="utm_medium" value="${esc(NEWSLETTER.utmMedium)}"><button class="cta" type="submit">${esc(text.submit)}</button><p class="signup-hint" id="${hintId}">${esc(S.hint[l])}</p></form><noscript><p class="signup-fallback"><a href="${esc(fallbackHref())}" rel="noopener">${esc(S.fallback[l])}</a></p></noscript></div></section>`;
+  return `<section class="newsletter${compact ? " compact" : ""}"${sectionId} aria-labelledby="${headingId}"><div class="wrap"><div><h2 id="${headingId}">${esc(text.heading)}</h2>${compact ? "" : `<p>${esc(text.blurb)}</p>`}</div><form class="signup" method="${esc(NEWSLETTER.method)}" action="${action}"><div class="field"><label for="${emailId}">${esc(S.email[l])}</label><input id="${emailId}" name="${esc(NEWSLETTER.emailParam)}" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="${esc(S.placeholder[l])}" aria-describedby="${hintId}"></div><input type="hidden" name="utm_source" value="${esc(NEWSLETTER.utmSource)}"><input type="hidden" name="utm_medium" value="${esc(NEWSLETTER.utmMedium)}"><button class="cta" type="submit">${esc(text.submit)}</button><p class="signup-hint" id="${hintId}">${esc(S.hint[l])}</p></form><noscript><p class="signup-fallback"><a href="${esc(fallbackHref())}" rel="noopener">${esc(S.fallback[l])}</a></p></noscript></div></section>`;
 }
 
 // Only intercepts GET, so a future POST embed submits natively.
