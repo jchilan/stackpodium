@@ -99,7 +99,7 @@ ${jsonLd}
 <a class="skip" href="#content">${esc(X.skip[l])}</a>
 <header class="top"><div class="wrap">
 <a class="brand" href="${url(l)}">Stack<span>Podium</span></a>
-<nav aria-label="${esc(X.navLabel[l])}"><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a></nav>
+<nav aria-label="${esc(X.navLabel[l])}"><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a>${opts.extraNav || ""}</nav>
 <div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${sw}</div>
 </div></header>
 <main id="content">
@@ -182,6 +182,7 @@ button.cta{border:0;font:inherit;cursor:pointer}
 .rk.top{color:var(--accent)}
 .offp{color:var(--muted);font-size:.88rem}
 .note{color:var(--muted);font-size:.92rem;max-width:65ch;margin:18px 0 0}
+.intro .studio{margin:16px 0 0;font-size:1.02rem}
 `;
 write("site.css", css + extraCss);
 write("sponsor.css", fs.readFileSync(path.join(__dirname, "sponsor.css"), "utf8"));
@@ -193,13 +194,14 @@ LANGS.forEach((L, l) => {
   const cases = CASES.map((c, i) => caseArticle(c, i, l, "h2", true)).join("\n");
   const crit = CRIT.map((c) => `<li><span class="w">${c[0]}</span><h3>${esc(c[1][l])}</h3><p>${esc(c[2][l])}</p></li>`).join("");
   const news = NEWS.map((x) => `<li><time>${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`).join("");
-  const home = `<div class="wrap intro"><h1>${esc(UI.h1[l])}</h1><p>${esc(UI.intro[l])}</p><div class="status"><span>${esc(UI.status[l])}</span></div></div>
+  const studio = l === 0 ? `<p class="studio"><a href="/playforge/">PlayForge</a> is a StackPodium studio. Describe a video game, pay $9, and get a plan pack by email within 24 hours.</p>` : "";
+  const home = `<div class="wrap intro"><h1>${esc(UI.h1[l])}</h1><p>${esc(UI.intro[l])}</p>${studio}<div class="status"><span>${esc(UI.status[l])}</span></div></div>
 <div class="wrap layout" id="cases"><aside class="rail"><h2>${esc(UI.rail[l])}</h2><ol>${rail}</ol></aside><div class="cases">${cases}</div></div>
 <section class="block" id="compare"><div class="wrap"><h2>${esc(C.list[l])}</h2><ul class="cmplist">${COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("")}</ul></div></section>
 <section class="block" id="method"><div class="wrap"><h2>${esc(UI.nav2[l])}</h2><p>${esc(UI.method[l])}</p><ul class="criteria">${crit}</ul></div></section>
 <section class="block" id="changes"><div class="wrap"><h2>${esc(UI.newsh[l])}</h2><p>${esc(UI.newsp[l])}</p><ul class="news">${news}</ul></div></section>`;
   const homeLd = { "@context": "https://schema.org", "@type": "WebSite", name: "StackPodium", url: BASE + url(l), inLanguage: L.html, description: UI.intro[l] };
-  write(L.dir + "index.html", page(l, "", "StackPodium | " + X.tagline[l], UI.intro[l], home, homeLd));
+  write(L.dir + "index.html", page(l, "", "StackPodium | " + X.tagline[l], UI.intro[l], home, homeLd, l === 0 ? { extraNav: `<a href="/playforge/">PlayForge</a>` } : {}));
   urls.push(url(l));
   // one page per use case
   CASES.forEach((c, i) => {
@@ -281,8 +283,23 @@ LANGS.forEach((L, l) => {
   });
 });
 
+// /playforge/ is hand-authored HTML (playforge/index.html), not emitted above,
+// so a rebuild does not overwrite the product page. thanks.html is noindex.
+urls.push("/playforge/");
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${BASE}${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
 write("CNAME", domain + "\n");
-write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): launch rates, valid until May 2027, for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), both together ($${PAGES.SPONSOR_PRICES.bundle}, normally $${PAGES.SPONSOR_PRICES.newsletter + PAGES.SPONSOR_PRICES.placement} if bought separately), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request.\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
+write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): launch rates, valid until May 2027, for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), both together ($${PAGES.SPONSOR_PRICES.bundle}, normally $${PAGES.SPONSOR_PRICES.newsletter + PAGES.SPONSOR_PRICES.placement} if bought separately), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request.\n\n## PlayForge\n\n- [PlayForge](${BASE}/playforge/): a StackPodium studio. Describe a video game idea, pay $9, and receive a Plan Pack by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Two levels: Beginner and Vibe coder. A $29 Premium that builds the browser prototype is not on sale yet.\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
+// Hand-authored product pages live in /playforge and are copied through so a
+// clean build output still contains them. Edit the files in /playforge, not a copy.
+function copyPlayforge() {
+  const dir = path.join(__dirname, "..", "playforge");
+  if (!fs.existsSync(dir)) return;
+  for (const name of fs.readdirSync(dir)) {
+    const from = path.join(dir, name);
+    if (!fs.statSync(from).isFile()) continue;
+    write("playforge/" + name, fs.readFileSync(from));
+  }
+}
+copyPlayforge();
 console.log("pages:", urls.length);
