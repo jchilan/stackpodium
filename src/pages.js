@@ -3,16 +3,13 @@ const EMAIL = "sponsors@stackpodium.com";
 const mail = `<a href="mailto:${EMAIL}">${EMAIL}</a>`;
 
 // SPONSOR_EMAIL is the only sponsorship address. Privacy mail stays on EMAIL.
-// To use a stackpodium.com inbox later (for example sponsors@stackpodium.com),
-// change this constant and rebuild. Do not paste the address into the HTML.
-// The sponsor page keeps the static markup free of a mailto that already
-// contains the address: the browser joins the local part and the host,
-// and a plain-text fallback stays visible if that script does not run.
+// The public inbox is a real mailto on the sponsor page, the shared footer,
+// llms.txt and the Organization contactPoint. Change this constant and rebuild.
 // SPONSOR_PRICES are launch rates in USD, valid until May 2027.
 // bundle is one month of site placement plus one Friday newsletter slot.
 // The separate total is derived so the saving stays equal to placement + newsletter − bundle.
 const SPONSOR_EMAIL = "sponsors@stackpodium.com";
-const SPONSOR_SUBJECT = "Sponsoring StackPodium";
+const SPONSOR_SUBJECT = "Sponsorship inquiry";
 const SPONSOR_PRICES = { newsletter: 49, placement: 99, launch: 19, bundle: 129 };
 const BUNDLE_SEPARATE = SPONSOR_PRICES.placement + SPONSOR_PRICES.newsletter;
 const BUNDLE_SAVE = BUNDLE_SEPARATE - SPONSOR_PRICES.bundle;
@@ -30,29 +27,11 @@ function offer(title, amount, period, text, note) {
   return `<article class="${klass}"><h3>${he(title)}</h3><p class="amt">${usd(amount)}<span>${he(period)}</span></p>${save}<p>${he(text)}</p></article>`;
 }
 
-// Button starts as a subject-only mailto. The script fills in SPONSOR_EMAIL.
+// Primary contact is a mailto that already names the inbox and the subject.
 function sponsorMail(emailLabel, dmLabel, fallbackBefore, fallbackAfter) {
-  const at = SPONSOR_EMAIL.indexOf("@");
-  const user = SPONSOR_EMAIL.slice(0, at);
-  const host = SPONSOR_EMAIL.slice(at + 1);
-  const subjectParam = encodeURIComponent(SPONSOR_SUBJECT);
-  return `<p class="sponsor-actions"><a class="cta" id="sponsor-mail" href="mailto:?subject=${subjectParam}">${he(emailLabel)}</a><a class="cta secondary" href="https://x.com/stackpodium" rel="noopener">${he(dmLabel)}</a></p>
-<p id="sponsor-contact">${he(fallbackBefore)} <span id="sponsor-plain">${he(user)} [at] ${he(host)}</span>${he(fallbackAfter)} ${he(SPONSOR_SUBJECT)}.</p>
-<script>
-(function () {
-  var addr = ${JSON.stringify(user)} + "@" + ${JSON.stringify(host)};
-  var href = "mailto:" + addr + "?subject=" + encodeURIComponent(${JSON.stringify(SPONSOR_SUBJECT)});
-  var button = document.getElementById("sponsor-mail");
-  if (button) button.href = href;
-  var plain = document.getElementById("sponsor-plain");
-  if (!plain) return;
-  var link = document.createElement("a");
-  link.href = href;
-  link.textContent = addr;
-  plain.textContent = "";
-  plain.appendChild(link);
-})();
-</script>`;
+  const href = "mailto:" + SPONSOR_EMAIL + "?subject=" + encodeURIComponent(SPONSOR_SUBJECT);
+  return `<p class="sponsor-actions"><a class="cta" id="sponsor-mail" href="${href}">${he(emailLabel)}</a><a class="cta secondary" href="https://x.com/stackpodium" rel="noopener">${he(dmLabel)}</a></p>
+<p id="sponsor-contact">${he(fallbackBefore)} <a href="${href}">${he(SPONSOR_EMAIL)}</a>${he(fallbackAfter)} ${he(SPONSOR_SUBJECT)}.</p>`;
 }
 
 module.exports = [
@@ -220,5 +199,7 @@ ${sponsorMail("发邮件咨询赞助", "在 X 上私信 @stackpodium", "如果�
   },
 ];
 
-// Prices travel with the page list so llms.txt can quote them without a second copy.
+// Prices and the inbox travel with the page list so the build can quote them once.
 module.exports.SPONSOR_PRICES = SPONSOR_PRICES;
+module.exports.SPONSOR_EMAIL = SPONSOR_EMAIL;
+module.exports.SPONSOR_SUBJECT = SPONSOR_SUBJECT;
