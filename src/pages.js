@@ -1,5 +1,5 @@
 // Static text pages. Every array is ordered: English, Português, Español, 中文.
-const EMAIL = "joanpau.ch22@gmail.com";
+const EMAIL = "sponsors@stackpodium.com";
 const mail = `<a href="mailto:${EMAIL}">${EMAIL}</a>`;
 
 // SPONSOR_EMAIL is the only sponsorship address. Privacy mail stays on EMAIL.

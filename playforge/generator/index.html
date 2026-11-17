@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Idea Spark | Free game idea generator | PlayForge</title>
+<meta name="description" content="Type a one-line game idea and get a core loop, a weekend prototype scope, a stack, and a first Cursor prompt. Free, in your browser. Nothing is uploaded.">
+<link rel="canonical" href="https://stackpodium.com/playforge/generator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StackPodium">
+<meta property="og:title" content="Game Idea Spark | Free game idea generator | PlayForge">
+<meta property="og:description" content="Type a one-line game idea and get a core loop, a weekend prototype scope, a stack, and a first Cursor prompt. Free, in your browser. Nothing is uploaded.">
+<meta property="og:url" content="https://stackpodium.com/playforge/generator/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@stackpodium">
+<meta name="twitter:title" content="Game Idea Spark | Free game idea generator | PlayForge">
+<meta name="twitter:description" content="Type a one-line game idea and get a core loop, a weekend prototype scope, a stack, and a first Cursor prompt. Free, in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/playforge/playforge.css">
+<link rel="stylesheet" href="/playforge/generator/spark.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"StackPodium","url":"https://stackpodium.com/","sameAs":["https://x.com/stackpodium"],"contactPoint":{"@type":"ContactPoint","contactType":"sponsorships","email":"sponsors@stackpodium.com","url":"mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Game Idea Spark","url":"https://stackpodium.com/playforge/generator/","description":"Type a one-line game idea and get a core loop, a weekend prototype scope, a stack, and a first Cursor prompt. Free, in your browser. Nothing is uploaded.","applicationCategory":"DesignApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Runs in the browser with no account and no upload.","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0.00","priceCurrency":"USD","availability":"https://schema.org/InStock"},"featureList":["Suggested core loop","Weekend prototype scope","Recommended stack for Beginner or Vibe coder","First Cursor prompt"],"provider":{"@type":"Organization","name":"PlayForge","url":"https://stackpodium.com/playforge/"},"isPartOf":{"@type":"WebSite","name":"StackPodium","url":"https://stackpodium.com/"}}</script>
+</head>
+<body class="spark-page">
+<a class="skip" href="#content">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="/">Stack<span>Podium</span></a>
+<nav aria-label="PlayForge"><a href="/playforge/">PlayForge</a><a href="/playforge/generator/" aria-current="page">Game Idea Spark</a><a href="/playforge/#checkout">Plan Pack, $9</a></nav>
+<a class="pf-lockup" href="/playforge/">
+<svg class="pf-sprite" viewBox="0 0 28 28" aria-hidden="true" focusable="false"><path fill="#1a1400" d="M11 7.5v13l10-6.5z"/></svg>
+Play<span>Forge</span></a>
+</div></header>
+<main id="content">
+<section class="pf-hero" aria-labelledby="hero-title">
+<div class="wrap">
+<p class="eyebrow">PlayForge · free tool</p>
+<h1 id="hero-title">Game Idea Spark</h1>
+<p class="lede">Type one line about a game and pick a level. You get a core loop, a weekend prototype scope, a stack, and a first prompt for Cursor. It is free, and it runs in this browser.</p>
+<p class="chip"><b>Free</b> no account, nothing is uploaded</p>
+<p class="hero-note">This is a sketch, not the $9 Plan Pack. The pack is a longer written plan, emailed within 24 hours.</p>
+<form id="spark" class="pf-form spark-form" method="post" action="#spark" aria-labelledby="hero-title">
+<div id="form-errors" class="form-errors" hidden role="alert"></div>
+<div class="field">
+<div class="label-row">
+<label for="idea">Game idea <span class="req">(required)</span></label>
+<span id="idea-count" class="count">0 / 180</span>
+</div>
+<input id="idea" name="idea" type="text" required maxlength="180" autocomplete="off" autocapitalize="sentences" spellcheck="true" enterkeyhint="done" aria-describedby="idea-hint idea-count" placeholder="Example: a frog hops between lily pads. Fall in and you lose a life.">
+<p id="idea-hint" class="hint">One line. The sketch is built here and is not sent anywhere.</p>
+<p id="idea-error" class="field-error" hidden></p>
+</div>
+<fieldset class="level-field" aria-describedby="level-hint">
+<legend>Level <span class="req">(required)</span></legend>
+<div class="level-pick">
+<label class="level-opt" for="level-beginner">
+<input id="level-beginner" type="radio" name="level" value="beginner" checked>
+<span class="level-copy">
+<span class="level-name">Beginner</span>
+<span class="level-desc">Never coded. One HTML file, with Kaboom.js or p5.js, and a prompt that explains each step.</span>
+</span>
+</label>
+<label class="level-opt" for="level-vibe">
+<input id="level-vibe" type="radio" name="level" value="vibe">
+<span class="level-copy">
+<span class="level-name">Vibe coder</span>
+<span class="level-desc">You already use AI coding tools. Phaser 3, Vite, and TypeScript.</span>
+</span>
+</label>
+</div>
+</fieldset>
+<p id="level-hint" class="hint">Same idea either way. Beginner slows down and stays in one file. Vibe coder assumes you can run a project.</p>
+<p id="level-error" class="field-error" hidden></p>
+<div class="field">
+<p class="samples-label" id="samples-label">Try a sample</p>
+<div class="samples" id="samples" role="group" aria-labelledby="samples-label">
+<button type="button" data-idea="A cozy farming game where the crops fight back">Cozy farm</button>
+<button type="button" data-idea="A space roguelike where you dodge asteroids">Space roguelike</button>
+<button type="button" data-idea="A horror card game about a haunted deck">Horror cards</button>
+</div>
+</div>
+<button class="cta spark-submit" type="submit">Spark this idea</button>
+<p class="spark-local">Nothing you type is added to a link, saved, or sent to PlayForge.</p>
+</form>
+<noscript><p class="hint">Game Idea Spark needs JavaScript to build the sketch in your browser. It still does not upload your idea. You can read the <a href="/playforge/">PlayForge Plan Pack</a> page, or <a href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">subscribe to the newsletter</a>.</p></noscript>
+</div>
+</section>
+
+<p id="spark-status" class="sr" role="status" aria-live="polite"></p>
+
+<section class="pf-section" id="result" hidden aria-labelledby="result-title">
+<div class="wrap">
+<h2 id="result-title" tabindex="-1">Your spark</h2>
+<p class="lead">A first sketch for this idea. Follow it, or take the prompt into Cursor.</p>
+<figure class="sheet">
+<div class="sheet-top"><b id="spark-name"></b><span>Game Idea Spark</span></div>
+<div class="sheet-body">
+<p class="sample-pitch" id="spark-pitch"></p>
+<ul class="sample-facts" id="spark-facts"></ul>
+
+<h3 id="loop-title">Core loop</h3>
+<ol class="dayloop" id="loop" aria-labelledby="loop-title"></ol>
+
+<h3 id="scope-title">Prototype scope</h3>
+<div class="scope-grid">
+<article class="card">
+<h4>Build this weekend</h4>
+<ul id="weekend"></ul>
+</article>
+<article class="card">
+<h4>Cut for now</h4>
+<ul id="cut"></ul>
+</article>
+</div>
+<div id="spark-notes" hidden></div>
+
+<h3 id="stack-title">Recommended stack</h3>
+<article class="card stack-card">
+<h4 id="stack-name"></h4>
+<ul id="stack-details"></ul>
+</article>
+
+<div class="prompt-bar">
+<h3 id="prompt-title">First Cursor prompt</h3>
+<button type="button" class="cta" id="copy" aria-controls="prompt">Copy prompt</button>
+</div>
+<pre class="prompt" id="prompt" aria-labelledby="prompt-title"></pre>
+</div>
+</figure>
+</div>
+</section>
+
+<section class="pf-section" aria-labelledby="next-title">
+<div class="wrap">
+<div class="spark-next">
+<h2 id="next-title">The full plan</h2>
+<p>Game Idea Spark is a free sketch: one loop, a weekend scope, a stack, and a first prompt. The Plan Pack is the written plan for one idea, emailed within 24 hours.</p>
+<a class="cta" href="/playforge/">Want the full plan? Get the PlayForge Plan Pack for $9</a>
+<p class="hint">This link opens PlayForge. It does not include your idea.</p>
+<p class="spark-links"><a href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">Subscribe to the StackPodium newsletter</a></p>
+</div>
+</div>
+</section>
+
+<section class="newsletter" aria-labelledby="nl-heading"><div class="wrap"><div><h2 id="nl-heading">The weekly podium, by email</h2><p>One short email every Friday: which tools moved up or down a podium, and the launches that matter.</p></div><form class="signup" method="get" action="https://stackpodium.beehiiv.com/subscribe"><div class="field"><label for="nl-email">Email</label><input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@email.com" aria-describedby="nl-hint"></div><input type="hidden" name="utm_source" value="stackpodium.com"><input type="hidden" name="utm_medium" value="site"><button class="cta" type="submit">Subscribe</button><p class="signup-hint" id="nl-hint">Opens beehiiv's subscribe page with your address in the link. This site does not store it.</p></form><noscript><p class="signup-fallback"><a href="https://stackpodium.beehiiv.com/subscribe" rel="noopener">Subscribe on beehiiv</a></p></noscript></div></section>
+</main>
+<footer><div class="wrap">
+<p class="flinks"><a href="/">StackPodium</a><a href="/playforge/">PlayForge</a><a href="/privacy/">Privacy</a><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p>
+<p>Game Idea Spark is a free PlayForge tool. It builds a sketch in your browser and does not upload the idea. The $9 Plan Pack is a separate written plan, emailed within 24 hours.</p>
+</div></footer>
+<script src="/playforge/generator/spark.js"></script>
+<script>
+(function () {
+  var form = document.getElementById("spark");
+  var idea = document.getElementById("idea");
+  var count = document.getElementById("idea-count");
+  var copyBtn = document.getElementById("copy");
+  var copyTimer = 0;
+  var IDEA_MAX = 180;
+
+  function setStatus(message) {
+    document.getElementById("spark-status").textContent = message;
+  }
+
+  function clearField(id) {
+    var el = document.getElementById(id === "level" ? "level-beginner" : id);
+    var msg = document.getElementById(id + "-error");
+    if (id === "level") {
+      el = document.getElementById("level-beginner");
+      el.removeAttribute("aria-invalid");
+      document.getElementById("level-vibe").removeAttribute("aria-invalid");
+    } else {
+      el.removeAttribute("aria-invalid");
+      el.removeAttribute("aria-errormessage");
+    }
+    msg.hidden = true;
+    msg.textContent = "";
+  }
+
+  function clearError() {
+    clearField("idea");
+    clearField("level");
+    var errors = document.getElementById("form-errors");
+    errors.hidden = true;
+    while (errors.firstChild) errors.removeChild(errors.firstChild);
+  }
+
+  function showError(field, message) {
+    var errors = document.getElementById("form-errors");
+    var msg = document.getElementById(field + "-error");
+    var target = document.getElementById(field === "level" ? "level-beginner" : field);
+    while (errors.firstChild) errors.removeChild(errors.firstChild);
+    var intro = document.createElement("p");
+    intro.textContent = "Fix this, then spark the idea again.";
+    var list = document.createElement("ul");
+    var li = document.createElement("li");
+    var link = document.createElement("a");
+    link.href = "#" + target.id;
+    link.textContent = message;
+    li.appendChild(link);
+    list.appendChild(li);
+    errors.appendChild(intro);
+    errors.appendChild(list);
+    errors.hidden = false;
+    target.setAttribute("aria-invalid", "true");
+    if (field !== "level") target.setAttribute("aria-errormessage", field + "-error");
+    msg.hidden = false;
+    msg.textContent = message;
+    document.getElementById("result").hidden = true;
+    setStatus(message);
+    target.focus();
+  }
+
+  function fillList(el, items) {
+    while (el.firstChild) el.removeChild(el.firstChild);
+    var i;
+    for (i = 0; i < items.length; i++) {
+      var li = document.createElement("li");
+      li.textContent = items[i];
+      el.appendChild(li);
+    }
+  }
+
+  function render(plan) {
+    document.getElementById("spark-name").textContent = plan.title;
+    document.getElementById("spark-pitch").textContent = plan.idea;
+
+    var facts = document.getElementById("spark-facts");
+    var chips = [
+      plan.genreLabel,
+      plan.levelLabel,
+      plan.matchedWord ? "Keyword: " + plan.matchedWord : "No genre keyword"
+    ];
+    if (plan.secondaryLabel) chips.push("Also: " + plan.secondaryLabel);
+    chips.push("Free, in this browser");
+    fillList(facts, chips);
+
+    var loop = document.getElementById("loop");
+    while (loop.firstChild) loop.removeChild(loop.firstChild);
+    var j;
+    for (j = 0; j < plan.loop.length; j++) {
+      var step = document.createElement("li");
+      var strong = document.createElement("strong");
+      strong.textContent = plan.loop[j].label;
+      step.appendChild(strong);
+      step.appendChild(document.createTextNode(" " + plan.loop[j].text));
+      loop.appendChild(step);
+    }
+
+    fillList(document.getElementById("weekend"), plan.weekend);
+    fillList(document.getElementById("cut"), plan.cut);
+
+    var notes = document.getElementById("spark-notes");
+    while (notes.firstChild) notes.removeChild(notes.firstChild);
+    var paragraphs = [];
+    var n;
+    if (plan.blend) paragraphs.push(plan.blend);
+    for (n = 0; n < plan.toneNotes.length; n++) paragraphs.push(plan.toneNotes[n]);
+    for (n = 0; n < paragraphs.length; n++) {
+      var para = document.createElement("p");
+      para.textContent = paragraphs[n];
+      notes.appendChild(para);
+    }
+    notes.hidden = paragraphs.length === 0;
+
+    document.getElementById("stack-name").textContent = plan.stack.name;
+    fillList(document.getElementById("stack-details"), plan.stack.details);
+    document.getElementById("prompt").textContent = plan.prompt;
+    copyBtn.textContent = "Copy prompt";
+
+    var result = document.getElementById("result");
+    result.hidden = false;
+    var heading = document.getElementById("result-title");
+    heading.focus();
+    setStatus("Sketch ready for " + plan.title + ". " + plan.genreLabel + ", " + plan.levelLabel + ".");
+  }
+
+  function syncLevels() {
+    var labels = form.querySelectorAll(".level-opt");
+    var i;
+    for (i = 0; i < labels.length; i++) {
+      var input = labels[i].querySelector("input");
+      if (input && input.checked) labels[i].classList.add("is-selected");
+      else labels[i].classList.remove("is-selected");
+    }
+  }
+
+  function updateCount() {
+    if (idea.value.length > IDEA_MAX) idea.value = idea.value.slice(0, IDEA_MAX);
+    var n = idea.value.length;
+    count.textContent = n + " / " + IDEA_MAX;
+    if (n >= IDEA_MAX) count.classList.add("at-limit");
+    else count.classList.remove("at-limit");
+  }
+
+  function selectedLevel() {
+    var picked = form.querySelector("input[name=level]:checked");
+    return picked ? picked.value : "";
+  }
+
+  function buttonFrom(node) {
+    while (node && node !== document) {
+      if (node.tagName === "BUTTON") return node;
+      node = node.parentNode;
+    }
+    return null;
+  }
+
+  form.addEventListener("change", syncLevels);
+  syncLevels();
+  idea.addEventListener("input", updateCount);
+  updateCount();
+
+  document.getElementById("samples").addEventListener("click", function (event) {
+    var button = buttonFrom(event.target);
+    if (!button) return;
+    var sample = button.getAttribute("data-idea");
+    if (!sample) return;
+    idea.value = sample;
+    updateCount();
+    clearError();
+    idea.focus();
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    clearError();
+    var plan = Spark.generate(idea.value, selectedLevel());
+    if (!plan.ok) {
+      showError(plan.field || "idea", plan.error);
+      return;
+    }
+    render(plan);
+  });
+
+  function markCopied() {
+    copyBtn.textContent = "Copied";
+    setStatus("Prompt copied.");
+    window.clearTimeout(copyTimer);
+    copyTimer = window.setTimeout(function () {
+      copyBtn.textContent = "Copy prompt";
+    }, 2000);
+  }
+
+  function fallbackCopy() {
+    var pre = document.getElementById("prompt");
+    var range = document.createRange();
+    range.selectNodeContents(pre);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var copied = false;
+    try { copied = document.execCommand("copy"); } catch (err) { copied = false; }
+    if (copied) markCopied();
+    else setStatus("Clipboard was blocked. The prompt is selected, so you can copy it.");
+  }
+
+  copyBtn.addEventListener("click", function () {
+    var text = document.getElementById("prompt").textContent;
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(markCopied, fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  });
+
+  var newsletter = document.querySelector("form.signup");
+  if (newsletter && (newsletter.getAttribute("method") || "").toLowerCase() === "get") {
+    newsletter.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var url = new URL(newsletter.getAttribute("action"), window.location.href);
+      new FormData(newsletter).forEach(function (value, key) {
+        url.searchParams.set(key, String(value));
+      });
+      window.location.assign(url.toString());
+    });
+  }
+})();
+</script>
+</body>
+</html>

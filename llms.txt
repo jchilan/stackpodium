@@ -38,6 +38,7 @@
 ## PlayForge
 
 - [PlayForge](https://stackpodium.com/playforge/): a StackPodium studio. Describe a video game idea, pay $9, and receive a Plan Pack by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Two levels: Beginner and Vibe coder. A $29 Premium that builds the browser prototype is not on sale yet. Sponsor PlayForge: [sponsors@stackpodium.com](mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry).
+- [Game Idea Spark](https://stackpodium.com/playforge/generator/): a free in-browser mini generator. Type a one-line game idea, pick Beginner or Vibe coder, and get a core loop, a weekend prototype scope, a recommended stack, and a first Cursor prompt. Nothing is uploaded.
 
 ## Languages
 
