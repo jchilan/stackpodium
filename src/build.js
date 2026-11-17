@@ -31,6 +31,7 @@ const X = {
   skip: ["Skip to content", "Ir para o conteúdo", "Saltar al contenido", "跳到正文"],
   navLabel: ["Sections", "Seções", "Secciones", "页面栏目"],
   langLabel: ["Language", "Idioma", "Idioma", "语言"],
+  cmp: ["Comparisons", "Comparações", "Comparativas", "对比"],
   full: ["See the full ranking", "Ver o ranking completo", "Ver el ranking completo", "查看完整排名"],
 };
 const COMPARE = [["lovable","bolt"],["lovable","replit"],["bolt","replit"],["v0","lovable"],["cursor","copilot"],["cursor","devin"],["cursor","windsurf"],["claude","codex"],["claude","cursor"],["n8n","make"],["n8n","zapier"],["langgraph","crewai"],["rosebud","gdevelop"]];
@@ -49,6 +50,9 @@ const cslug = (p) => "compare/" + [tname(p[0], 0), tname(p[1], 0)].map((n) => n.
 const fill = (t, a, b) => t.replace(/\{A\}/g, a).replace(/\{B\}/g, b || "");
 const rankOf = (c, k) => { const i = c.r.findIndex((r) => r[0] === k); return i < 0 ? 0 : i + 1; };
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const MARK = `<svg class="mark" viewBox="0 0 32 28" aria-hidden="true" focusable="false"><rect x="1" y="10" width="8" height="17" rx="1.6" fill="#d5dbe3"/><rect x="12" y="1" width="8" height="26" rx="1.6" fill="#f0c56a"/><rect x="23" y="15" width="8" height="12" rx="1.6" fill="#e0a36a"/></svg>`;
+const STAGE = `<div class="stage" aria-hidden="true"><div class="bar silver"><span>2</span></div><div class="bar gold"><span>1</span></div><div class="bar bronze"><span>3</span></div></div>`;
+const MEDAL = ["gold", "silver", "bronze"];
 const pad = (n) => (n < 10 ? "0" + n : "" + n);
 const url = (l, slug) => "/" + LANGS[l].dir + (slug ? slug + "/" : "");
 
@@ -58,12 +62,13 @@ function rankList(c, l) {
     const name = typeof t[0] === "string" ? t[0] : t[0][l];
     const href = t[1].startsWith("#") ? url(l, t[1].slice(1)) : t[1];
     const rel = href.startsWith("http") ? ' rel="noopener"' : "";
-    return `<li${j === 0 ? ' class="first"' : ""}><span class="pos">${j + 1}</span><div><div class="tool"><a href="${esc(href)}"${rel}>${esc(name)}</a><span class="price">${esc(price(t[2], l))}</span></div><p class="why">${esc(r[1][l])}</p></div></li>`;
+    const medal = MEDAL[j] || "place";
+    return `<li class="medal ${medal}${j === 0 ? " first" : ""}"><span class="pos">${j + 1}</span><div class="pod"><div class="tool"><a href="${esc(href)}"${rel}>${esc(name)}</a><span class="price">${esc(price(t[2], l))}</span></div><p class="why">${esc(r[1][l])}</p></div></li>`;
   }).join("");
 }
 function caseArticle(c, i, l, heading, link) {
   const title = link ? `<a href="${url(l, c.id)}">${esc(c.t[l])}</a>` : esc(c.t[l]);
-  return `<article class="case" id="${c.id}"><span class="num">${esc(UI["case"][l])} ${pad(i + 1)}</span><${heading}>${title}</${heading}><p class="who">${esc(c.who[l])}</p><ol class="rank">${rankList(c, l)}</ol><p class="extra">${c.x[l]}</p></article>`;
+  return `<article class="case" id="${c.id}"><header class="case-head"><span class="num">${esc(UI["case"][l])} ${pad(i + 1)}</span><${heading}>${title}</${heading}><p class="who">${esc(c.who[l])}</p></header><ol class="rank">${rankList(c, l)}</ol><p class="extra">${c.x[l]}</p></article>`;
 }
 function orgLd() {
   return { "@context": "https://schema.org", "@type": "Organization", name: "StackPodium", url: BASE + "/", sameAs: ["https://x.com/stackpodium"] };
@@ -75,6 +80,11 @@ function page(l, slug, title, desc, body, ld, opts) {
   const blocks = [orgLd()].concat(Array.isArray(ld) ? ld : [ld]);
   const jsonLd = blocks.map((b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join("\n");
   const nl = newsletterSection(l, opts.compact ? "compact" : "full", { heading: X.nlh[l], blurb: X.nlp[l], submit: X.nlb[l] });
+  const sponsor = PAGES.find((P) => P.slug === "sponsor");
+  const privacy = PAGES.find((P) => P.slug === "privacy");
+  const play = l === 0 ? `<a href="/playforge/">PlayForge</a>` : "";
+  const cats = CASES.map((c) => `<li><a href="${url(l, c.id)}">${esc(c.t[l])}</a></li>`).join("");
+  const comps = COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("");
   return `<!DOCTYPE html>
 <html lang="${LANGS[l].html}">
 <head>
@@ -91,22 +101,37 @@ ${alt}
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${BASE}${url(l, slug)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
 ${jsonLd}
 </head>
 <body>
 <a class="skip" href="#content">${esc(X.skip[l])}</a>
 <header class="top"><div class="wrap">
-<a class="brand" href="${url(l)}">Stack<span>Podium</span></a>
-<nav aria-label="${esc(X.navLabel[l])}"><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a>${opts.extraNav || ""}</nav>
+<a class="brand" href="${url(l)}">${MARK}Stack<span>Podium</span></a>
+<div class="tools">
+<nav class="primary" aria-label="${esc(X.navLabel[l])}"><a href="${url(l)}#cases">${esc(UI.nav1[l])}</a><a href="${url(l)}#compare">${esc(X.cmp[l])}</a><a href="${url(l)}#method">${esc(UI.nav2[l])}</a><a href="${url(l)}#changes">${esc(UI.nav3[l])}</a><a href="${url(l, "sponsor")}">${esc(sponsor.label[l])}</a>${play}${opts.extraNav || ""}</nav>
 <div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${sw}</div>
+</div>
 </div></header>
 <main id="content">
 ${body}
 ${nl}
 </main>
-<footer><div class="wrap"><p class="flinks">${PAGES.map((P) => `<a href="${url(l, P.slug)}">${esc(P.label[l])}</a>`).join("")}<a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div></footer>
+<footer><div class="wrap foot-grid">
+<nav aria-label="${esc(UI.nav1[l])}"><h2>${esc(UI.nav1[l])}</h2><ul>${cats}</ul></nav>
+<nav aria-label="${esc(C.list[l])}"><h2>${esc(C.list[l])}</h2><ul>${comps}</ul></nav>
+<div class="foot-meta">
+<h2>${esc(X.nlh[l])}</h2>
+<p><a href="#newsletter">${esc(X.nlb[l])}</a></p>
+<p class="flinks"><a href="${url(l, "sponsor")}">${esc(sponsor.label[l])}</a><a href="${url(l, "privacy")}">${esc(privacy.label[l])}</a>${play}<a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p>
+<h2>${esc(X.langLabel[l])}</h2>
+<div class="langs" role="group" aria-label="${esc(X.langLabel[l])}">${sw}</div>
+</div>
+</div>
+<div class="wrap foot-notes"><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p>${esc(X.updated[l])}</p></div>
+</footer>
 <script>${NEWSLETTER_SCRIPT}</script>
 </body>
 </html>
@@ -118,90 +143,27 @@ function write(rel, text) {
   fs.writeFileSync(f, text);
 }
 
-const extraCss = `
-.langs a{font-size:.85rem;padding:4px 10px;border-radius:5px;color:var(--muted);text-decoration:none}
-.langs a:hover{color:var(--ink)}
-.langs a[aria-current="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
-.case h2 a,.case h1 a{color:inherit;text-decoration:none}
-.case h2 a:hover{text-decoration:underline}
-.case h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.12;margin:2px 0 8px;letter-spacing:-.02em;text-wrap:balance}
-.single{max-width:820px;margin:0 auto;padding:32px 20px 8px}
-.crumb{font-size:.9rem;margin:0 0 14px}
-.others{max-width:820px;margin:0 auto;padding:8px 20px 48px}
-.others h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
-.others ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.others a{display:block;padding:7px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:.93rem}
-.others a:hover{background:var(--tint)}
-.newsletter{border-top:1px solid var(--line);background:var(--tint);padding:32px 0}
-.newsletter .wrap{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;justify-content:space-between}
-.newsletter h2{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.02em;margin:0 0 4px}
-.newsletter p{margin:0;max-width:60ch;color:var(--muted)}
-.cta{display:inline-block;padding:11px 22px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
-.cta:hover{filter:brightness(1.1)}
-.flinks{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0 0 14px}
-.flinks a{font-weight:600}
-.prose{padding-bottom:40px}
-.prose h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,4.5vw,2.6rem);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px;text-wrap:balance}
-.prose h2{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:28px 0 8px}
-.prose p,.prose li{max-width:66ch}
-.prose ul{padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
-.cmplist{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.cmplist a{display:block;padding:8px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:.95rem}
-.cmplist a:hover{background:var(--tint)}
-.tablewrap{overflow-x:auto;margin:18px 0}
-table.cmp{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-table.cmp th,table.cmp td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-table.cmp th{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-table.cmp tr:last-child td,table.cmp tr:last-child th{border-bottom:0}
-table.cmp td.mono{font-family:var(--mono);font-size:.82rem}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-.skip{position:absolute;left:8px;top:8px;padding:8px 12px;background:var(--accent);color:var(--accent-ink);border-radius:6px;z-index:3;text-decoration:none;transform:translateY(-160%)}
-.skip:focus{transform:none}
-.verdict{background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:1.05rem;max-width:68ch}
-.faq{display:flex;flex-direction:column;gap:16px;margin-top:8px}
-.faq h3{font-size:1.05rem;margin:0 0 4px}
-.faq p{margin:0}
-a.sub{font-size:.82rem;margin-left:8px;white-space:nowrap}
-.signup{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:flex-end;margin:0}
-.signup .field{display:flex;flex-direction:column;gap:4px;flex:1 1 220px;min-width:0}
-.signup label{font-size:.85rem;font-weight:600}
-.signup input[type="email"]{font:inherit;font-size:1rem;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:100%}
-.signup-hint,.signup-fallback{flex-basis:100%;margin:0;font-size:.85rem;color:var(--muted);max-width:62ch}
-button.cta{border:0;font:inherit;cursor:pointer}
-.newsletter.compact .wrap{align-items:flex-end}
-.newsletter.compact h2{font-size:1.2rem}
-.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.tablewrap{max-width:100%}
-.single{max-width:min(820px,100%)}
-@media (max-width:640px){
-  .signup{align-items:stretch}
-  .signup .cta{width:100%;text-align:center}
-  .top nav{gap:4px 12px}
-}
-.rk{font-family:var(--mono);font-size:1.05rem}
-.rk.top{color:var(--accent)}
-.offp{color:var(--muted);font-size:.88rem}
-.note{color:var(--muted);font-size:.92rem;max-width:65ch;margin:18px 0 0}
-.intro .studio{margin:16px 0 0;font-size:1.02rem}
-`;
+const extraCss = "\n";
 write("site.css", css + extraCss);
 write("sponsor.css", fs.readFileSync(path.join(__dirname, "sponsor.css"), "utf8"));
 
 const urls = [];
 LANGS.forEach((L, l) => {
   // home
-  const rail = CASES.map((c, i) => `<li><a href="#${c.id}"><i>${pad(i + 1)}</i>${esc(c.t[l])}</a></li>`).join("");
+  const rail = CASES.map((c, i) => `<li><a href="#${c.id}"><i>${pad(i + 1)}</i><span>${esc(c.t[l])}</span></a></li>`).join("");
   const cases = CASES.map((c, i) => caseArticle(c, i, l, "h2", true)).join("\n");
-  const crit = CRIT.map((c) => `<li><span class="w">${c[0]}</span><h3>${esc(c[1][l])}</h3><p>${esc(c[2][l])}</p></li>`).join("");
-  const news = NEWS.map((x) => `<li><time>${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`).join("");
+  const crit = CRIT.map((c) => `<li style="--share:${c[0]}"><span class="w">${c[0]}</span><h3>${esc(c[1][l])}</h3><p>${esc(c[2][l])}</p></li>`).join("");
+  const newsWhen = { "Nov 2026": "2026-11", "Jun 2026": "2026-06", "Feb 2026": "2026-02" };
+  const news = NEWS.map((x) => `<li><time datetime="${newsWhen[x[0][0]]}">${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`).join("");
   const studio = l === 0 ? `<p class="studio"><a href="/playforge/">PlayForge</a> is a StackPodium studio. Describe a video game, pay $9, and get a plan pack by email within 24 hours.</p>` : "";
-  const home = `<div class="wrap intro"><h1>${esc(UI.h1[l])}</h1><p>${esc(UI.intro[l])}</p>${studio}<div class="status"><span>${esc(UI.status[l])}</span></div></div>
-<div class="wrap layout" id="cases"><aside class="rail"><h2>${esc(UI.rail[l])}</h2><ol>${rail}</ol></aside><div class="cases">${cases}</div></div>
+  const heroNl = newsletterSection(l, "hero", { heading: X.nlh[l], blurb: X.nlp[l], submit: X.nlb[l] }, "hero");
+  const home = `<section class="hero"><div class="wrap hero-grid"><div class="hero-copy"><p class="kicker">${esc(X.updated[l])}</p><h1>${esc(UI.h1[l])}</h1><p class="lede">${esc(UI.intro[l])}</p></div>${STAGE}<div class="hero-follow">${heroNl}<p class="status"><span>${esc(UI.status[l])}</span></p>${studio}</div></div></section>
+<section class="block usecases" id="cases"><div class="wrap"><nav class="rail" aria-labelledby="rail-title"><h2 id="rail-title">${esc(UI.rail[l])}</h2><ol>${rail}</ol></nav><div class="cases">${cases}</div></div></section>
 <section class="block" id="compare"><div class="wrap"><h2>${esc(C.list[l])}</h2><ul class="cmplist">${COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("")}</ul></div></section>
 <section class="block" id="method"><div class="wrap"><h2>${esc(UI.nav2[l])}</h2><p>${esc(UI.method[l])}</p><ul class="criteria">${crit}</ul></div></section>
 <section class="block" id="changes"><div class="wrap"><h2>${esc(UI.newsh[l])}</h2><p>${esc(UI.newsp[l])}</p><ul class="news">${news}</ul></div></section>`;
   const homeLd = { "@context": "https://schema.org", "@type": "WebSite", name: "StackPodium", url: BASE + url(l), inLanguage: L.html, description: UI.intro[l] };
-  write(L.dir + "index.html", page(l, "", "StackPodium | " + X.tagline[l], UI.intro[l], home, homeLd, l === 0 ? { extraNav: `<a href="/playforge/">PlayForge</a>` } : {}));
+  write(L.dir + "index.html", page(l, "", "StackPodium | " + X.tagline[l], UI.intro[l], home, homeLd));
   urls.push(url(l));
   // one page per use case
   CASES.forEach((c, i) => {
@@ -279,7 +241,7 @@ LANGS.forEach((L, l) => {
     const others = COMPARE.filter((q) => q !== p).map((q) => `<li><a href="${url(l, cslug(q))}">${esc(tname(q[0], l))} vs ${esc(tname(q[1], l))}</a></li>`).join("");
     const title = copy.title[l], desc = copy.desc[l];
     const verdict = `<p class="verdict">${esc(fill(CL.pick[l], A, copy.pick[l][0]))} ${esc(fill(CL.pick[l], B, copy.pick[l][1]))}</p>`;
-    const body = `<div class="single prose"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(title)}</h1>${verdict}<h2>${esc(CL.glance[l])}</h2>${facts}<p class="note">${esc(CL.note[l])}</p><h2>${esc(CL.where[l])}</h2>${ranks}${says(a, A)}${says(b, B)}<h2>${esc(CL.questions[l])}</h2><div class="faq">${faqHtml}</div><p class="note">${esc(UI.status[l])} ${esc(UI.foot2[l])}</p></div>
+    const body = `<div class="single prose compare-page"><p class="crumb"><a href="${url(l)}">${esc(X.all[l])}</a></p><h1>${esc(title)}</h1>${verdict}<h2>${esc(CL.glance[l])}</h2>${facts}<p class="note">${esc(CL.note[l])}</p><h2>${esc(CL.where[l])}</h2>${ranks}${says(a, A)}${says(b, B)}<h2>${esc(CL.questions[l])}</h2><div class="faq">${faqHtml}</div><p class="note">${esc(UI.status[l])} ${esc(UI.foot2[l])}</p></div>
 <div class="others"><h2>${esc(C.list[l])}</h2><ul>${others}</ul></div>`;
     const ld = {
       "@context": "https://schema.org", "@type": "FAQPage", name: title, description: desc, inLanguage: L.html, url: BASE + url(l, slug),

@@ -58,10 +58,15 @@ function fallbackHref() {
   return u.toString();
 }
 
-function newsletterSection(l, variant, text) {
+function newsletterSection(l, variant, text, prefix) {
   const compact = variant === "compact";
+  const hero = variant === "hero";
+  const id = prefix || "nl";
   const action = esc(NEWSLETTER.url);
-  return `<section class="newsletter${compact ? " compact" : ""}" aria-labelledby="nl-heading"><div class="wrap"><div><h2 id="nl-heading">${esc(text.heading)}</h2>${compact ? "" : `<p>${esc(text.blurb)}</p>`}</div><form class="signup" method="${esc(NEWSLETTER.method)}" action="${action}"><div class="field"><label for="nl-email">${esc(S.email[l])}</label><input id="nl-email" name="${esc(NEWSLETTER.emailParam)}" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="nl-hint"></div><input type="hidden" name="utm_source" value="${esc(NEWSLETTER.utmSource)}"><input type="hidden" name="utm_medium" value="${esc(NEWSLETTER.utmMedium)}"><button class="cta" type="submit">${esc(text.submit)}</button><p class="signup-hint" id="nl-hint">${esc(S.hint[l])}</p></form><noscript><p class="signup-fallback"><a href="${esc(fallbackHref())}" rel="noopener">${esc(S.fallback[l])}</a></p></noscript></div></section>`;
+  const klass = "newsletter" + (compact ? " compact" : "") + (hero ? " hero-nl" : "");
+  const sid = hero ? "" : ' id="newsletter"';
+  const blurb = compact ? "" : `<p>${esc(text.blurb)}</p>`;
+  return `<section class="${klass}"${sid} aria-labelledby="${id}-heading"><div class="wrap"><div class="nl-copy"><h2 id="${id}-heading">${esc(text.heading)}</h2>${blurb}</div><form class="signup" method="${esc(NEWSLETTER.method)}" action="${action}"><div class="field"><label for="${id}-email">${esc(S.email[l])}</label><input id="${id}-email" name="${esc(NEWSLETTER.emailParam)}" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="${id}-hint"></div><input type="hidden" name="utm_source" value="${esc(NEWSLETTER.utmSource)}"><input type="hidden" name="utm_medium" value="${esc(NEWSLETTER.utmMedium)}"><button class="cta" type="submit">${esc(text.submit)}</button><p class="signup-hint" id="${id}-hint">${esc(S.hint[l])}</p></form><noscript><p class="signup-fallback"><a href="${esc(fallbackHref())}" rel="noopener">${esc(S.fallback[l])}</a></p></noscript></div></section>`;
 }
 
 // Only intercepts GET, so a future POST embed submits natively.
