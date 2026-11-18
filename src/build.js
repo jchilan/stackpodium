@@ -102,7 +102,11 @@ function siteFooter(l, slug) {
   const privacy = PAGES.find((p) => p.slug === "privacy");
   const cases = CASES.map((c) => `<li><a href="${url(l, c.id)}">${esc(c.t[l])}</a></li>`).join("");
   const comps = COMPARE.map((p) => `<li><a href="${url(l, cslug(p))}">${esc(tname(p[0], l))} vs ${esc(tname(p[1], l))}</a></li>`).join("");
-  const play = l === 0 ? `<li><a href="/playforge/">PlayForge</a></li>` : "";
+  // Every English footer links to /playforge/. Spanish links to the Spanish
+  // product page from the home page, the browser-game ranking, and the Rosebud
+  // comparison: the three surfaces called out for this launch.
+  const playHref = l === 0 ? "/playforge/" : l === 2 && (slug === "" || slug === "browser-game" || slug === "compare/rosebud-ai-vs-gdevelop") ? "/es/playforge/" : "";
+  const play = playHref ? `<li><a href="${playHref}">PlayForge</a></li>` : "";
   return `<footer><div class="wrap foot">
 <div class="foot-brand"><a class="brand" href="${url(l)}">${MARK}Stack<span>Podium</span></a><p>${esc(UI.foot1[l])}</p><p>${esc(UI.foot2[l])}</p><p class="updated">${esc(X.updated[l])}</p></div>
 <nav aria-labelledby="foot-cases"><h2 id="foot-cases">${esc(UI.nav1[l])}</h2><ul>${cases}</ul></nav>
@@ -192,7 +196,7 @@ LANGS.forEach((L, l) => {
     const dt = newsWhen[x[0][0]];
     return `<li><time${dt ? ` datetime="${dt}"` : ""}>${esc(x[0][l])}</time><div><h3>${esc(x[1][l])}</h3><p>${esc(x[2][l])} <a class="src" href="${esc(x[3])}" rel="noopener">${esc(UI.src[l])}: ${esc(x[4])}</a></p></div></li>`;
   }).join("");
-  const studio = l === 0 ? `<p class="studio"><a href="/playforge/">PlayForge</a> is a StackPodium studio. Describe a video game, pay $9, and get a plan pack by email within 24 hours.</p>` : "";
+  const studio = l === 0 ? `<p class="studio"><a href="/playforge/">PlayForge</a> is a StackPodium studio. Describe a video game, pay $9, and get a plan pack by email within 24 hours.</p>` : l === 2 ? `<p class="studio"><a href="/es/playforge/">PlayForge</a> es un estudio de StackPodium. Describe un videojuego, paga $9 y recibe un Plan Pack en español por correo en menos de 24 horas.</p>` : "";
   const heroNl = newsletterSection(l, "compact", { heading: X.nlh[l], blurb: X.nlp[l], submit: X.nlb[l] }, "hero");
   const home = `<section class="hero"><div class="wrap hero-grid"><div class="hero-copy"><h1>${esc(UI.h1[l])}</h1><p class="lede">${esc(UI.intro[l])}</p>${studio}<p class="status"><span>${esc(UI.status[l])}</span></p></div><div class="hero-card"><div class="podium-art" aria-hidden="true"><span class="step silver"><b>2</b></span><span class="step gold"><b>1</b></span><span class="step bronze"><b>3</b></span></div>${heroNl}</div></div></section>
 <nav class="jump" id="cases" aria-label="${esc(UI.nav1[l])}"><div class="wrap"><h2>${esc(UI.rail[l])}</h2><ol>${rail}</ol></div></nav>
@@ -201,7 +205,8 @@ LANGS.forEach((L, l) => {
 <section class="block" id="method"><div class="wrap"><h2>${esc(UI.nav2[l])}</h2><p>${esc(UI.method[l])}</p><ul class="criteria">${crit}</ul></div></section>
 <section class="block" id="changes"><div class="wrap"><h2>${esc(UI.newsh[l])}</h2><p>${esc(UI.newsp[l])}</p><ul class="news">${news}</ul></div></section>`;
   const homeLd = { "@context": "https://schema.org", "@type": "WebSite", name: "StackPodium", url: BASE + url(l), inLanguage: L.html, description: UI.intro[l] };
-  write(L.dir + "index.html", page(l, "", "StackPodium | " + X.tagline[l], UI.intro[l], home, homeLd, l === 0 ? { extraNav: `<a href="/playforge/">PlayForge</a>` } : {}));
+  const homeOpts = l === 0 ? { extraNav: `<a href="/playforge/">PlayForge</a>` } : l === 2 ? { extraNav: `<a href="/es/playforge/">PlayForge</a>` } : {};
+  write(L.dir + "index.html", page(l, "", "StackPodium | " + X.tagline[l], UI.intro[l], home, homeLd, homeOpts));
   urls.push(url(l));
   // one page per use case
   CASES.forEach((c, i) => {
@@ -294,15 +299,16 @@ LANGS.forEach((L, l) => {
   });
 });
 
-// /playforge/ is hand-authored HTML (playforge/index.html), not emitted above,
-// so a rebuild does not overwrite the product page. thanks.html is noindex.
+// /playforge/ and /es/playforge/ are hand-authored HTML, not emitted above,
+// so a rebuild does not regenerate the product pages. thanks.html is noindex.
 // /playforge/generator/ is hand-authored too and is a public free page.
 urls.push("/playforge/");
 urls.push("/playforge/generator/");
+urls.push("/es/playforge/");
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${BASE}${u}</loc></url>`).join("\n")}\n</urlset>\n`);
 write("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`);
 write("CNAME", domain + "\n");
-write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): launch rates, valid until May 2027, for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), both together ($${PAGES.SPONSOR_PRICES.bundle}, normally $${PAGES.SPONSOR_PRICES.newsletter + PAGES.SPONSOR_PRICES.placement} if bought separately), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request. Contact: [${PAGES.SPONSOR_EMAIL}](${SPONSOR_MAILTO}).\n\n## PlayForge\n\n- [PlayForge](${BASE}/playforge/): a StackPodium studio. Describe a video game idea, pay $9, and receive a Plan Pack by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Two levels: Beginner and Vibe coder. A $29 Premium that builds the browser prototype is not on sale yet. Sponsor PlayForge: [${PAGES.SPONSOR_EMAIL}](${SPONSOR_MAILTO}).\n- [Game Idea Spark](${BASE}/playforge/generator/): a free in-browser mini generator. Type a one-line game idea, pick Beginner or Vibe coder, and get a core loop, a weekend prototype scope, a recommended stack, and a first Cursor prompt. Nothing is uploaded.\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
+write("llms.txt", `# StackPodium\n\n> ${X.tagline[0]}. Each use case has three ranked tools, the reason for each position and an entry price. Rankings are editorial, based on public documentation; prices were checked in October and November 2026.\n\n## Use cases\n\n${CASES.map((c) => `- [${c.t[0]}](${BASE}${url(0, c.id)}): ${c.r.map((r, j) => `${j + 1}. ${typeof T[r[0]][0] === "string" ? T[r[0]][0] : T[r[0]][0][0]}`).join(", ")}`).join("\n")}\n\n## Comparisons\n\n${COMPARE.map((p) => `- [${tname(p[0], 0)} vs ${tname(p[1], 0)}](${BASE}${url(0, cslug(p))})`).join("\n")}\n\n## Sponsorship\n\n- [Sponsor StackPodium](${BASE}/sponsor/): launch rates, valid until May 2027, for one newsletter slot per Friday issue ($${PAGES.SPONSOR_PRICES.newsletter}), a labelled Sponsored placement on the site ($${PAGES.SPONSOR_PRICES.placement} per month), both together ($${PAGES.SPONSOR_PRICES.bundle}, normally $${PAGES.SPONSOR_PRICES.newsletter + PAGES.SPONSOR_PRICES.placement} if bought separately), and a featured launch mention ($${PAGES.SPONSOR_PRICES.launch}). Sponsorship never changes rankings. Audience metrics are shared on request. Contact: [${PAGES.SPONSOR_EMAIL}](${SPONSOR_MAILTO}).\n\n## PlayForge\n\n- [PlayForge](${BASE}/playforge/): a StackPodium studio. Describe a video game idea, pay $9, and receive a Plan Pack by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Two levels: Beginner and Vibe coder. A $29 Premium that builds the browser prototype is not on sale yet. Sponsor PlayForge: [${PAGES.SPONSOR_EMAIL}](${SPONSOR_MAILTO}).\n- [Game Idea Spark](${BASE}/playforge/generator/): a free in-browser mini generator. Type a one-line game idea, pick Beginner or Vibe coder, and get a core loop, a weekend prototype scope, a recommended stack, and a first Cursor prompt. Nothing is uploaded.\n- [PlayForge en español](${BASE}/es/playforge/): the Spanish page for the same $9 Plan Pack. Describe a video game idea, pay $9, and receive a Plan Pack written in Spanish by email within 24 hours (a design one-pager, a prototype build plan, and prompts for Cursor or a similar AI coding tool). Levels: Principiante (nunca ha programado) and Vibe coder. A $29 Premium that builds the browser prototype is coming soon and is not for sale yet.\n\n## Languages\n\n${LANGS.map((L, l) => `- [${L.name}](${BASE}${url(l)})`).join("\n")}\n`);
 // Hand-authored product pages live in /playforge and are copied through so a
 // clean build output still contains them, including subfolders such as the
 // generator. Edit the files in /playforge, not a copy.
@@ -319,4 +325,9 @@ function copyPlayforge(dir, rel) {
   }
 }
 copyPlayforge();
+// Spanish product page. Source of truth is es/playforge/index.html in the repo,
+// copied into the build output so a clean folder still contains it.
+const esPlayforge = path.join(__dirname, "..", "es", "playforge", "index.html");
+if (!fs.existsSync(esPlayforge)) throw new Error("Missing es/playforge/index.html");
+write("es/playforge/index.html", fs.readFileSync(esPlayforge));
 console.log("pages:", urls.length);
