@@ -20,6 +20,7 @@
   background:var(--gold);
   flex:none;
 }
+header.top .langs{margin-left:auto}
 
 .pf-hero{
   background-color:var(--bg);
