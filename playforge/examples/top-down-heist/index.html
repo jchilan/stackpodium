@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to make a small top-down heist game with AI this weekend | PlayForge</title>
+<meta name="description" content="House sample, not a customer order: a design one-pager, a weekend build plan, and two Cursor prompts for a 60-second top-down bank heist. Your own idea is $9.">
+<link rel="canonical" href="https://stackpodium.com/playforge/examples/top-down-heist/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="StackPodium">
+<meta property="og:title" content="How to make a small top-down heist game with AI this weekend | PlayForge">
+<meta property="og:description" content="House sample, not a customer order: a design one-pager, a weekend build plan, and two Cursor prompts for a 60-second top-down bank heist. Your own idea is $9.">
+<meta property="og:url" content="https://stackpodium.com/playforge/examples/top-down-heist/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@stackpodium">
+<meta name="twitter:title" content="How to make a small top-down heist game with AI this weekend | PlayForge">
+<meta name="twitter:description" content="House sample, not a customer order: a design one-pager, a weekend build plan, and two Cursor prompts for a 60-second top-down bank heist. Your own idea is $9.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/playforge/playforge.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"StackPodium","url":"https://stackpodium.com/","sameAs":["https://x.com/stackpodium"],"contactPoint":{"@type":"ContactPoint","contactType":"sponsorships","email":"sponsors@stackpodium.com","url":"mailto:sponsors@stackpodium.com?subject=Sponsorship%20inquiry"}}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      "name": "How to make a small top-down heist game with AI this weekend",
+      "description": "A free house sample from PlayForge, not a customer order. It excerpts a Vibe coder Plan Pack for a top-down heist where you have 60 seconds to rob a bank before the cops arrive: a design one-pager, a seven-step weekend build plan, and the first two Cursor prompts for Phaser 3, Vite, and TypeScript. Published 19 November 2026, when GTA VI came out. This is about making your own small game. PlayForge is not affiliated with Rockstar Games, and this is not a mod, a port, or an official guide.",
+      "url": "https://stackpodium.com/playforge/examples/top-down-heist/",
+      "inLanguage": "en",
+      "totalTime": "P2D",
+      "tool": [
+        {"@type": "HowToTool", "name": "Cursor or a similar AI coding tool"},
+        {"@type": "HowToTool", "name": "Node.js"},
+        {"@type": "HowToTool", "name": "Phaser 3"},
+        {"@type": "HowToTool", "name": "Vite"},
+        {"@type": "HowToTool", "name": "TypeScript"}
+      ],
+      "step": [
+        {"@type": "HowToStep", "position": 1, "name": "Scaffold the project", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-1", "text": "Create a Vite and TypeScript app, add Phaser 3, and boot a 960x640 BankScene titled Sixty-Second Job. Done when: npm run dev shows the title and subtitle, and a TypeScript check reports no errors."},
+        {"@type": "HowToStep", "position": 2, "name": "Block in the bank", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-2", "text": "Build one screen: lobby, open vault, front door, side door, back door into an alley, and a car tile that is not solid. Done when: those parts are visible and a body cannot pass through walls."},
+        {"@type": "HowToStep", "position": 3, "name": "Move the thief", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-3", "text": "Add a thief moved with WASD and the arrow keys, colliding with walls, with diagonal movement normalized. Done when: you can walk the lobby and the vault, stop at walls, and stand on the car."},
+        {"@type": "HowToStep", "position": 4, "name": "Fill the bag", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-4", "text": "Add three cash piles: two counters at $2,000 and a vault pile at $3,000. Touching a pile adds it once. Done when: taking all three shows $7,000 and empty spots add nothing."},
+        {"@type": "HowToStep", "position": 5, "name": "Run the clock", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-5", "text": "Show a timer that stays at 60 until the first move, then counts down once per second. Done when: standing still leaves it at 60, and it reaches 0 about one minute after you move."},
+        {"@type": "HowToStep", "position": 6, "name": "Send in the cops", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-6", "text": "At 40 seconds left, a cop enters the front door and walks toward the player. At 20 seconds left, a second cop enters the side door. They do not shoot. Touching one ends the round as Busted. Done when: you can be caught, and you can also reach the car before the first cop appears."},
+        {"@type": "HowToStep", "position": 7, "name": "Win, lose, and play again", "url": "https://stackpodium.com/playforge/examples/top-down-heist/#step-7", "text": "Touching the car ends the round: Got away at $5,000 or more, Not enough below that. The clock hitting 0 is Too late. R restarts a clean round. Done when: you can win once, lose in each of the three ways, and play a second round without refreshing."}
+      ],
+      "publisher": {"@type": "Organization", "name": "PlayForge", "url": "https://stackpodium.com/playforge/"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "StackPodium", "item": "https://stackpodium.com/"},
+        {"@type": "ListItem", "position": 2, "name": "PlayForge", "item": "https://stackpodium.com/playforge/"},
+        {"@type": "ListItem", "position": 3, "name": "Top-down heist", "item": "https://stackpodium.com/playforge/examples/top-down-heist/"}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body class="example-page">
+<a class="skip" href="#content">Skip to content</a>
+<header class="top"><div class="wrap">
+<a class="brand" href="/">Stack<span>Podium</span></a>
+<nav aria-label="PlayForge"><a href="/playforge/">PlayForge</a><a href="/playforge/generator/">Free generator</a><a href="/playforge/#checkout">Plan Pack, $9</a></nav>
+<a class="pf-lockup" href="/playforge/">
+<svg class="pf-sprite" viewBox="0 0 28 28" aria-hidden="true" focusable="false"><path fill="#1a1400" d="M11 7.5v13l10-6.5z"/></svg>
+Play<span>Forge</span></a>
+</div></header>
+<main id="content">
+<section class="pf-hero" aria-labelledby="hero-title">
+<div class="wrap">
+<p class="crumb"><a href="/">StackPodium</a> · <a href="/playforge/">PlayForge</a> · Top-down heist</p>
+<p class="eyebrow">PlayForge · house sample</p>
+<h1 id="hero-title">How to make a small top-down heist game with AI this weekend</h1>
+<p class="lede">GTA VI is out on November 19, 2026. If you would rather build a small crime game than wait on a big one, or mod someone else's city, make a GTA-style top-down heist this weekend: one room, a bag of cash, and 60 seconds before the cops walk in.</p>
+<p class="hero-note">PlayForge is not affiliated with Rockstar Games. This is not a mod, a port, or an official guide. It is a house sample of the $9 Plan Pack, written by us so you can see the depth before you buy one for your own idea. It is not a customer order.</p>
+<p class="chip"><b>Sample</b> Vibe coder · Phaser 3, Vite, TypeScript</p>
+<div class="hero-actions">
+<a class="cta" href="/playforge/#checkout">Get a Plan Pack for your own idea – $9</a>
+<a class="cta quiet" href="/playforge/generator/">Try the free generator</a>
+</div>
+<p class="hero-note"><a href="/es/playforge/">Prefer Spanish?</a> The $9 Plan Pack page is in Spanish. This sample is English only.</p>
+</div>
+</section>
+
+<section class="pf-section" id="one-pager" aria-labelledby="one-pager-title">
+<div class="wrap">
+<h2 id="one-pager-title">The Plan Pack excerpt</h2>
+<p class="lead">The idea, as if someone had ordered it: "A top-down heist game where you have 60 seconds to rob a bank before the cops arrive." Nobody ordered it. The level is Vibe coder, so the plan stays short and the prompts assume you can run a project. A Beginner pack would teach the same game with more explanation. The other house sample is the <a href="/playforge/crop-rebellion.pdf">Crop Rebellion PDF</a>, a cozy farm.</p>
+<figure class="sheet" aria-labelledby="sample-name">
+<div class="sheet-top"><b id="sample-name">Sixty-Second Job</b><span>House sample · not a customer order · Vibe coder</span></div>
+<div class="sheet-body">
+<p class="sample-pitch">Sixty seconds. Fill the bag. Get to the car.</p>
+<ul class="sample-facts">
+<li>One screen, one round</li>
+<li>A weekend in Cursor</li>
+<li>Phaser 3, in the browser</li>
+</ul>
+<h3>Player</h3>
+<p>You are the only person who moves on purpose, seen from straight above. The keyboard moves you. A number in the corner is the bag. You have no weapon. The interesting choice is which pile to grab before you commit to the door, not how many people you can knock down.</p>
+<h3>Core loop</h3>
+<ol class="dayloop">
+<li><strong>Start</strong> The clock stays at 60 until your first step. Standing still is free.</li>
+<li><strong>Sweep</strong> Touch a pile once. Two counters are $2,000 each. The vault is $3,000.</li>
+<li><strong>Cops</strong> One walks in the front door at 40 seconds left. A second uses the side door at 20. They do not shoot.</li>
+<li><strong>Car</strong> Touch the getaway car to end the round with whatever is in the bag.</li>
+</ol>
+<h3>Win</h3>
+<p>Touch the car with at least $5,000, while the clock is still running, and without a cop touching you. The screen says "Got away". Counters alone are $4,000, which is short. The vault is what makes a win possible.</p>
+<h3>Lose</h3>
+<p>A cop touches you: "Busted". The clock hits 0 before you have ended the round: "Too late". You touch the car under $5,000: "Not enough". That last one is a choice. The door does not let you change your mind.</p>
+<h3>Cut on purpose</h3>
+<ul>
+<li>Anything past this one screen. No streets, traffic, driving, or a city map.</li>
+<li>No guns, no hostages, no lockpicking, and no vision cones.</li>
+<li>No crew, no dialogue, and no planner.</li>
+<li>No accounts, no save slot, no leaderboard, and no audio required.</li>
+<li>Art stays colored rectangles. A prototype does not need a content pipeline.</li>
+</ul>
+<p class="sample-end">A friend should be able to win once and lose once in under two minutes, then press R and try the other route.</p>
+</div>
+</figure>
+</div>
+</section>
+
+<section class="pf-section" id="plan" aria-labelledby="plan-title">
+<div class="wrap">
+<h2 id="plan-title">Weekend build plan</h2>
+<p class="lead">Seven steps, in order. Each one names what "done" looks like. You need a computer, Cursor or a similar AI coding tool, and a current Node.js so Vite can run. There is no account on this site.</p>
+<ol class="cards">
+<li class="card" id="step-1">
+<span class="n">01</span>
+<h3>Scaffold the project</h3>
+<p>In an empty folder, create a Vite + TypeScript app and add Phaser 3. Boot a 960x640 scene named BankScene, with arcade physics on. Title it "Sixty-Second Job". Subtitle: "60 seconds. Fill the bag. Get to the car." No assets yet.</p>
+<p class="done"><b>Done when:</b> <code>npm run dev</code> shows that title and subtitle, and a TypeScript check reports no errors.</p>
+</li>
+<li class="card" id="step-2">
+<span class="n">02</span>
+<h3>Block in the bank</h3>
+<p>One screen. Outer walls. The lobby fills the lower part, an open vault sits top-left, the front door is a gap at the bottom, the side door is a gap on the right, and a back door opens into a small alley at the top-right. Put a car tile in the alley and do not make it solid. Add two counter blocks and a vault cash marker. Labels are enough.</p>
+<p class="done"><b>Done when:</b> you can see the lobby, the vault, all three doors, and the car, and a body cannot pass through a wall.</p>
+</li>
+<li class="card" id="step-3">
+<span class="n">03</span>
+<h3>Move the thief</h3>
+<p>A small rectangle is you. WASD and the arrow keys both move it. Cap the speed, and normalize diagonal movement so the slant is not a shortcut. Collide with walls. Keep the camera fixed.</p>
+<p class="done"><b>Done when:</b> you can walk the lobby and the vault, stop at every wall, stand on the car tile, and a diagonal is not faster than a straight line.</p>
+</li>
+<li class="card" id="step-4">
+<span class="n">04</span>
+<h3>Fill the bag</h3>
+<p>Three piles, taken once: $2,000, $2,000, and $3,000 in the vault. Overlap adds that amount to a bag number on screen and removes the pile.</p>
+<p class="done"><b>Done when:</b> taking every pile shows $7,000, and walking back over an empty spot adds nothing.</p>
+</li>
+<li class="card" id="step-5">
+<span class="n">05</span>
+<h3>Run the clock</h3>
+<p>Show the remaining seconds. Leave the clock at 60 until the first movement, then subtract one second at a time, and stop at 0.</p>
+<p class="done"><b>Done when:</b> standing still at the start leaves it at 60, moving starts it, and it reaches 0 about one minute later.</p>
+</li>
+<li class="card" id="step-6">
+<span class="n">06</span>
+<h3>Send in the cops</h3>
+<p>At 40 seconds left, one cop walks in from the front door and moves toward you, slower than the thief (about half the player speed). At 20 seconds left, a second cop does the same from the side door. They do not shoot. If one overlaps you, the round ends.</p>
+<p class="done"><b>Done when:</b> overlapping a cop shows "Busted", and you can also reach the car before the first cop appears if you move as soon as the clock starts.</p>
+</li>
+<li class="card" id="step-7">
+<span class="n">07</span>
+<h3>Win, lose, and play again</h3>
+<p>Touching the car ends the round: "Got away" at $5,000 or more, "Not enough" below that. If the clock hits 0 first, show "Too late". R restarts BankScene from a clean room, with the old cops gone. Put one line on screen that names the move keys and R.</p>
+<p class="done"><b>Done when:</b> you can win once, lose by each of the three failures, press R, and play a second round without refreshing the page.</p>
+</li>
+</ol>
+</div>
+</section>
+
+<section class="pf-section" id="prompts" aria-labelledby="prompts-title">
+<div class="wrap">
+<h2 id="prompts-title">The first two Cursor prompts</h2>
+<p class="lead">Vibe coder level. Paste them one at a time into Cursor or a similar tool. Prompt 1 is step 1. Prompt 2 is steps 2 and 3, the room and the thief. A full pack continues with one prompt per remaining step. Those later prompts are not on this page. The done-when lines above are, so you can keep going yourself. Nothing here is from a customer order.</p>
+<figure class="sheet">
+<div class="sheet-top"><b>Cursor prompts</b><span>First two · Vibe coder</span></div>
+<div class="sheet-body">
+<h3 class="prompt-label" id="prompt-1">Prompt 1. Scaffold</h3>
+<pre class="prompt">You are helping me build "Sixty-Second Job," a small top-down heist in the browser with Phaser 3, Vite, and TypeScript.
+
+Create a new Vite + TypeScript project in the current folder (or use this folder if a Vite app is already here). Add phaser (v3). Set up a 960x640 game that boots into BankScene. Enable arcade physics. BankScene should show a dark blue-gray floor (#1c2430), the title "Sixty-Second Job", and the subtitle "60 seconds. Fill the bag. Get to the car."
+
+Use this structure:
+- src/main.ts (game config, scene list, arcade physics)
+- src/scenes/BankScene.ts
+- src/game/types.ts (empty exports are fine for now)
+
+Add npm scripts for dev and build. No backend, no router, no UI framework, and no image files. Colored rectangles are the art. When you are done, tell me the exact command to run it and confirm there are no type errors.</pre>
+<h3 class="prompt-label" id="prompt-2">Prompt 2. Room and thief</h3>
+<pre class="prompt">In this Phaser 3 + TypeScript project (Sixty-Second Job), build the bank room and the player in BankScene. Keep the 960x640 canvas.
+
+Room:
+- A single screen. Outer walls inset by 16px. Reserve a 56px top bar for the title and subtitle so they do not cover the vault.
+- Lobby across the lower part. An open vault in the top-left, with a slightly different floor color.
+- Three gaps in the walls: front door at bottom center, side door on the right, back door at the top-right opening into a small alley.
+- In the alley, a rectangle labeled "CAR". Do not make the car solid.
+- Two counter rectangles in the lobby and one cash marker in the vault. Markers only. No collecting yet.
+- Colors: floor #1c2430, walls #0e141c, counters #3d4a3a, vault floor #2a2418, car #c4a15a. Labels in a plain sans-serif, 14px, off-white.
+
+Player:
+- A 28x28 rectangle. Arcade physics. Collide with walls.
+- Move with WASD and the arrow keys. Speed 180. Normalize the vector so diagonal movement is not faster.
+- Camera stays fixed. Do not scroll.
+
+No cops, no timer, and no scoring yet.
+
+When you are done, tell me where the walls, doors, and car are defined. I should be able to walk the lobby and the vault, stop at every wall, and stand on the car tile.</pre>
+</div>
+</figure>
+</div>
+</section>
+
+<section class="pf-section" id="get" aria-labelledby="get-title">
+<div class="wrap">
+<div class="buy-card">
+<h2 id="get-title">Your idea, not this one</h2>
+<p class="amt">$9.00 <span>USD · one idea · emailed within 24 hours</span></p>
+<p class="lead">Sixty-Second Job is the house sample. A Plan Pack for your own game is the thing for sale: a design one-pager, a build plan, and prompts, written for the idea you type. It is not a finished game.</p>
+<div class="hero-actions">
+<a class="cta" href="/playforge/#checkout">Get a Plan Pack for your own idea – $9</a>
+<a class="cta quiet" href="/playforge/generator/">Try the free generator</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="newsletter" aria-labelledby="nl-heading"><div class="wrap"><div><h2 id="nl-heading">The weekly podium, by email</h2><p>One short email every Friday: which tools moved up or down a podium, and the launches that matter.</p></div><form class="signup" method="get" action="https://stackpodium.beehiiv.com/subscribe"><div class="field"><label for="nl-email">Email</label><input id="nl-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@email.com" aria-describedby="nl-hint"></div><input type="hidden" name="utm_source" value="stackpodium.com"><input type="hidden" name="utm_medium" value="site"><button class="cta" type="submit">Subscribe</button><p class="signup-hint" id="nl-hint">Opens beehiiv's subscribe page with your address in the link. This site does not store it.</p></form><noscript><p class="signup-fallback"><a href="https://stackpodium.beehiiv.com/subscribe?utm_source=stackpodium.com&amp;utm_medium=site" rel="noopener">Subscribe on beehiiv</a></p></noscript></div></section>
+</main>
+<footer><div class="wrap">
+<p class="flinks"><a href="/">StackPodium</a><a href="/playforge/">PlayForge</a><a href="/privacy/">Privacy</a><a href="https://x.com/stackpodium" rel="noopener">X (@stackpodium)</a></p>
+<p>PlayForge is a StackPodium studio. The $9 Plan Pack is a written plan and prompts, emailed within 24 hours. It is not a finished game. This page is a house sample, not a customer order.</p>
+</div></footer>
+<script>
+(function () {
+  var newsletter = document.querySelector("form.signup");
+  if (newsletter && (newsletter.getAttribute("method") || "").toLowerCase() === "get") {
+    newsletter.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var url = new URL(newsletter.getAttribute("action"), window.location.href);
+      new FormData(newsletter).forEach(function (value, key) {
+        url.searchParams.set(key, String(value));
+      });
+      window.location.assign(url.toString());
+    });
+  }
+})();
+</script>
+</body>
+</html>

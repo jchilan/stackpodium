@@ -391,3 +391,17 @@ header.top .langs{margin-left:auto}
   .sample-download{align-items:stretch}
   .sample-download .cta{width:100%;text-align:center;white-space:nowrap}
 }
+
+/* Example landing pages. Scoped so the product pages keep their own measure. */
+.example-page .pf-hero h1{max-width:min(34ch,100%)}
+.example-page .hero-actions{max-width:100%}
+.example-page .hero-actions .cta{
+  max-width:100%;
+  min-width:0;
+  white-space:normal;
+  text-align:center;
+  line-height:1.3;
+}
+.example-page .prompt{overflow-wrap:anywhere}
+.example-page .card .done{margin-top:8px}
+.example-page .card .done b{color:var(--ink)}
