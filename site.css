@@ -446,3 +446,6 @@ footer .brand span{color:#f0c14a}
   a.sub{white-space:normal;margin-left:0;display:inline-block}
   .top .wrap{padding-top:10px;padding-bottom:10px}
 }
+
+.stackcta{margin:12px 0 0;font-size:.92rem}
+.stackcta a{font-weight:600}
